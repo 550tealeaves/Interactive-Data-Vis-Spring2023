@@ -54,6 +54,11 @@ tfoot {
   text-align: center;
 }
 
+#this-is-me{
+background-color: firebrick;
+color: white;
+}
+
 button{
   background-color: white;
   color: brown;
