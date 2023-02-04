@@ -8,6 +8,8 @@ body {
 h1 {
   font-size: 3em;
   margin: 0.25em 0;
+  color:skyblue;
+  font-style: italic;
 }
 
 h3 {
@@ -16,13 +18,20 @@ h3 {
 }
 
 p {
-  font-size: 1em;
+  color: darkorange;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+img{
+  width: 50%;
 }
 
 table,
 td {
   border: 1px solid #333;
 }
+
 
 thead,
 tfoot {
@@ -33,4 +42,34 @@ tfoot {
 .head-of-table{
   font-weight: bolder;
   color: hotpink;
+}
+
+.player-fame{
+  background-color: #38ff84;
+}
+
+.center-text{
+  text-align: center;
+}
+
+button{
+  background-color: white;
+  color: brown;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 20px;
+  border: 3px solid brown;
+  border-radius: 30px;
+}
+
+button:hover{
+  background-color: brown;
+}
+
+a{
+  text-decoration: none;
+  color: brown;
+}
+
+a:hover{
+  color: white;
 }
