@@ -12,16 +12,18 @@ h1 {
   font-style: italic;
 }
 
+h2 {
+  color: darkorange;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
 h3 {
   font-size: 2em;
   margin: 0.25em 0;
 }
 
-p {
-  color: darkorange;
-  font-weight: bold;
-  text-decoration: underline;
-}
+
 
 img{
   width: 50%;
@@ -59,6 +61,8 @@ button{
   font-size: 20px;
   border: 3px solid brown;
   border-radius: 30px;
+  margin-top: 5px;
+  margin-bottom: 40px;
 }
 
 button:hover{
