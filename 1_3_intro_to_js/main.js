@@ -29,7 +29,7 @@ change();
 console.log('counter', counter)
 console.log(changeable, constant) // we are calling the global versions of changeable / constant
 
-const array = ["apprle", "orange", "banana", "mango", "taost"]
+const array = ["apple", "orange", "banana", "mango", "taost"]
 
 const newArray = array.map((d) => {
     console.log('d', d)
@@ -38,9 +38,9 @@ const newArray = array.map((d) => {
 
 console.log(newArray)
 
-const filteredArray = array.filter((d, 1) => {
+const filteredArray = array.filter((d, i) => {
     const onlyToast = d ==="toast" //filter out the value that equals "toast"
-    cont onlyFruit = d !== "toast" //filter out values that do not equal "toast"
+    const onlyFruit = d !== "toast" //filter out values that do not equal "toast"
     const applesOrOranges = d === "apple" || d === "orange"
     const laterFoods = i > 0 //i = index - apple (first one has index of 0)
     return onlyToast
@@ -66,7 +66,6 @@ const dataVizClass = {
     time: 'late', 
     students: 15,
 }
-let dayAccessor = 'day'
 
 const day = dataVizClass[dayAccessor]
 dataVizClass['day']
@@ -93,5 +92,5 @@ if (apple === 'apple'){
 
 const yesApple = apple === "apple" ? "I'm an apple!" : "I'm not an apple" //this is shorhand version of lines 84-89  : is else
 
-const now = now Date()
+const now = new Date()
 console.log(now)
