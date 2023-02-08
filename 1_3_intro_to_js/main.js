@@ -1,7 +1,7 @@
 console.log('hello world');
 
 console.log(document)
-console.log(window) //shows the different properties avaiable
+console.log(window) //shows the different properties available
 
 const input = document.getElementById("name-input")
 console.log(input)
@@ -47,10 +47,10 @@ const filteredArray = array.filter((d, i) => {
     return laterFoods
 })
 
-// console.log(filteredArray)
-// console.log(filteredArray.length)
+console.log(filteredArray)
+console.log(filteredArray.length)
 
-// array.forEach((d) => console.log('d', d)) //implicit call
+array.forEach((d) => console.log('d', d)) //implicit call
 
 
 // If you want to comment out a large chuunk of text, do CTRL + /
@@ -90,7 +90,7 @@ if (apple === 'apple'){
     console.log ("I'm not an apple")
 }
 
-const yesApple = apple === "apple" ? "I'm an apple!" : "I'm not an apple" //this is shorhand version of lines 84-89  : is else
+const yesApple = apple === "apple" ? "I'm an apple!" : "I'm not an apple" //this is shorthand version of lines 84-89  : is else
 
 const now = new Date()
 console.log(now)
