@@ -2,6 +2,7 @@ body {
   font-family: "Source Sans Pro", sans-serif;
   font-size: 16px;
   padding: 1em;
+  background-color: honeydew;
 }
 
 h1 {
@@ -16,5 +17,6 @@ h3 {
 
 p {
   font-size: 1em;
-  color: pink;
+  color: rgb(255, 0, 247);
+  text-decoration: underline;
 }
