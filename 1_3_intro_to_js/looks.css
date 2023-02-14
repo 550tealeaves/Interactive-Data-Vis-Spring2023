@@ -3,6 +3,12 @@ h1{
     color: blue;
 }
 
+h2{
+    text-align: center;
+    color: firebrick;
+    font-size: 80px;
+}
+
 button {
     background-color: white;
     color: rgb(19, 165, 33);
