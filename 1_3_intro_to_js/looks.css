@@ -1,0 +1,21 @@
+h1{
+    font-size: 24px;
+    color: blue;
+}
+
+button {
+    background-color: white;
+    color: rgb(19, 165, 33);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 18px;
+    border: 3px solid rgb(53, 10, 10);
+    border-radius: 15px;
+    margin-top: 5px;
+    margin-bottom: 40px;
+}
+
+button:hover {
+    background-color: rgb(19, 165, 33);
+    color: bisque;
+    cursor: pointer;
+}
