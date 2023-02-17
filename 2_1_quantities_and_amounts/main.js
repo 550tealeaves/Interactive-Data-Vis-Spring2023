@@ -20,7 +20,7 @@ d3.csv('roster.csv', d3.autoType) //autoType will make sure the data type is cor
 
     console.log('container', container)
 
-    //append table
+    //append table head
     .append("table") //whatever the last element, is what it will be = table
 
      //append table head
