@@ -44,11 +44,13 @@ tfoot {
 .head-of-table{
   font-weight: bolder;
   color: hotpink;
+  background-color: white;
 }
 
 .player-fame{
   background-color: #38ff84;
   font-weight: bold;
+  color: black;
 }
 
 .hockey-player{
