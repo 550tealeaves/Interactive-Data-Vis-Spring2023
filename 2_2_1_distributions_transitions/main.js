@@ -6,7 +6,7 @@ const width = window.innerWidth * 0.7,
 
 
 /* LOAD DATA */
-d3.json("../data/environmentRatings.json", d3.autoType)
+d3.json("../data/environmentRatings.json", d3.autoType) //json parser uploads json file and store it as variable data
     .then(data => {
         console.log(data)
 })
