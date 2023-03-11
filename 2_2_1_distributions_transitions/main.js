@@ -54,7 +54,7 @@ const dots = svg.selectAll(".dot") //1st J bro - select all elements w/ class do
 ) 
 
 .attr("class", "dot") //w/o this there would be circles displayed that didn't have class dot
-.attr("cx", d => xScale(d.ideologyScore2020)) //cx = positioning xScale& passing property ideologyScore2020
+.attr("cx", d => xScale(d.ideologyScore2020)) //cx = positioning xScale & passing property ideologyScore2020
 .attr("cy", d => yScale(d.envScore2020)) //cy = positioning yScale & passing property, envScore2020
 .attr("fill", d => colorScale(d.Party)) //add the colorScale created above as attribute in making circles visible
 
