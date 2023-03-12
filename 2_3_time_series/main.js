@@ -15,15 +15,48 @@ d3.csv("../data/populationOverTime.csv", d => {  //parse the csv
 
   // SCALES
 
+  //X scale
+  const xScale = d3.scaleTime() //using time scale
+  .domain(d3.extent(data, d => d.year)) //d3.extent looks w/in data & finds min/max years
+  .range([margin.left, width - margin.right])
+
+  //Y scale
+  const yScale = d3.scaleLinear()
+  .domain(d3.extent(data, d => d.population)) //d3.extent looks w/in data & finds min/max pop
+  .range([height - margin.bottom, margin.top])
+
+
+
   // CREATE SVG ELEMENT
+  const svg = d3.select("#container")
+  .append("svg")
+  .attr("width", width)
+  .attr("height", height)
 
   // BUILD AND CALL AXES
 
+  //FILTER DATA
+  const filteredData = data.filter(d => d.country === "United States") // will only show US data 
+  console.log('filtered', filteredData) //shows 119 data pts
+
   // LINE GENERATOR FUNCTION
+  const lineGen = d3.line() //line generator function
+    .x(d => xScale(d.year)) //define x accessor - pass through data, take year & pass it to xScale
+    .y(d => yScale(d.population)) //define y accessor - pass through data, take pop & pass it to yScale
+
+
+  //GROUP DATA
+  const groupedData = d3.groups(data, d => d.country) //want to group data by country - 1 line/country - d3.groups takes an accessor function
+  console.log('grouped', groupedData)
+  
 
   // DRAW LINE
-
-
-
+  const line = svg.selectAll(".line") //select all elements w/ class of line
+  .data(groupedData) //use grouped dataset  
+  .join("path") //join path to elements selected w/ class line
+  .attr("class", "line") //4th J bro 
+  .attr("d", ([country, d]) => lineGen(d)) //must have the d attribute for line to show
+  .attr("stroke", "blue") //must define the stroke to see the line
+  .attr("fill", "none") //override the default fill
 
 });
