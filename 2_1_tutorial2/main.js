@@ -15,6 +15,17 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             .attr("width", width)
             .attr("height", height)
 
+        //ADD CHART TITLE    
+        svg
+            .append("text")
+            .attr("x", width / 2)
+            .attr("y", height / 16) //higher the denominator, higher the text moves up pg
+            .attr("text-anchor", "middle")
+            .text("Squirrel Activities")
+            .style("font-size", "18px")
+            .style("text-decoration", "underline")
+            .attr("fill", "red")
+
         /* SCALES */
         // xscale - categorical, activity
         const xScale = d3.scaleBand()
@@ -22,13 +33,12 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             .range([0, width]) // visual variable
             .paddingInner(.2)
 
-        // yscale - linear,count
+        // yscale - linear, count
         const yScale = d3.scaleLinear()
             .domain([0, d3.max(data, d => d.count)])
             .range([height, 0])
 
-        
-
+    
         // bars
         svg.selectAll("rect")
             .data(data)
