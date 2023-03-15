@@ -48,7 +48,7 @@ const width = window.innerWidth * 0.9,
   .join("circle")
   .attr("class", "capital")
   .attr("r", 5)
-  .attr("fill", "pink")
+  .attr("fill", "cyan")
   .attr("transform", (d) => {
     const [x, y] = projection([d.longitude, d.latitude])
     return `translate(${x}, ${y})`
