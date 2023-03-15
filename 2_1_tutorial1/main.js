@@ -28,15 +28,29 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
 
         /* SCALES */
         const xScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d=> d.count)])
-        .range([height, 0])
+        .domain([0, d3.max(data, d=> d.count)]) //d3 max = function expecting an array - can pass in an accessor function
+        .range([0, width])
+        
 
 
         const yScale = d3.scaleBand()
         .domain(data.map(d => d.activity))
-        .range([0, width])
-        
+        .range([height, 0])
+        .paddingInner(.2)
 
+            
+        // bars
+        svg.selectAll("rect")
+            .data(data)
+            .join("rect")
+            .attr("height", yScale.bandwidth()) //didn't write a function 
+            .attr("width", d => xScale(d.count)) //=> shorthand for function - must return a value
+            // .attr("x", d => xScale(d.count)) //this tells it to move over the # of the count and shift over the # of the count
+            .attr("y", d => yScale(d.activity))
+            .attr("fill", "darkgreen")
+
+
+            //ORIGINAL CODE FOR VERTICAL BARS
 
         // // xscale - categorical, activity
         // const xScale = d3.scaleBand()
@@ -50,22 +64,12 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
         //     .range([height, 0])
 
     
-        // bars
-        svg.selectAll("rect")
-            .data(data)
-            .join("rect")
-            .attr("height", xScale(d.count)) //console says that d is not defined
-            .attr("width", d => width - yScale(d.activity))
-            .attr("x", d => xScale(d.count))
-            .attr("y", d => yScale(d.activity))
-            .attr("fill", "darkgreen")
-
 
 
             // svg.selectAll("rect")
             // .data(data)
             // .join("rect")
-            // .attr("width", xScale.bandwidth())
+            // .attr("width", xScale.bandwidth()) //bandwidth() - constant # that d3 calculates - resizes based on svg size (we scale svg to screen size) - constant for every element - //width must correspond to the data
             // .attr("height", d=> height - yScale(d.count))
             // .attr("x", d=>xScale(d.activity))
             // .attr("y", d=> yScale(d.count))
