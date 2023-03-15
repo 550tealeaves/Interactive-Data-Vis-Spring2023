@@ -50,6 +50,9 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             .attr("fill", "darkgreen")
 
 
+            //Remember height (#0) starts from the top but we want to start from the bottom - so have to start from the top and move down
+            //Remember width starts at left which is where we want it to
+
             //ORIGINAL CODE FOR VERTICAL BARS
 
         // // xscale - categorical, activity
