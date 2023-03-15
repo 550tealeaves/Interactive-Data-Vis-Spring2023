@@ -9,7 +9,7 @@ d3.csv("../data/squirrelActivities.csv", d3.autoType)
   .then(data => {
     console.log(data)
 
-    // append svg
+    // APPEND SVG
     const svg = d3.select("#container").append("svg")
       .attr("width", width)
       .attr("height", height)
@@ -35,16 +35,17 @@ d3.csv("../data/squirrelActivities.csv", d3.autoType)
 
     /* HTML ELEMENTS */
 
-    // append rectangles 
+    // APPEND RECTANGLES
     svg.selectAll("rect.bar")
       .data(data)
       .join("rect")
       .attr("class", "bar")
       // make them visible
       // appropriately creating one joined data element per datum
-      // four attributes to make them show up
-      // what are they?
-      // x, y, height, width
+
+      // 4 attributes to make them show up
+      // what are they? x, y, height, width
+
       // what to pass into x scale to get its appropriate position
       .attr("x", d => xScale(d.activity))
       .attr("y", d => yScale(d.count))
@@ -52,17 +53,16 @@ d3.csv("../data/squirrelActivities.csv", d3.autoType)
       // .attr("width", 100)
       // .attr("height", 100)
 
-      // scale
+      // SCALE
       .attr("height", d => (height - margin) - yScale(d.count))
-      // when working with bar charts, you want the min to
-      // be zero. otherwise the lowest number will not show up
+      // when working with bar charts, you want the min to be zero. otherwise the lowest number will not show up
 
-      // width
+      // WIDTH
       // we can use the xScale to calculate the width too
       // to fit different screens (responsive)
       .attr("width", xScale.bandwidth())
 
-    /* Axes */
+    /* AXES */
     const xAxis = d3.axisBottom(xScale)
     console.log(xAxis) // just a function return, we haven't appended anything yet
     const yAxis = d3.axisLeft(yScale)
