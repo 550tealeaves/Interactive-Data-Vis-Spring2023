@@ -17,10 +17,10 @@ const width = window.innerWidth * 0.9,
   console.log('capitals', capitals)
 
   //APPEND SVG
-  const svg = d3.select("#container")
-  .append("svg")
-  .attr("width", width)
-  .attr("height", height)
+  const svg = d3.select("#container") //select all elements w/ class container
+  .append("svg") //add svg element
+  .attr("width", width) //give it attribute of width
+  .attr("height", height) //give it attribute of height
 
   
   // SPECIFY PROJECTION
@@ -38,16 +38,16 @@ const width = window.innerWidth * 0.9,
   .join("path")
   .attr("class", "states")
   .attr("d", coords => pathGen(coords)) //for each feature - draw a path, use the functions that were defined earlier to do so - geoPath function expects coords
-  .attr("fill", "transparent") //default fill for paths = black
+  .attr("fill", "brown") //default fill for paths = black
   .attr("stroke", "black")
   
   
   // APPEND DATA AS SHAPE
-  const capitalCircles = svg.selectAll("circle.capital")
-  .data(capitals)
-  .join("circle")
-  .attr("class", "capital")
-  .attr("r", 5)
+  const capitalCircles = svg.selectAll("circle.capital") //select all circle elements w/ class capital
+  .data(capitals) //add capitals array
+  .join("circle") //add circle elements 
+  .attr("class", "capital") //give it the class attribute of capital - why do we do this if we selected circle.capital?
+  .attr("r", 5) //need (radius) for circle to be visible
   .attr("fill", "cyan")
   .attr("transform", (d) => {
     const [x, y] = projection([d.longitude, d.latitude])
