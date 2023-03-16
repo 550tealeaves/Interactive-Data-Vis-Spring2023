@@ -5,18 +5,18 @@ const width = window.innerWidth * 0.7,
     radius = 5;
 
 /* LOAD DATA */
-d3.csv("../data/catsvdogs.csv", d3.autoType).then(data => {
+d3.json("../data/environmentRatings.json", d3.autoType).then(data => {
     console.log(data)
 
     /* SCALES */
     // xscale  - linear,count
     const xScale = d3.scaleLinear()
-        .domain([0, d3.max(data.map(d => d.Number_of_Households_in_1000))]) //no errors but no #s show
+        .domain([0, d3.max(data.map(d => d.envScore2020))])
         .range([margin.left, width - margin.right])
 
     // yscale - linear,count
     const yScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.Percentage_of_households_with_pets)]) //works
+        .domain([0, d3.max(data, d => d.ideologyScore2020)])
         .range([height - margin.bottom, margin.top])
 
     const colorScale = d3.scaleOrdinal()
@@ -47,7 +47,7 @@ d3.csv("../data/catsvdogs.csv", d3.autoType).then(data => {
         .data(data, d => d.BioID) // second argument is the unique key for that row
         .join("circle")
         .attr("cx", d => xScale(d.envScore2020))
-        .attr("cy", d => yScale(d.Percentage_of_households_with_pets)) //shows something
+        .attr("cy", d => yScale(d.ideologyScore2020))
         .attr("r", radius)
         .attr("fill", d => colorScale(d.Party))
 
