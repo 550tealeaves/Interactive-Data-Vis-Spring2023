@@ -11,12 +11,12 @@ d3.csv("../data/catsvdogs.csv", d3.autoType).then(data => {
     /* SCALES */
     // xscale  - linear,count
     const xScale = d3.scaleLinear()
-        .domain([0, d3.max(data.map(d => d.Number_of_Households_in_1000))]) //no errors but no #s show
+        .domain([0, d3.max(data.map(d => d.Dog_Owning_Households_1000s))]) //no errors but no #s show
         .range([margin.left, width - margin.right])
 
     // yscale - linear,count
     const yScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.Percentage_of_households_with_pets)]) //works
+        .domain([0, d3.max(data, d => d.Cat_Owning_Households)]) //works
         .range([height - margin.bottom, margin.top])
 
     const colorScale = d3.scaleOrdinal()
