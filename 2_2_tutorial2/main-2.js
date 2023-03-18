@@ -1,5 +1,5 @@
-const width = window.innerWidth * 0.9,
-    height = window.innerHeight * 0.9,
+const width = window.innerWidth * 0.7,
+    height = window.innerHeight * 0.7,
     margin = { top: 20, bottom: 60, left: 60, right: 40 },
     radius = 4;
 
@@ -7,20 +7,39 @@ const width = window.innerWidth * 0.9,
 d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
     console.log(data)
 
-    /**SCALEs*/
+    /**SCALES*/
+
+    //X SCALE
     const xScale = d3.scaleLinear()
         .domain([0, d3.max(data.map(d => d.Dog_Owning_Households_1000s))])
         .range([margin.left, width - margin.right])
 
+    //Y SCALE
     const yScale = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.Cat_Owning_Households)])
         .range([height - margin.bottom, margin.top])
 
+    
+    
     /*HTML Elements */
+    //CREATE SVG
     const svg = d3.select("#container")
         .append("svg")
         .attr("width", width)
         .attr("height", height)
+
+    //X AXIS 
+    const xAxis = d3.axisBottom(xScale)
+    svg.append("g")
+        .attr("class", "axis") //assigns axis class
+        .call(xAxis)
+
+    //Y AXIS
+    const yAxis = d3.axisLeft(yScale)
+    svg.append("g")
+    .attr("class", "axis")
+    .call(yAxis)
+
 
 
     const dot = svg
@@ -37,7 +56,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .data(data)
         .enter()
         .append("text")
-        .text(d => d.Dog_Owning_Households_1000s + ", " + d.Cat_Owning_Households) //problem - cutting off 1st digit in X value
+        .text(d => d.Dog_Owning_Households_1000s + ", " + d.Cat_Owning_Households) //labels dots
         .attr("x", d => d.Dog_Owning_Households_1000s)
         .attr("y", d => d.Cat_Owning_Households)
         
