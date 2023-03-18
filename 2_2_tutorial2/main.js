@@ -8,13 +8,15 @@ const width = window.innerWidth * 0.7,
 d3.csv("../data/catsvdogs.csv", d3.autoType).then(data => {
     console.log(data)
 
+    
     /* SCALES */
-    // xscale  - linear,count
+
+    // XSCALE - LINEAR, COUNT
     const xScale = d3.scaleLinear()
         .domain([0, d3.max(data.map(d => d.Dog_Owning_Households_1000s))]) //no errors but no #s show
         .range([margin.left, width - margin.right])
 
-    // yscale - linear,count
+    // YSCALE - LINEAR, COUNT
     const yScale = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.Cat_Owning_Households)]) //works
         .range([height - margin.bottom, margin.top])
@@ -23,14 +25,16 @@ d3.csv("../data/catsvdogs.csv", d3.autoType).then(data => {
         .domain(["R", "D"])
         .range(["red", "blue", "purple"])
 
+    
     /* HTML ELEMENTS */
-    // svg
+
+    // SVG
     const svg = d3.select("#container")
         .append("svg")
         .attr("width", width)
         .attr("height", height)
 
-    // axis scales
+    // AXIS SCALES
     const xAxis = d3.axisBottom(xScale)
     svg.append("g")
         .attr("transform", `translate(0,${height - margin.bottom})`)
@@ -41,7 +45,7 @@ d3.csv("../data/catsvdogs.csv", d3.autoType).then(data => {
         .attr("transform", `translate(${margin.left},0)`)
         .call(yAxis);
 
-    // circles
+    // CIRCLES
     const dot = svg
         .selectAll("circle")
         .data(data, d => d.BioID) // second argument is the unique key for that row
