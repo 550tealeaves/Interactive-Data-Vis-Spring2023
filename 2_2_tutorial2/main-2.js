@@ -1,7 +1,7 @@
-const width = window.innerWidth * 0.7,
-    height = window.innerHeight * 0.7,
+const width = window.innerWidth * 0.9,
+    height = window.innerHeight * 0.9,
     margin = { top: 20, bottom: 60, left: 60, right: 40 },
-    radius = 5;
+    radius = 4;
 
 
 d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
@@ -37,7 +37,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .data(data)
         .enter()
         .append("text")
-        .text(d => d.Dog_Owning_Households_1000s + " , " + d.Cat_Owning_Households) //labels dots
+        .text(d => d.Dog_Owning_Households_1000s + ", " + d.Cat_Owning_Households) //problem - cutting off 1st digit in X value
         .attr("x", d => d.Dog_Owning_Households_1000s)
         .attr("y", d => d.Cat_Owning_Households)
         
