@@ -1,7 +1,7 @@
-const width = window.innerWidth * 0.8,
-    height = window.innerHeight * 0.8,
-    margin = { top: 20, bottom: 60, left: 60, right: 40 },
-    radius = 5;
+const width = window.innerWidth * 0.9,
+    height = window.innerHeight * 0.9,
+    margin = { top: 20, bottom: 60, left: 60, right: 70 },
+    radius = 3;
 
 
 d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
@@ -62,6 +62,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .attr("x", d => xScale(d.Percentage_of_Dog_Owners))
         .attr("y", d => yScale(d.Percentage_of_Cat_Owners))
         .attr("font-size", 11)
+        
         
 
 

@@ -22,21 +22,35 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             .attr("y", height / 16) //higher the denominator, higher the text moves up pg
             .attr("text-anchor", "middle")
             .text("Squirrel Activities")
-            .style("font-size", "18px")
+            .style("font-size", "28px")
             .style("text-decoration", "underline")
             .attr("fill", "red")
 
         /* SCALES */
         const xScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d=> d.count)]) //d3 max = function expecting an array - can pass in an accessor function
-        .range([0, width])
+            .domain([0, d3.max(data, d=> d.count)]) //d3 max = function expecting an array - can pass in an accessor function
+            .range([0, width])
         
 
 
         const yScale = d3.scaleBand()
-        .domain(data.map(d => d.activity))
-        .range([height, 0])
-        .paddingInner(.2)
+            .domain(data.map(d => d.activity))
+            .range([height, 0])
+            .paddingInner(.2)
+
+
+        // const xAxis = d3.axisBottom(xScale)
+        // svg.append("g")
+        //     .attr("class", "axis")
+        //     //.attr("transform", `translate(0,${height})`)
+        //     .call(xAxis)
+
+        // const yAxis = d3.axisLeft(yScale)
+        // svg.append("g")
+        //     .attr("class", "axis")
+        //     //.attr("transform", `translate(${margin.left},0)`)
+        //     .call(yAxis)
+
 
             
         // bars
@@ -47,7 +61,8 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             .attr("width", d => xScale(d.count)) //=> shorthand for function - must return a value
             // .attr("x", d => xScale(d.count)) //this tells it to move over the # of the count and shift over the # of the count
             .attr("y", d => yScale(d.activity))
-            .attr("fill", "darkgreen")
+            .attr("fill", "transparent")
+            .attr("stroke", "green")
 
 
             //Remember height (#0) starts from the top but we want to start from the bottom - so have to start from the top and move down
