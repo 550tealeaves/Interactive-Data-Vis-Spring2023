@@ -90,10 +90,10 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             
 
 
-            //Remember height (#0) starts from the top but we want to start from the bottom - so have to start from the top and move down
-            //Remember width starts at left which is where we want it to
+        //Remember height (#0) starts from the top but we want to start from the bottom - so have to start from the top and move down
+        //Remember width starts at left which is where we want it to
 
-            //ORIGINAL CODE FOR VERTICAL BARS
+        //ORIGINAL CODE FOR VERTICAL BARS
 
         // // xscale - categorical, activity
         // const xScale = d3.scaleBand()
@@ -106,15 +106,12 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
         //     .domain([0, d3.max(data, d => d.count)])
         //     .range([height, 0])
 
-    
-
-
-            // svg.selectAll("rect")
-            // .data(data)
-            // .join("rect")
-            // .attr("width", xScale.bandwidth()) //bandwidth() - constant # that d3 calculates - resizes based on svg size (we scale svg to screen size) - constant for every element - //width must correspond to the data
-            // .attr("height", d=> height - yScale(d.count))
-            // .attr("x", d=>xScale(d.activity))
-            // .attr("y", d=> yScale(d.count))
+        // svg.selectAll("rect")
+        // .data(data)
+        // .join("rect")
+        // .attr("width", xScale.bandwidth()) //bandwidth() - constant # that d3 calculates - resizes based on svg size (we scale svg to screen size) - constant for every element - //width must correspond to the data
+        // .attr("height", d=> height - yScale(d.count))
+        // .attr("x", d=>xScale(d.activity))
+        // .attr("y", d=> yScale(d.count))
 
     })
