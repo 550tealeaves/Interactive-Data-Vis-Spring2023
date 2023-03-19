@@ -21,7 +21,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
 
     const colorScale = d3.scaleOrdinal()
         .domain(["D", "C"]) //"d" & "c" = values in column Dogs_or_Cats
-        .range(["green", "brown"])
+        .range(["brown", "gold"])
 
 
 
@@ -76,7 +76,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .style("font-size", "18px")
         .style("font-weight", "bold")
         .style("text-decoration", "underline")
-        .attr("fill", "darkblue")
+        .attr("fill", "darkgreen")
 
 
     //ALTERNATIVE WAY TO WRITE .attr("cx")
