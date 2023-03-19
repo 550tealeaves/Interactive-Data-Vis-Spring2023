@@ -73,7 +73,7 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             .join("rect")
             .attr("height", yScale.bandwidth()) //girth of bars 
             .attr("width", d => xScale(d.count)- margin) //=> shorthand for function - must return a value
-            .attr("x", d => margin) //this the bars to start at the margin
+            .attr("x", d => margin) //bars will start at the margin
             .attr("y", d => yScale(d.activity))
             .attr("fill", d => colorScale(d.activity))
 

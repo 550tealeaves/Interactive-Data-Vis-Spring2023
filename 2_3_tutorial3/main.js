@@ -37,15 +37,15 @@ d3.csv("../data/populationOverTime.csv", d => {  //parse the csv
     // const xAxis = d3.axisBotton(xScale)
     //     svg.append("g")
     //         .attr("class", "axis")
-    //         .attr("transform", `translate(0,${height - margin.bottom})`)
+    //         .attr("transform", `translate(0,${height + margin.bottom})`)
     //         .call(xAxis)
 
-    //     // Y Axis
-    // const yAxis = d3.axisLeft(yScale)
-    //     svg.append("g")
-    //         .attr("class", "axis")
-    //         .attr("transform", `translate(${margin.left},0)`)
-    //         .call(yAxis)
+    // Y Axis
+    const yAxis = d3.axisLeft(yScale) //this is correct and shows the vertical axis
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", `translate(${margin.left},0)`) //moves the vert axis 60px, 0
+            .call(yAxis)
 
 
 
