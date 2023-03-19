@@ -1,6 +1,8 @@
 /* CONSTANTS AND GLOBALS */
-const width = window.innerWidth * .3;
+const width = window.innerWidth * .5;
 const height = 400;
+margin = 60;
+margin.left = 50;
 
 /* LOAD DATA */
 d3.csv('../data/squirrelActivities.csv', d3.autoType)
@@ -35,21 +37,22 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
 
         const yScale = d3.scaleBand()
             .domain(data.map(d => d.activity))
-            .range([height, 0])
-            .paddingInner(.2)
+            .range([height - margin, margin])
+            .paddingInner(.5)
+            
 
 
-        // const xAxis = d3.axisBottom(xScale)
-        // svg.append("g")
-        //     .attr("class", "axis")
-        //     //.attr("transform", `translate(0,${height})`)
-        //     .call(xAxis)
+        const xAxis = d3.axisBottom(xScale)
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", `translate(0,${height - margin})`) //works - xAxis shows at bottom
+            .call(xAxis)
 
-        // const yAxis = d3.axisLeft(yScale)
-        // svg.append("g")
-        //     .attr("class", "axis")
-        //     //.attr("transform", `translate(${margin.left},0)`)
-        //     .call(yAxis)
+        const yAxis = d3.axisLeft(yScale)
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", `translate(${margin.left},0)`) //not working - can't push over graph 
+            .call(yAxis)
 
 
             
@@ -59,10 +62,10 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             .join("rect")
             .attr("height", yScale.bandwidth()) //didn't write a function 
             .attr("width", d => xScale(d.count)) //=> shorthand for function - must return a value
-            // .attr("x", d => xScale(d.count)) //this tells it to move over the # of the count and shift over the # of the count
+            //.attr("x", d => xScale(d.count)) //this tells it to move over the # of the count and shift over the # of the count
             .attr("y", d => yScale(d.activity))
-            .attr("fill", "transparent")
-            .attr("stroke", "green")
+            .attr("fill", "darkgreen")
+            
 
 
             //Remember height (#0) starts from the top but we want to start from the bottom - so have to start from the top and move down
