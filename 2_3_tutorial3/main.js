@@ -1,36 +1,31 @@
 /* CONSTANTS AND GLOBALS */
 const width = window.innerWidth * 0.7,
     height = window.innerHeight * 0.7,
-    margin = { top: 20, bottom: 50, left: 60, right: 60 }
-
-/*
-this extrapolated function allows us to replace the "G" with "B" min the case of billions.
-we cannot do this in the .tickFormat() because we need to pass a function as an argument,
-and replace needs to act on the text (result of the function).
-*/
-const formatBillions = (num) => d3.format(".2s")(num).replace(/G/, 'B')
-const formatDate = d3.timeFormat("%Y")
+    margin = { top: 20, left: 60, bottom: 60, right: 20 };
 
 /* LOAD DATA */
-d3.csv('../data/populationOverTime.csv', d => {
-    // use custom initializer to reformat the data the way we want it
-    // ref: https://github.com/d3/d3-fetch#dsv
+d3.csv("../data/populationOverTime.csv", d => {  //parse the csv
     return {
-        year: new Date(+d.Year, 0, 1),
-        country: d.Entity,
-        population: +d.Population
+        year: new Date(+d.Year, 0, 1), //way to convert the year (string) into a date
+        country: d.Entity, //entity will be relabeled as country 
+        population: +d.Population //will convert the pop (written as string) into # - +d = converts it
     }
 }).then(data => {
     console.log('data :>> ', data);
 
-    // + SCALES
-    const xScale = d3.scaleTime()
-        .domain(d3.extent(data, d => d.year))
-        .range([margin.right, width - margin.left])
+    // SCALES
 
+    //X scale
+    const xScale = d3.scaleTime() //using time scale
+        .domain(d3.extent(data, d => d.year)) //d3.extent looks w/in data & finds min/max years
+        .range([margin.left, width - margin.right])
+
+    //Y scale
     const yScale = d3.scaleLinear()
-        .domain(d3.extent(data, d => d.population))
+        .domain(d3.extent(data, d => d.population)) //d3.extent looks w/in data & finds min/max pop
         .range([height - margin.bottom, margin.top])
+
+
 
     // CREATE SVG ELEMENT
     const svg = d3.select("#container")
@@ -39,45 +34,29 @@ d3.csv('../data/populationOverTime.csv', d => {
         .attr("height", height)
 
     // BUILD AND CALL AXES
-    const xAxis = d3.axisBottom(xScale)
-        .ticks(6) // limit the number of tick marks showing -- note: this is approximate
 
-    const xAxisGroup = svg.append("g")
-        .attr("class", "xAxis")
-        .attr("transform", `translate(${0}, ${height - margin.bottom})`)
-        .call(xAxis)
-
-    xAxisGroup.append("text")
-        .attr("class", 'xLabel')
-        .attr("transform", `translate(${width / 2}, ${35})`)
-        .text("Year")
-
-    const yAxis = d3.axisLeft(yScale)
-        .tickFormat(formatBillions)
-
-    const yAxisGroup = svg.append("g")
-        .attr("class", "yAxis")
-        .attr("transform", `translate(${margin.right}, ${0})`)
-        .call(yAxis)
-
-    yAxisGroup.append("text")
-        .attr("class", 'yLabel')
-        .attr("transform", `translate(${-45}, ${height / 2})`)
-        .attr("writing-mode", 'vertical-rl')
-        .text("Population")
+    //FILTER DATA
+    const filteredData = data.filter(d => d.country === "United States") // will only show US data 
+    console.log('filtered', filteredData) //shows 119 data pts
 
     // LINE GENERATOR FUNCTION
-    const lineGen = d3.line()
-        .x(d => xScale(d.year))
-        .y(d => yScale(d.population))
+    const lineGen = d3.line() //line generator function
+        .x(d => xScale(d.year)) //define x accessor - pass through data, take year & pass it to xScale
+        .y(d => yScale(d.population)) //define y accessor - pass through data, take pop & pass it to yScale
+
+
+    //GROUP DATA
+    const groupedData = d3.groups(data, d => d.country) //want to group data by country - 1 line/country - d3.groups takes an accessor function
+    console.log('grouped', groupedData)
+
 
     // DRAW LINE
-    svg.selectAll(".line")
-        .data([data]) // data needs to take an []
-        .join("path")
-        .attr("class", 'line')
-        .attr("fill", "none")
-        .attr("stroke", "black")
-        .attr("d", d => lineGen(d))
+    const line = svg.selectAll(".line")
+    .data([filteredData])
+    .join("path")
+    .attr("class", "line")
+    .attr("d", d => lineGen(d))
+    .attr("stroke", "black")
+    .attr("fill", "none")
 
 });
