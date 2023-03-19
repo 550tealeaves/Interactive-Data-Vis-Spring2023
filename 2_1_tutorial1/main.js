@@ -1,8 +1,9 @@
 /* CONSTANTS AND GLOBALS */
-const width = window.innerWidth * .5;
+const width = window.innerWidth * .7;
 const height = 400;
 margin = 60;
-margin.left = 50;
+
+
 
 /* LOAD DATA */
 d3.csv('../data/squirrelActivities.csv', d3.autoType)
@@ -20,6 +21,7 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
         //ADD CHART TITLE    
         svg
             .append("text")
+            .attr("class", "title")
             .attr("x", width / 2)
             .attr("y", height / 16) //higher the denominator, higher the text moves up pg
             .attr("text-anchor", "middle")
@@ -31,15 +33,20 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
         /* SCALES */
         const xScale = d3.scaleLinear()
             .domain([0, d3.max(data, d=> d.count)]) //d3 max = function expecting an array - can pass in an accessor function
-            .range([0, width])
+            .range([margin, width - margin])
         
 
 
         const yScale = d3.scaleBand()
-            .domain(data.map(d => d.activity))
-            .range([height - margin, margin])
-            .paddingInner(.5)
+        .domain(data.map(d => d.activity))
+        .range([height - margin, margin])
+        .paddingInner(.5)
             
+        const colorScale = d3.scaleOrdinal()
+            .domain(['running', 'chasing', 'climbing', 'eating', 'foraging'])   
+            .range(["red", "lightblue", "green", "pink", "purple"])
+            
+
 
 
         const xAxis = d3.axisBottom(xScale)
@@ -51,7 +58,7 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
         const yAxis = d3.axisLeft(yScale)
         svg.append("g")
             .attr("class", "axis")
-            .attr("transform", `translate(${margin.left},0)`) //not working - can't push over graph 
+            .attr("transform", `translate(${margin},0)`) //not working - can't push over graph 
             .call(yAxis)
 
 
@@ -61,10 +68,20 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             .data(data)
             .join("rect")
             .attr("height", yScale.bandwidth()) //didn't write a function 
-            .attr("width", d => xScale(d.count)) //=> shorthand for function - must return a value
-            //.attr("x", d => xScale(d.count)) //this tells it to move over the # of the count and shift over the # of the count
+            .attr("width", d => xScale(d.count)- margin) //=> shorthand for function - must return a value
+            .attr("x", d => margin) //this the bars to start at the margin
             .attr("y", d => yScale(d.activity))
-            .attr("fill", "darkgreen")
+            .attr("fill", d => colorScale(d.activity))
+
+
+        svg.selectAll("labels")
+            .data(data)
+            .enter()
+            .append("text")
+            .text(d => d.count)
+            .attr("x", d => xScale(d.count))
+            .attr("class", "labels")
+            
             
 
 
