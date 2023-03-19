@@ -26,9 +26,6 @@ d3.csv("../data/populationOverTime.csv", d => {  //parse the csv
         .range([height - margin.bottom, margin.top])
 
     
-    
-
-
     // CREATE SVG ELEMENT
     const svg = d3.select("#container")
         .append("svg")
@@ -43,12 +40,12 @@ d3.csv("../data/populationOverTime.csv", d => {  //parse the csv
     //         .attr("transform", `translate(0,${height - margin.bottom})`)
     //         .call(xAxis)
 
-        // Y Axis
-        // const yAxis = d3.axisLeft(yScale)
-        //     svg.append("g")
-        //         .attr("class", "axis")
-        //         .attr("transform", `translate(${margin.left},0)`)
-        //         .call(yAxis)
+    //     // Y Axis
+    // const yAxis = d3.axisLeft(yScale)
+    //     svg.append("g")
+    //         .attr("class", "axis")
+    //         .attr("transform", `translate(${margin.left},0)`)
+    //         .call(yAxis)
 
 
 
@@ -57,23 +54,10 @@ d3.csv("../data/populationOverTime.csv", d => {  //parse the csv
     console.log('filtered', filteredData) //shows 119 data pts
 
 
-    // AREA GENERATOR FUNCTION
-    const area = d3.area()
-        .x(d => xScale(d.year))
-        .y0(d => yScale.range()[0])
-        .y1(d => yScale(d.population))
-        .call(area)
-
-    svg.append("path")
-        .data([filteredData])
-        .attr("class", "area")
-        .attr("d", area)
-
-
     // LINE GENERATOR FUNCTION
-    // const lineGen = d3.line() //line generator function
-    //     .x(d => xScale(d.year)) //define x accessor - pass through data, take year & pass it to xScale
-    //     .y(d => yScale(d.population)) //define y accessor - pass through data, take pop & pass it to yScale
+    const lineGen = d3.line() //line generator function
+        .x(d => xScale(d.year)) //define x accessor - pass through data, take year & pass it to xScale
+        .y(d => yScale(d.population)) //define y accessor - pass through data, take pop & pass it to yScale
 
 
     //GROUP DATA
@@ -82,17 +66,27 @@ d3.csv("../data/populationOverTime.csv", d => {  //parse the csv
 
 
     // DRAW LINE
-    // const line = svg.selectAll(".line")
-    // .data([filteredData])
-    // .join("path")
-    // .attr("class", "line")
-    // .attr("d", d => lineGen(d))
-    // .attr("stroke", "purple")
-    // .attr("fill", "none")
+    const line = svg.selectAll(".line")
+    .data([filteredData])
+    .join("path")
+    .attr("class", "line")
+    .attr("d", d => lineGen(d))
+    .attr("stroke", "darkblue")
+    .attr("fill", "none")
 
 
-
-
+    // AREA GENERATOR FUNCTION
+    const area = d3.area() //area function requires x (accessor), .y0(baseline), .y1(topline)
+        .x(d => xScale(d.year)) //set to the year scale
+        .y0(d => yScale.range()[0]) //baseline set to range
+        .y1(d => yScale(d.population)) //topline set to population
+    
+    // APPEND PATH ELEMENT TO AREA
+    svg.append("path")
+        .data([filteredData])
+        .attr("class", "area")
+        .attr("d", area)
+        .attr("fill", "red")
 
 
 });
