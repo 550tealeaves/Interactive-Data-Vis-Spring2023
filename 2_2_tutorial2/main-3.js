@@ -61,7 +61,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .text(d => d.Percentage_of_Dog_Owners + ", " + d.Percentage_of_Cat_Owners) //labels dots
         .attr("x", d => xScale(d.Percentage_of_Dog_Owners))
         .attr("y", d => yScale(d.Percentage_of_Cat_Owners))
-        .attr("font-size", 12)
+        .attr("font-size", 11)
         
 
 
