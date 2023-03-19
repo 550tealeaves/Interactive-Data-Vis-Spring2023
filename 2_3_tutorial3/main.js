@@ -59,7 +59,6 @@ d3.csv("../data/populationOverTime.csv", d => {  //parse the csv
 
     // AREA GENERATOR FUNCTION
     const area = d3.area()
-        .defined( d => d.average >= 0)
         .x(d => xScale(d.year))
         .y0(d => yScale.range()[0])
         .y1(d => yScale(d.population))
