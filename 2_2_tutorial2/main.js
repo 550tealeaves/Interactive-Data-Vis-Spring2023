@@ -76,7 +76,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .style("font-size", "18px")
         .style("font-weight", "bold")
         .style("text-decoration", "underline")
-        .attr("fill", "darkgreen")
+        .attr("fill", "darkblue")
 
 
     //ALTERNATIVE WAY TO WRITE .attr("cx")
