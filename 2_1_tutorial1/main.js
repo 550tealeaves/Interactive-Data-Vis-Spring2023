@@ -50,7 +50,7 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
         const yAxis = d3.axisLeft(yScale)
         svg.append("g")
             .attr("class", "axis")
-            .attr("transform", `translate(${margin},0)`) //not working - can't push over graph 
+            .attr("transform", `translate(${margin},0)`) //moves the yAxis over 60px, 0 
             .call(yAxis)
 
 
