@@ -1,7 +1,7 @@
-const width = window.innerWidth * 0.8,
+const width = window.innerWidth * 0.9,
     height = window.innerHeight * 0.8,
     margin = { top: 20, bottom: 60, left: 60, right: 40 },
-    radius = 5;
+    radius = 4;
 
 
 d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
@@ -18,6 +18,10 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
     const yScale = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.Cat_Owning_Households)])
         .range([height - margin.bottom, margin.top])
+
+    const colorScale = d3.scaleOrdinal()
+        .domain (["D", "C"])
+        .range(["green", "brown"])
 
     
     
@@ -51,17 +55,27 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .attr("cx", d => xScale(d.Dog_Owning_Households_1000s)) //alternative below
         .attr("cy", d => yScale(d.Cat_Owning_Households)) //alternative below
         .attr("r", radius)
-        .attr("fill", "purple")
-        .attr("stroke", "blue")
+        .attr("fill", d => colorScale(d.Dogs_or_Cats)) //will color the circles based on this scale
         
-    svg.selectAll("text")
+    svg.selectAll("labels")
         .data(data)
         .enter()
         .append("text")
         .text(d => d.Dog_Owning_Households_1000s + ", " + d.Cat_Owning_Households) //labels dots
-        .attr("x", d => xScale(d.Dog_Owning_Households_1000s))
+        .attr("x", d => xScale(d.Dog_Owning_Households_1000s) - margin.left/6)
         .attr("y", d => yScale(d.Cat_Owning_Households))
-        .attr("font-size", 14)
+        .attr("font-size", 11)
+
+    svg
+        .append("text")
+        .attr("class", "title")
+        .attr("x", width / 2)
+        .attr("y", height / 25) //higher the denominator, higher the text moves up pg
+        .attr("text-anchor", "middle")
+        .text("Dog Owning Households vs Cat Owning Households")
+        .style("font-size", "18px")
+        .style("text-decoration", "underline")
+        .attr("fill", "darkblue")
         
         
         //ALTERNATIVE WAY TO WRITE .attr("cx")

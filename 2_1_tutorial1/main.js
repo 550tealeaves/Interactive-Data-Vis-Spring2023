@@ -67,7 +67,7 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
         svg.selectAll("rect")
             .data(data)
             .join("rect")
-            .attr("height", yScale.bandwidth()) //didn't write a function 
+            .attr("height", yScale.bandwidth()) //girth of bars 
             .attr("width", d => xScale(d.count)- margin) //=> shorthand for function - must return a value
             .attr("x", d => margin) //this the bars to start at the margin
             .attr("y", d => yScale(d.activity))
@@ -80,6 +80,7 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             .append("text")
             .text(d => d.count)
             .attr("x", d => xScale(d.count))
+            .attr("y", d => yScale(d.activity) + yScale.bandwidth()/2) //dividing by 2 puts the count the middle of the bar
             .attr("class", "labels")
             
             
