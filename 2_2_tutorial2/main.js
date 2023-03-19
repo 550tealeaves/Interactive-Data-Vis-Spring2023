@@ -74,6 +74,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .attr("text-anchor", "middle")
         .text("Dog vs Cat Ownership By State")
         .style("font-size", "18px")
+        .style("font-weight", "bold")
         .style("text-decoration", "underline")
         .attr("fill", "darkblue")
 
