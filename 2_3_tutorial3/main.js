@@ -56,7 +56,7 @@ d3.csv("../data/populationOverTime.csv", d => {  //parse the csv
     .join("path")
     .attr("class", "line")
     .attr("d", d => lineGen(d))
-    .attr("stroke", "black")
+    .attr("stroke", "purple")
     .attr("fill", "none")
 
 });
