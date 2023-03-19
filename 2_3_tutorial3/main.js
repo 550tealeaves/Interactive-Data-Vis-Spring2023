@@ -25,6 +25,8 @@ d3.csv("../data/populationOverTime.csv", d => {  //parse the csv
         .domain(d3.extent(data, d => d.population)) //d3.extent looks w/in data & finds min/max pop
         .range([height - margin.bottom, margin.top])
 
+    
+    
 
 
     // CREATE SVG ELEMENT
@@ -34,15 +36,45 @@ d3.csv("../data/populationOverTime.csv", d => {  //parse the csv
         .attr("height", height)
 
     // BUILD AND CALL AXES
+    // X Axis
+    // const xAxis = d3.axisBotton(xScale)
+    //     svg.append("g")
+    //         .attr("class", "axis")
+    //         .attr("transform", `translate(0,${height - margin.bottom})`)
+    //         .call(xAxis)
+
+        // Y Axis
+        // const yAxis = d3.axisLeft(yScale)
+        //     svg.append("g")
+        //         .attr("class", "axis")
+        //         .attr("transform", `translate(${margin.left},0)`)
+        //         .call(yAxis)
+
+
 
     //FILTER DATA
     const filteredData = data.filter(d => d.country === "United States") // will only show US data 
     console.log('filtered', filteredData) //shows 119 data pts
 
+
+    // AREA GENERATOR FUNCTION
+    const area = d3.area()
+        .defined( d => d.average >= 0)
+        .x(d => xScale(d.year))
+        .y0(d => yScale.range()[0])
+        .y1(d => yScale(d.population))
+        .call(area)
+
+    svg.append("path")
+        .data([filteredData])
+        .attr("class", "area")
+        .attr("d", area)
+
+
     // LINE GENERATOR FUNCTION
-    const lineGen = d3.line() //line generator function
-        .x(d => xScale(d.year)) //define x accessor - pass through data, take year & pass it to xScale
-        .y(d => yScale(d.population)) //define y accessor - pass through data, take pop & pass it to yScale
+    // const lineGen = d3.line() //line generator function
+    //     .x(d => xScale(d.year)) //define x accessor - pass through data, take year & pass it to xScale
+    //     .y(d => yScale(d.population)) //define y accessor - pass through data, take pop & pass it to yScale
 
 
     //GROUP DATA
@@ -51,12 +83,17 @@ d3.csv("../data/populationOverTime.csv", d => {  //parse the csv
 
 
     // DRAW LINE
-    const line = svg.selectAll(".line")
-    .data([filteredData])
-    .join("path")
-    .attr("class", "line")
-    .attr("d", d => lineGen(d))
-    .attr("stroke", "purple")
-    .attr("fill", "none")
+    // const line = svg.selectAll(".line")
+    // .data([filteredData])
+    // .join("path")
+    // .attr("class", "line")
+    // .attr("d", d => lineGen(d))
+    // .attr("stroke", "purple")
+    // .attr("fill", "none")
+
+
+
+
+
 
 });
