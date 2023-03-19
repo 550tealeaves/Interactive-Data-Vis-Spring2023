@@ -70,7 +70,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .append("text")
         .attr("class", "title")
         .attr("x", width / 2)
-        .attr("y", height / 25) //higher the denominator, higher the text moves up pg
+        .attr("y", height / 20) //higher the denominator, higher the text moves up pg
         .attr("text-anchor", "middle")
         .text("Dog vs Cat Ownership By State")
         .style("font-size", "18px")
