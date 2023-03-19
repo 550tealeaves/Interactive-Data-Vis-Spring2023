@@ -4,19 +4,55 @@ const height = 400;
 margin = 60;
 
 
-
 /* LOAD DATA */
 d3.csv('../data/squirrelActivities.csv', d3.autoType)
     .then(data => {
         console.log("data", data)
-
-
+  
+        
         /* HTML ELEMENTS */
         // APPEND SVG
         const svg = d3.select("#container")
             .append("svg")
             .attr("width", width)
             .attr("height", height)
+
+        
+
+        /* SCALES */
+        // xScale
+        const xScale = d3.scaleLinear()
+            .domain([0, d3.max(data, d=> d.count)]) //d3 max = function expecting an array - can pass in an accessor function
+            .range([margin, width - margin])
+        
+
+        // yScale
+        const yScale = d3.scaleBand()
+        .domain(data.map(d => d.activity))
+        .range([height - margin, margin])
+        .paddingInner(.5)
+           
+        // colorScale
+        const colorScale = d3.scaleOrdinal()
+            .domain(['running', 'chasing', 'climbing', 'eating', 'foraging'])   
+            .range(["red", "lightblue", "green", "pink", "purple"])
+            
+
+        /* AXES */
+        // xAxis
+        const xAxis = d3.axisBottom(xScale)
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", `translate(0,${height - margin})`) //works - xAxis shows at bottom
+            .call(xAxis)
+
+        // yAxis
+        const yAxis = d3.axisLeft(yScale)
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", `translate(${margin},0)`) //not working - can't push over graph 
+            .call(yAxis)
+
 
         //ADD CHART TITLE    
         svg
@@ -30,40 +66,8 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             .style("text-decoration", "underline")
             .attr("fill", "red")
 
-        /* SCALES */
-        const xScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d=> d.count)]) //d3 max = function expecting an array - can pass in an accessor function
-            .range([margin, width - margin])
-        
-
-
-        const yScale = d3.scaleBand()
-        .domain(data.map(d => d.activity))
-        .range([height - margin, margin])
-        .paddingInner(.5)
             
-        const colorScale = d3.scaleOrdinal()
-            .domain(['running', 'chasing', 'climbing', 'eating', 'foraging'])   
-            .range(["red", "lightblue", "green", "pink", "purple"])
-            
-
-
-
-        const xAxis = d3.axisBottom(xScale)
-        svg.append("g")
-            .attr("class", "axis")
-            .attr("transform", `translate(0,${height - margin})`) //works - xAxis shows at bottom
-            .call(xAxis)
-
-        const yAxis = d3.axisLeft(yScale)
-        svg.append("g")
-            .attr("class", "axis")
-            .attr("transform", `translate(${margin},0)`) //not working - can't push over graph 
-            .call(yAxis)
-
-
-            
-        // bars
+        // BARS
         svg.selectAll("rect")
             .data(data)
             .join("rect")
@@ -73,7 +77,7 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             .attr("y", d => yScale(d.activity))
             .attr("fill", d => colorScale(d.activity))
 
-
+        // AXIS LABELS
         svg.selectAll("labels")
             .data(data)
             .enter()
