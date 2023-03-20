@@ -72,7 +72,7 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
         .join("path")
         .attr("class", "line")
         .attr("d", d => lineGen(d))
-        .attr("stroke", "darkred")
+        .attr("stroke", "black")
         .attr("fill", "none")
 
 
@@ -89,5 +89,18 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
         .attr("d", area)
         .attr("fill", "gold")
 
+
+    // ADD CHART TITLE
+    svg
+        .append("text")
+        .attr("class", "title")
+        .attr("x", width / 2)
+        .attr("y", height / 20) //higher the denominator, higher the text moves up pg
+        .attr("text-anchor", "middle")
+        .text("Germany's GDP")
+        .attr("font-family", "Cursive")
+        .style("font-size", "18px")
+        .style("font-weight", "bold")
+        .attr("fill", "red")
 
 });
