@@ -97,7 +97,7 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
         .attr("x", width / 2)
         .attr("y", height / 20) //higher the denominator, higher the text moves up pg
         .attr("text-anchor", "middle")
-        .text("Germany's GDP")
+        .text("Germany GDP") //how to interpolate so title updates - (`${d.country} + "GDP"`) doesn't work
         .attr("font-family", "Cursive")
         .style("font-size", "18px")
         .style("font-weight", "bold")
