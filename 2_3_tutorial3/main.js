@@ -7,7 +7,8 @@ const width = window.innerWidth * 0.7,
 d3.csv("../data/HollywoodsMostProfitableStories.csv", d => {  //parse the csv
     return {
         year: new Date(+d.Year, 0, 1), //way to convert the year (string) into a date 
-        gross: +d.Worldwide_Gross //will convert Worldwide_gross (written as string) into # - +d = converts it
+        gross: +d.Worldwide_Gross, //will convert Worldwide_gross (written as string) into # - +d = converts it
+        genre: d.Genre //had to return genre 
     }
 }).then(data => {
     console.log('data :>> ', data);
@@ -33,11 +34,11 @@ d3.csv("../data/HollywoodsMostProfitableStories.csv", d => {  //parse the csv
 
     // BUILD AND CALL AXES
     // X Axis
-    // const xAxis = d3.axisBotton(xScale)
-    //     svg.append("g")
-    //         .attr("class", "axis")
-    //         .attr("transform", `translate(0,${height + margin.bottom})`)
-    //         .call(xAxis)
+    const xAxis = d3.axisBottom(xScale)
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", `translate(0,${height - margin.bottom})`)
+            .call(xAxis)
 
     // Y Axis
     const yAxis = d3.axisLeft(yScale) //shows the vertical axis
@@ -49,7 +50,7 @@ d3.csv("../data/HollywoodsMostProfitableStories.csv", d => {  //parse the csv
 
 
     //FILTER DATA
-    const filteredData = data.filter(d => d.Genre === "Comedy") // only show comedy Genre 
+    const filteredData = data.filter(d => d.genre === "Comedy") // only show comedy Genre 
     console.log('filtered', filteredData) //shows 119 data pts
 
 
@@ -60,7 +61,7 @@ d3.csv("../data/HollywoodsMostProfitableStories.csv", d => {  //parse the csv
 
 
     //GROUP DATA
-    const groupedData = d3.groups(data, d => d.Genre) //want to group data by country - 1 line/country - d3.groups takes an accessor function
+    const groupedData = d3.groups(data, d => d.genre) //want to group data by country - 1 line/country - d3.groups takes an accessor function
     console.log('grouped', groupedData)
 
 
