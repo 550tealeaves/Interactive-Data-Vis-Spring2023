@@ -21,7 +21,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
 
     const colorScale = d3.scaleOrdinal()
         .domain(["D", "C"]) //"d" & "c" = values in column Dogs_or_Cats
-        .range(["brown", "gold"])
+        .range(["brown", "orange"])
 
 
 
