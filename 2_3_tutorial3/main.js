@@ -4,11 +4,10 @@ const width = window.innerWidth * 0.7,
     margin = { top: 20, left: 60, bottom: 60, right: 20 };
 
 /* LOAD DATA */
-d3.csv("../data/populationOverTime.csv", d => {  //parse the csv
+d3.csv("../data/HollywoodsMostProfitableStories.csv", d => {  //parse the csv
     return {
-        year: new Date(+d.Year, 0, 1), //way to convert the year (string) into a date
-        country: d.Entity, //entity will be relabeled as country 
-        population: +d.Population //will convert the pop (written as string) into # - +d = converts it
+        year: new Date(+d.Year, 0, 1), //way to convert the year (string) into a date 
+        gross: +d.Worldwide_Gross //will convert Worldwide_gross (written as string) into # - +d = converts it
     }
 }).then(data => {
     console.log('data :>> ', data);
@@ -22,7 +21,7 @@ d3.csv("../data/populationOverTime.csv", d => {  //parse the csv
 
     //Y scale
     const yScale = d3.scaleLinear()
-        .domain(d3.extent(data, d => d.population)) //d3.extent looks w/in data & finds min/max pop
+        .domain(d3.extent(data, d => d.gross)) //d3.extent looks w/in data & finds min/max pop
         .range([height - margin.bottom, margin.top])
 
     
@@ -50,18 +49,18 @@ d3.csv("../data/populationOverTime.csv", d => {  //parse the csv
 
 
     //FILTER DATA
-    const filteredData = data.filter(d => d.country === "United States") // will only show US data 
+    const filteredData = data.filter(d => d.Genre === "Comedy") // only show comedy Genre 
     console.log('filtered', filteredData) //shows 119 data pts
 
 
     // LINE GENERATOR FUNCTION
     const lineGen = d3.line() //line generator function
         .x(d => xScale(d.year)) //define x accessor - pass through data, take year & pass it to xScale
-        .y(d => yScale(d.population)) //define y accessor - pass through data, take pop & pass it to yScale
+        .y(d => yScale(d.gross)) //define y accessor - pass through data, take pop & pass it to yScale
 
 
     //GROUP DATA
-    const groupedData = d3.groups(data, d => d.country) //want to group data by country - 1 line/country - d3.groups takes an accessor function
+    const groupedData = d3.groups(data, d => d.Genre) //want to group data by country - 1 line/country - d3.groups takes an accessor function
     console.log('grouped', groupedData)
 
 
@@ -79,7 +78,7 @@ d3.csv("../data/populationOverTime.csv", d => {  //parse the csv
     const area = d3.area() //area function requires x (accessor), .y0(baseline), .y1(topline)
         .x(d => xScale(d.year)) //set to the year scale
         .y0(d => yScale.range()[0]) //baseline set to range
-        .y1(d => yScale(d.population)) //topline set to population
+        .y1(d => yScale(d.gross)) //topline set to population
     
     // APPEND PATH ELEMENT TO AREA
     svg.append("path")
