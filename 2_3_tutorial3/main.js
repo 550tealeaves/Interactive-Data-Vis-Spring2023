@@ -4,11 +4,11 @@ const width = window.innerWidth * 0.7,
     margin = { top: 20, left: 60, bottom: 60, right: 20 };
 
 /* LOAD DATA */
-d3.csv("../data/HollywoodsMostProfitableStories.csv", d => {  //parse the csv
+d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
     return {
         year: new Date(+d.Year, 0, 1), //way to convert the year (string) into a date 
-        gross: +d.Worldwide_Gross_millions, //will convert Worldwide_gross (written as string) into # - +d = converts it
-        genre: d.Genre //had to return genre 
+        gdp: +d.gdp, //will convert gdp (written as string) into # - +d = converts it
+        country: d.Country //had to return country 
     }
 }).then(data => {
     console.log('data :>> ', data);
@@ -22,10 +22,10 @@ d3.csv("../data/HollywoodsMostProfitableStories.csv", d => {  //parse the csv
 
     //Y scale
     const yScale = d3.scaleLinear()
-        .domain(d3.extent(data, d => d.gross)) //d3.extent looks w/in data & finds min/max pop
+        .domain(d3.extent(data, d => d.gdp)) //d3.extent looks w/in data & finds min/max gdp
         .range([height - margin.bottom, margin.top])
 
-    
+
     // CREATE SVG ELEMENT
     const svg = d3.select("#container")
         .append("svg")
@@ -35,27 +35,27 @@ d3.csv("../data/HollywoodsMostProfitableStories.csv", d => {  //parse the csv
     // BUILD AND CALL AXES
     // X Axis
     const xAxis = d3.axisBottom(xScale)
-        svg.append("g")
-            .attr("class", "axis")
-            .attr("transform", `translate(0,${height - margin.bottom})`)
-            .call(xAxis)
+    svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", `translate(0,${height - margin.bottom})`)
+        .call(xAxis)
 
     // Y Axis
     const yAxis = d3.axisLeft(yScale) //shows the vertical axis
-        svg.append("g")
-            .attr("class", "axis")
-            .attr("transform", `translate(${margin.left},0)`) 
-            .call(yAxis)
+    svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", `translate(${margin.left},0)`)
+        .call(yAxis)
 
 
 
     //FILTER DATA
-    const filteredData = data.filter(d => d.genre === "Comedy") // shows only Comedy genre 
-    console.log('filtered', filteredData) 
+    const filteredData = data.filter(d => d.country === "Germany") // shows data for Germany 
+    console.log('filtered', filteredData)
 
 
     //GROUP DATA
-    const groupedData = d3.groups(data, d => d.genre) //want to group data by genre - d3.groups takes an accessor function
+    const groupedData = d3.groups(data, d => d.country) //want to group data by country - d3.groups takes an accessor function
     console.log('grouped', groupedData)
 
 
@@ -63,31 +63,31 @@ d3.csv("../data/HollywoodsMostProfitableStories.csv", d => {  //parse the csv
     // LINE GENERATOR FUNCTION
     const lineGen = d3.line() //line generator function
         .x(d => xScale(d.year)) //define x accessor - pass through data, take year & pass it to xScale
-        .y(d => yScale(d.gross)) //define y accessor - pass through data, take gross & pass it to yScale
+        .y(d => yScale(d.gdp)) //define y accessor - pass through data, take gross & pass it to yScale
 
 
     // DRAW LINE
     const line = svg.selectAll(".line")
-    .data([filteredData])
-    .join("path")
-    .attr("class", "line")
-    .attr("d", d => lineGen(d))
-    .attr("stroke", "darkblue")
-    .attr("fill", "none")
+        .data([filteredData])
+        .join("path")
+        .attr("class", "line")
+        .attr("d", d => lineGen(d))
+        .attr("stroke", "darkred")
+        .attr("fill", "none")
 
 
     // AREA GENERATOR FUNCTION
     const area = d3.area() //area function requires x (accessor), .y0(baseline), .y1(topline)
         .x(d => xScale(d.year)) //set to the year scale
         .y0(d => yScale.range()[0]) //baseline set to range
-        .y1(d => yScale(d.gross)) //topline set to population
-    
+        .y1(d => yScale(d.gdp)) //topline set to population
+
     // APPEND PATH ELEMENT TO AREA
     svg.append("path")
         .data([filteredData])
         .attr("class", "area")
         .attr("d", area)
-        .attr("fill", "red")
+        .attr("fill", "gold")
 
 
 });
