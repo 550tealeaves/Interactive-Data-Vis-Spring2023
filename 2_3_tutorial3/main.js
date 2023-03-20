@@ -7,7 +7,7 @@ const width = window.innerWidth * 0.7,
 d3.csv("../data/HollywoodsMostProfitableStories.csv", d => {  //parse the csv
     return {
         year: new Date(+d.Year, 0, 1), //way to convert the year (string) into a date 
-        gross: +d.Worldwide_Gross, //will convert Worldwide_gross (written as string) into # - +d = converts it
+        gross: +d.Worldwide_Gross_millions, //will convert Worldwide_gross (written as string) into # - +d = converts it
         genre: d.Genre //had to return genre 
     }
 }).then(data => {
@@ -44,25 +44,26 @@ d3.csv("../data/HollywoodsMostProfitableStories.csv", d => {  //parse the csv
     const yAxis = d3.axisLeft(yScale) //shows the vertical axis
         svg.append("g")
             .attr("class", "axis")
-            .attr("transform", `translate(${margin.left},0)`) //moves the vert axis 60px, 0
+            .attr("transform", `translate(${margin.left},0)`) 
             .call(yAxis)
 
 
 
     //FILTER DATA
-    const filteredData = data.filter(d => d.genre === "Comedy") // only show comedy Genre 
-    console.log('filtered', filteredData) //shows 119 data pts
+    const filteredData = data.filter(d => d.genre === "Comedy") // shows only Comedy genre 
+    console.log('filtered', filteredData) 
+
+
+    //GROUP DATA
+    const groupedData = d3.groups(data, d => d.genre) //want to group data by genre - d3.groups takes an accessor function
+    console.log('grouped', groupedData)
+
 
 
     // LINE GENERATOR FUNCTION
     const lineGen = d3.line() //line generator function
         .x(d => xScale(d.year)) //define x accessor - pass through data, take year & pass it to xScale
-        .y(d => yScale(d.gross)) //define y accessor - pass through data, take pop & pass it to yScale
-
-
-    //GROUP DATA
-    const groupedData = d3.groups(data, d => d.genre) //want to group data by country - 1 line/country - d3.groups takes an accessor function
-    console.log('grouped', groupedData)
+        .y(d => yScale(d.gross)) //define y accessor - pass through data, take gross & pass it to yScale
 
 
     // DRAW LINE
