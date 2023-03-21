@@ -5,24 +5,24 @@ const width = window.innerWidth * 0.9,
 
 /**
  * LOAD DATA
- * Using a Promise.all([]), we can load more than one dataset at a time
+ * Promise.all([]) - loads multiple datasets at once
  * */
 Promise.all([
     d3.json("../data/usState.json"),
     d3.csv("../data/usHeatExtremes.csv", d3.autoType),
 ]).then(([geojson, heat]) => {
 
-    // create an svg element in our main `d3-container` element
-    svg = d3
-        .select("#container")
+    // CREATE SVG 
+    const svg = d3.select("#container")
         .append("svg")
         .attr("width", width)
         .attr("height", height);
 
+    
     // SPECIFY PROJECTION
-    // a projection maps from lat/long -> x/y values
-    // so it works a lot like a scale!
-    const projection = d3.geoAlbersUsa()
+
+    // A projection maps from lat/long -> x/y values - works like a scale
+    const projection = d3.geoAlbersUsa() //this is the projection that works w/ US data
         .fitSize([
             width - margin.left - margin.right,
             height - margin.top - margin.bottom
@@ -31,40 +31,36 @@ Promise.all([
     // DEFINE PATH FUNCTION
     const path = d3.geoPath(projection)
 
-    // draw base layer path - one path for each state
+    // DRAW BASE LAYER PATH (1 PATH PER STATE)
     const states = svg.selectAll("path.states")
-        .data(geojson.features)
-        .join("path")
-        .attr("class", 'states')
+        .data(geojson.features) //use features b/c geojson alone is not iterable array
+        .join("path") //join path to elements w/ class states
+        .attr("class", 'states') //give joined elements a class "states"
         .attr("stroke", "black")
-        .attr("fill", "transparent")
+        .attr("fill", "lightgreen")
         .attr("d", path)
 
-    // draw point for CUNY graduate center
+    // DRAW POINT FOR CUNY GC
     const gradCenterPoint = { Lat: 40.7423, Long: -73.9833 };
-    svg.selectAll("circle.point")
-        .data([gradCenterPoint])
-        .join("circle")
-        .attr("r", 10)
-        .attr("fill", "gold")
+    svg.selectAll("circle.point") //selects all circle elements in DOM w/ class point
+        .data([gradCenterPoint]) //use the const gradCenterPoint as data
+        .join("circle") //join cricle to the selected element
+        .attr("r", 10) 
+        .attr("fill", "blue")
         .attr("transform", d => {
-            // use our projection to go from lat/long => x/y
-            // ref: https://github.com/d3/d3-geo#_projection
             const [x, y] = projection([d.Long, d.Lat])
             return `translate(${x}, ${y})`
-        })
+        }) //projection changes the lat/long of gradCenterPoint into x/y coordinates for map
 
-    // draw point for all state capitals
-    svg.selectAll("circle.heatextreme")
-        .data(heat)
-        .join("circle")
-        .attr("r", 3)
-        .attr("fill", "pink")
+    // DRAW POINT FOR ALL US HEAT EXTREMES
+    svg.selectAll("circle.heatextreme") //select all circle elements in DOM w/ class heatextreme
+        .data(heat) //use heat extremes dataset
+        .join("circle") //join circle to selected elements
+        .attr("r", 2.5) //decreased r so circles don't overlap
+        .attr("fill", "darkviolet")
         .attr("transform", d => {
-            // use our projection to go from lat/long => x/y
-            // ref: https://github.com/d3/d3-geo#_projection
             const [x, y] = projection([d.Long, d.Lat])
             return `translate(${x}, ${y})`
-        })
+        }) //projection converts lat/long from the heatextremes dataset into x/y coordinates
 
 });
