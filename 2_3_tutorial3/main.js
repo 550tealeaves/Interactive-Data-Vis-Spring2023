@@ -1,9 +1,12 @@
 /* CONSTANTS AND GLOBALS */
 const width = window.innerWidth * 0.7,
     height = window.innerHeight * 0.7,
-    margin = { top: 20, left: 60, bottom: 60, right: 20 };
+    margin = { top: 20, left: 100, bottom: 60, right: 20 };
+
 
 /* LOAD DATA */
+
+
 d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
     return {
         year: new Date(+d.Year, 0, 1), //way to convert the year (string) into a date 
@@ -97,7 +100,7 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
         .attr("x", width / 2)
         .attr("y", height / 20) //higher the denominator, higher the text moves up pg
         .attr("text-anchor", "middle")
-        .text("Germany GDP") //how to interpolate so title updates - (`${d.country} + "GDP"`) doesn't work
+        .text(`${filteredData[0].country} GDP`) //interpolates so that name updates to match country change
         .attr("font-family", "Cursive")
         .style("font-size", "18px")
         .style("font-weight", "bold")
