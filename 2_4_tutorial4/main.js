@@ -46,7 +46,7 @@ Promise.all([
         .data([gradCenterPoint]) //use the const gradCenterPoint as data
         .join("circle") //join cricle to the selected element
         .attr("r", 10) 
-        .attr("fill", "blue")
+        .attr("fill", "orange")
         .attr("transform", d => {
             const [x, y] = projection([d.Long, d.Lat])
             return `translate(${x}, ${y})`
@@ -57,11 +57,11 @@ Promise.all([
         .enter()
         .append("text")
         .text("CUNY GC") //labels dot
-        .attr("fill", "red")
-        .attr("font-size", 11)
+        .attr("fill", "blue")
+        .attr("font-size", 20)
         .attr("transform", d => {
             const [x, y] = projection([d.Long, d.Lat])
-            return `translate(${x}, ${y})` 
+            return `translate(${x}, ${y})`
         })    
         
 
