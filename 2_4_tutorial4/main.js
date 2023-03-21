@@ -9,8 +9,8 @@ const width = window.innerWidth * 0.9,
  * */
 Promise.all([
     d3.json("../data/usState.json"),
-    d3.csv("../data/stateCapitals.csv", d3.autoType),
-]).then(([geojson, capitals]) => {
+    d3.csv("../data/usHeatExtremes.csv", d3.autoType),
+]).then(([geojson, heat]) => {
 
     // create an svg element in our main `d3-container` element
     svg = d3
@@ -41,7 +41,7 @@ Promise.all([
         .attr("d", path)
 
     // draw point for CUNY graduate center
-    const gradCenterPoint = { latitude: 40.7423, longitude: -73.9833 };
+    const gradCenterPoint = { Lat: 40.7423, Long: -73.9833 };
     svg.selectAll("circle.point")
         .data([gradCenterPoint])
         .join("circle")
@@ -50,20 +50,20 @@ Promise.all([
         .attr("transform", d => {
             // use our projection to go from lat/long => x/y
             // ref: https://github.com/d3/d3-geo#_projection
-            const [x, y] = projection([d.longitude, d.latitude])
+            const [x, y] = projection([d.Long, d.Lat])
             return `translate(${x}, ${y})`
         })
 
     // draw point for all state capitals
-    svg.selectAll("circle.capital")
-        .data(capitals)
+    svg.selectAll("circle.heatextreme")
+        .data(heat)
         .join("circle")
-        .attr("r", 5)
-        .attr("fill", "lightsalmon")
+        .attr("r", 3)
+        .attr("fill", "pink")
         .attr("transform", d => {
             // use our projection to go from lat/long => x/y
             // ref: https://github.com/d3/d3-geo#_projection
-            const [x, y] = projection([d.longitude, d.latitude])
+            const [x, y] = projection([d.Long, d.Lat])
             return `translate(${x}, ${y})`
         })
 
