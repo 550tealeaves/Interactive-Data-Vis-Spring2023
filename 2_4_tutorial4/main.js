@@ -52,6 +52,19 @@ Promise.all([
             return `translate(${x}, ${y})`
         }) //projection changes the lat/long of gradCenterPoint into x/y coordinates for map
 
+    svg.selectAll("label")
+        .data([gradCenterPoint])
+        .enter()
+        .append("text")
+        .text("CUNY GC") //labels dot
+        .attr("fill", "red")
+        .attr("font-size", 11)
+        .attr("transform", d => {
+            const [x, y] = projection([d.Long, d.Lat])
+            return `translate(${x}, ${y})` 
+        })    
+        
+
     // DRAW POINT FOR ALL US HEAT EXTREMES
     svg.selectAll("circle.heatextreme") //select all circle elements in DOM w/ class heatextreme
         .data(heat) //use heat extremes dataset
