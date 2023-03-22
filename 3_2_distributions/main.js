@@ -14,13 +14,13 @@ let colorScale;
 /* APPLICATION STATE */
 let state = {
   data: [],
-  selectedParty: "All" // + YOUR INITIAL FILTER SELECTION
+  selectedParty: "all" // + YOUR INITIAL FILTER SELECTION
 };
 
 /* LOAD DATA */
 d3.json("../data/environmentRatings.json", d3.autoType).then(raw_data => {
   // + SET YOUR DATA PATH
-  console.log("data", raw_data);
+  //console.log("data", raw_data);
   // save our data to application state
   state.data = raw_data;
   init();
@@ -61,7 +61,7 @@ function init() {
       draw() //everytime we change state (choose something in dropdown), call draw
     })  
 
-  //selectElement.selectAll("option")
+  //selectElement.selectAll("option") //can create the dropdown list w/ JS OR HTML
     // .data(["All", "Democrat", "Republican"])
     // .join("option") 
     // .attr("value", d => d)
@@ -91,7 +91,9 @@ function draw() {
 
   // + FILTER DATA BASED ON STATE
   const filteredData = state.data
-     .filter(d => state.selectedParty === "All" || state.selectedParty === d.Party) //filter and return any value that's All or selected party
+     .filter(d => state.selectedParty === "all" || state.selectedParty === d.Party) //filter and return any value that's All or selected party
+     console.log('filteredData', filteredData)
+
 
   const dot = svg
     .selectAll("circle")
@@ -100,14 +102,18 @@ function draw() {
       // + HANDLE ENTER SELECTION
       enter => enter
         .append("circle")
-        .attr("cx", d => xScale(d.ideologyScore2020))
+        .attr("cx", 0)
         .attr("cy", d => yScale(d.envScore2020))
-        .attr("r", radius)
+        .attr("r", 0)
         .attr("fill", d => colorScale(d.Party))
         .call(sel => sel
           .transition()
           .attr("r", radius)
-          ),
+          .transition()
+          .duration(2000)
+          .attr("cx", d => xScale(d.ideologyScore2020))
+
+        ),
 
       // + HANDLE UPDATE SELECTION
       update => update,
@@ -118,7 +124,7 @@ function draw() {
         //before transition
         .attr("opacity", 1)
         .transition()
-        .duration(2000)
+        .duration(3000)
         .delay((d, i) => i * 50) 
         
         //after transition
