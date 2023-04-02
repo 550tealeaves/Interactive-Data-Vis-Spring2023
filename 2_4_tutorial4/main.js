@@ -37,7 +37,7 @@ Promise.all([
         .join("path") //join path to elements w/ class states
         .attr("class", 'states') //give joined elements a class "states"
         .attr("stroke", "black")
-        .attr("fill", "lightgreen")
+        .attr("fill", "#c6ffdb")
         .attr("d", path)
 
     // DRAW POINT FOR CUNY GC
@@ -45,6 +45,7 @@ Promise.all([
     svg.selectAll("circle.point") //selects all circle elements in DOM w/ class point
         .data([gradCenterPoint]) //use the const gradCenterPoint as data
         .join("circle") //join cricle to the selected element
+        .attr("class", "circle-point")
         .attr("r", 10) 
         .attr("fill", "orange")
         .attr("transform", d => {
@@ -56,12 +57,13 @@ Promise.all([
         .data([gradCenterPoint])
         .enter()
         .append("text")
+        .attr("class", "label")
         .text("CUNY GC") //labels dot
-        .attr("fill", "blue")
+        .attr("fill", "#d602b9")
         .attr("font-size", 20)
         .attr("transform", d => {
             const [x, y] = projection([d.Long, d.Lat])
-            return `translate(${x}, ${y})`
+            return `translate(${x + 15}, ${y + 8})` //adding #s to x/y moves translates the label 15 to the right and 7 down
         })    
         
 
@@ -69,8 +71,9 @@ Promise.all([
     svg.selectAll("circle.heatextreme") //select all circle elements in DOM w/ class heatextreme
         .data(heat) //use heat extremes dataset
         .join("circle") //join circle to selected elements
+        .attr("class", "point")
         .attr("r", 2.5) //decreased r so circles don't overlap
-        .attr("fill", "darkviolet")
+        .attr("fill", "#9f3bc6")
         .attr("transform", d => {
             const [x, y] = projection([d.Long, d.Lat])
             return `translate(${x}, ${y})`
