@@ -38,6 +38,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .attr("class", "axis") //assigns axis class
         .attr("transform", `translate(0,${height - margin.bottom})`) //moves axes from default position at top to the bottom by 0, (height-margin.bottom)
         .call(xAxis)
+ 
 
     //Y AXIS
     const yAxis = d3.axisLeft(yScale)
@@ -47,7 +48,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .call(yAxis)
 
 
-
+    //CREATE SCATTERPLOT
     const dot = svg
         .selectAll("circle")
         .data(data, d => d.Location)
@@ -57,6 +58,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .attr("r", radius)
         .attr("fill", d => colorScale(d.Dogs_or_Cats)) //will color the circles based on this scale
 
+    //LABEL THE DOTS
     svg.selectAll("labels")
         .data(data)
         .enter()
@@ -66,6 +68,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .attr("y", d => yScale(d.Cat_Owning_Households))
         .attr("font-size", 11)
 
+    //LABEL THE SCATTERPLOT
     svg
         .append("text")
         .attr("class", "title")
@@ -77,6 +80,24 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .style("font-weight", "bold")
         .style("text-decoration", "underline")
         .attr("fill", "darkblue")
+
+    //LABEL THE X-AXIS
+    svg
+        .append("text")
+        .attr("class", "axis")
+        .attr("transform", `translate(500,${height - margin.bottom + 50})`)
+        .attr("fill", "brown")
+        .style("font-weight", "bold")
+        .text("Dogs")
+
+    //LABEL THE Y-AXIS 
+    svg
+        .append("text")
+        .attr("class", "axis")
+        .attr("fill", "orange")
+        .style("font-weight", "bold")
+        .attr("transform", `translate(${margin.left - 60},200)`)
+        .text("Cats")
 
 
     //ALTERNATIVE WAY TO WRITE .attr("cx")
