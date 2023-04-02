@@ -106,4 +106,25 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
         .style("font-weight", "bold")
         .attr("fill", "red")
 
+
+    //LABEL THE X-AXIS
+    svg
+        .append("text")
+        .attr("class", "axis")
+        .attr("transform", `translate(450,${height - margin.bottom + 50})`)
+        .style("font-weight", "bold")
+        .style("font-size", "14px")
+        .text("Years")
+
+    //LABEL THE Y-AXIS 
+    svg
+        .append("text")
+        .attr("class", "axis")
+        .attr("transform", `translate(${margin.left - 120},150)`)
+        .style("font-weight", "bold")
+        .style("font-size", "14px")
+        .text("GDP")
+
+
+
 });
