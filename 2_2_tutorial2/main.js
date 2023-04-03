@@ -88,6 +88,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .attr("transform", `translate(500,${height - margin.bottom + 50})`)
         .attr("fill", "brown")
         .style("font-weight", "bold")
+        .style("font-size", "14px")
         .text("Dogs")
 
     //LABEL THE Y-AXIS 
@@ -96,6 +97,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .attr("class", "axis")
         .attr("fill", "orange")
         .style("font-weight", "bold")
+        .style("font-size", "14px")
         .attr("transform", `translate(${margin.left - 60},200)`)
         .text("Cats")
 
