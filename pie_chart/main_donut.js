@@ -1,3 +1,5 @@
+//Code is available at https://gist.github.com/dbuezas/9306799
+
 var svg = d3.select("body")
     .append("svg")
     .append("g")
