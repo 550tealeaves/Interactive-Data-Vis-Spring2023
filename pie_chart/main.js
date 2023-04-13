@@ -1,5 +1,5 @@
 // set the dimensions and margins of the graph
-var width = 450 //changed width from orig 450 - moves chart to middle
+var width = 450 //increase width and chart moves to middle
 height = 450
 margin = 40
 
