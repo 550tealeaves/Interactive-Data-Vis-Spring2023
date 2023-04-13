@@ -1,5 +1,5 @@
 // set the dimensions and margins of the graph
-var width = 850 //chnaged width from orig 450 - moves chart to middle
+var width = 850 //changed width from orig 450 - moves chart to middle
 height = 450
 margin = 40
 
@@ -7,7 +7,7 @@ margin = 40
 //I subtract a bit of margin.
 var radius = Math.min(width, height) / 2 - margin
 
-// append the svg object to the div called 'my_dataviz'
+// append the svg object to the div called 'container'
 var svg = d3.select("#container")
     .append("svg")
     .attr("width", width)
@@ -41,4 +41,4 @@ svg
     .attr("fill", function (d) { return (color(d.data.key)) })
     .attr("stroke", "black")
     .style("stroke-width", "2px")
-    .style("opacity", 0.9)
+    .style("opacity", 0.7)
