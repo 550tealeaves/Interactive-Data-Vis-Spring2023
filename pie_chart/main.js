@@ -1,5 +1,5 @@
 // set the dimensions and margins of the graph
-var width = 850 //changed width from orig 450 - moves chart to middle
+var width = 450 //changed width from orig 450 - moves chart to middle
 height = 450
 margin = 40
 
@@ -25,7 +25,7 @@ var color = d3.scaleOrdinal()
 
 // Compute the position of each group on the pie:
 var pie = d3.pie()
-    .value(function (d) { return d.value; })
+    .value(d => d.value) //replaces ({function (d) {return(d.value})}})
 var data_ready = pie(d3.entries(data))
 
 // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
@@ -38,7 +38,7 @@ svg
         .innerRadius(0)
         .outerRadius(radius)
     )
-    .attr("fill", function (d) { return (color(d.data.key)) })
+    .attr("fill", d => (color(d.data.key))) //replaces function (d) {return (color(d.data.key))}
     .attr("stroke", "black")
     .style("stroke-width", "2px")
     .style("opacity", 0.7)
