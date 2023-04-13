@@ -33,14 +33,14 @@ function update(data) {
     var data_ready = pie(d3.entries(data))
 
     // map to data
-    var u = svg.selectAll("path")
+    var pieChart = svg.selectAll("path")
         .data(data_ready)
 
     // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
-    u
+    pieChart
         .enter()
         .append("path")
-        .merge(u)
+        .merge(pieChart)
         .transition()
         .duration(1000)
         .attr('d', d3.arc()
@@ -53,7 +53,7 @@ function update(data) {
         .style("opacity", 1)
 
     // remove the group that is not present anymore
-    u
+    pieChart
         .exit()
         .remove()
 
