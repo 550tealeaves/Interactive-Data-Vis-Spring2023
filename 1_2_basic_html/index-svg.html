@@ -18,71 +18,82 @@
    <p>Adjust the width/height of each shape element to move it around in svg</p>
    <!--rect requires x/y for starting coordinates & width/height for dimension-->
    <!--circle - use cx/cy to specify center coordinates & r for radius-->
-   <svg class="garden">
-    <rect x="0" y="0" width="500" height="50" fill="red" />
-    <circle cx="100" cy="25" r="25" fill="darkblue" /> 
-   </svg> 
-   <br>
-    <!--ellipse requires separate radii for each axis - use rx/ry instead of r-->
-    <svg>
-        <rect x="0" y="0" width="500" height="50" fill="red" />
-        <ellipse cx="180" cy="25" rx="100" ry="25" fill="yellow" />
-    </svg>
-    <br>
-    <!--For lines, use x1/y1 to specify coordinates on 1 end & x2/y2 for other end-->
+   <div>
     <svg class="garden">
-        <line x1="0" y1="0" x2="500" y2="50" stroke="green" />
-    </svg>
-    <br>
+        <rect x="0" y="0" width="500" height="50" fill="red" />
+        <circle cx="100" cy="25" r="25" fill="darkblue" /> 
+    </svg> 
+    </div>
+    <!--ellipse requires separate radii for each axis - use rx/ry instead of r-->
+    <div>
+        <svg>
+            <rect x="0" y="0" width="500" height="50" fill="red" />
+            <ellipse cx="180" cy="25" rx="100" ry="25" fill="yellow" />
+        </svg>
+    </div>
+    <!--For lines, use x1/y1 to specify coordinates on 1 end & x2/y2 for other end-->
+    <div>
+        <svg class="garden">
+            <line x1="0" y1="0" x2="500" y2="50" stroke="green" />
+        </svg>
+    </div>
     <!--text - specify left edge position w/ x & vert position w/ y of type's baseline (invisible line letters sit on)-->
-    <svg>
-        <text x="25" y="25" font-family="serif" font-size="20" fill="purple">Easy like Sunday morning</text>
-    </svg>
-    <br>
-    <svg>
-        <rect x="0" y="0" width="500" height="50" fill="pink" />
-        <circle cx="180" cy="25" r="20" fill="darkblue" />
-        <circle cx="50" cy="25" r="22" fill="yellow" stroke="orange" stroke-width="5" />
-    </svg>
-    <br>
+    <div>
+        <svg>
+            <text x="25" y="25" font-family="serif" font-size="20" fill="purple">Easy like Sunday morning</text>
+        </svg>
+    </div>
+    <div>
+        <svg>
+            <rect x="0" y="0" width="500" height="50" fill="pink" />
+            <circle cx="180" cy="25" r="20" fill="darkblue" />
+            <circle cx="50" cy="25" r="22" fill="yellow" stroke="orange" stroke-width="5" />
+        </svg>
+    </div>
     <!--squares overlap on each other based on code order-->
-    <svg>
-        <rect x="0" y="0" width="50" height="30" fill="purple" />
-        <rect x="20" y="5" width="50" height="30" fill="blue" />
-        <rect x="40" y="10" width="50" height="30" fill="green" />
-        <rect x="60" y="15" width="50" height="30" fill="yellow" />
-        <rect x="80" y="20" width="50" height="30" fill="red" />
-    </svg>
-    <br>
+    <div>
+        <svg>
+            <rect x="0" y="0" width="50" height="30" fill="purple" />
+            <rect x="20" y="5" width="50" height="30" fill="blue" />
+            <rect x="40" y="10" width="50" height="30" fill="green" />
+            <rect x="60" y="15" width="50" height="30" fill="yellow" />
+            <rect x="80" y="20" width="50" height="30" fill="red" />
+        </svg>
+    </div>
     <!--transparency used to show elements that have to stay visible-->
     <!--Use fill="rgba()" to determine color and add alpha (0-1.0) for transparency-->
-    <svg>
-        <circle cx="25" cy="25" r="20" fill="rgba(128, 0, 128, 1.0)" />
-        <circle cx="50" cy="25" r="20" fill="rgba(0, 0, 225, 0.75)" />
-        <circle cx="75" cy="25" r="20" fill="rgba(0, 225, 0, 0.5)" />
-        <circle cx="100" cy="25" r="20" fill="rgba(225, 225, 0, 0.75)" />
-        <circle cx="125" cy="25" r="20" fill="rgba(225, 0, 0, 0.1)" />
-    </svg>
-    <br>
+    <div>
+        <svg>
+            <circle cx="25" cy="25" r="20" fill="rgba(128, 0, 128, 1.0)" />
+            <circle cx="50" cy="25" r="20" fill="rgba(0, 0, 225, 0.75)" />
+            <circle cx="75" cy="25" r="20" fill="rgba(0, 225, 0, 0.5)" />
+            <circle cx="100" cy="25" r="20" fill="rgba(225, 225, 0, 0.75)" />
+            <circle cx="125" cy="25" r="20" fill="rgba(225, 0, 0, 0.1)" />
+        </svg>
+    </div>
     <!--fill="rgba()" applies ot fill and storke independently-->
-    <svg>
-        <circle cx="25" cy="25" r="20" fill="rgba(128, 0, 128, 0.75)" stroke ="rgba(0, 255, 0, 0.25)" stroke-width="10" />
-        <circle cx="75" cy="25" r="20" fill="rgba(0, 255, 0, 0.75)" stroke="rgba(0, 0, 255, 0.25)" stroke-width="10" />
-        <circle cx="125" cy="25" r="20" fill="rgba(255, 255, 0, 0.75)" stroke="rgba(255, 0, 0, 0.25)" stroke-width="10" />
-    </svg>
-    <br>
+    <div>
+        <svg>
+            <circle cx="25" cy="25" r="20" fill="rgba(128, 0, 128, 0.75)" stroke ="rgba(0, 255, 0, 0.25)" stroke-width="10" />
+            <circle cx="75" cy="25" r="20" fill="rgba(0, 255, 0, 0.75)" stroke="rgba(0, 0, 255, 0.25)" stroke-width="10" />
+            <circle cx="125" cy="25" r="20" fill="rgba(255, 255, 0, 0.75)" stroke="rgba(255, 0, 0, 0.25)" stroke-width="10" />
+        </svg>
+    </div>
     <!--opacity (0-1.0) sets transparency level-->
-    <svg>
-        <circle cx="25" cy="25" r="20" fill="purple" stroke="green" stroke-width="10" opacity="0.9" />
-        <circle cx="65" cy="25" r="20" fill="limegreen" stroke="blue" stroke-width="10" opacity="0.5" />
-        <circle cx="105" cy="25" r="20" fill="yellow" stroke="red" stroke-width="10" opacity="0.1" />
-    </svg>
-    <br>
+    <div>
+        <svg>
+            <circle cx="25" cy="25" r="20" fill="purple" stroke="green" stroke-width="10" opacity="0.9" />
+            <circle cx="65" cy="25" r="20" fill="limegreen" stroke="blue" stroke-width="10" opacity="0.5" />
+            <circle cx="105" cy="25" r="20" fill="yellow" stroke="red" stroke-width="10" opacity="0.1" />
+        </svg>
+    </div>
     <!--use opacity on element w/ fill="rgba()"-->
-    <svg>
-        <circle cx="25" cy="25" r="20" fill="rgba(128, 0, 128, 0.75)" stroke="rgba(0, 255, 0, 0.25)" stroke-width="10" />
-        <circle cx="65" cy="25" r="20" fill="rgba(128, 0, 128, 0.75)" stroke="rgba(0, 255, 0, 0.25)" stroke-width="10" opacity="0.5" />
-        <circle cx="105" cy="25" r="20" fill="rgba(128, 0, 128, 0.75)" stroke="rgba(0, 255, 0, 0.25)" stroke-width="10" opacity="0.2" /> 
-    </svg>
+    <div>
+        <svg>
+            <circle cx="25" cy="25" r="20" fill="rgba(128, 0, 128, 0.75)" stroke="rgba(0, 255, 0, 0.25)" stroke-width="10" />
+            <circle cx="65" cy="25" r="20" fill="rgba(128, 0, 128, 0.75)" stroke="rgba(0, 255, 0, 0.25)" stroke-width="10" opacity="0.5" />
+            <circle cx="105" cy="25" r="20" fill="rgba(128, 0, 128, 0.75)" stroke="rgba(0, 255, 0, 0.25)" stroke-width="10" opacity="0.2" /> 
+        </svg>
+    </div>
 </body>
 </html>
