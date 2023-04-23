@@ -25,6 +25,7 @@ svg.selectAll("circle.dot")
     .attr("cx", ([x, y]) => x * 5)
     .attr("cy", ([x, y]) => y * 5)
     .attr("r", 5)
+    .attr("fill", "green")
 
 
 
