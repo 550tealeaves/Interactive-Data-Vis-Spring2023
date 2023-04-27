@@ -8,6 +8,10 @@ let xScale;
 let yScale;
 let yAxis;
 
+let state = {
+    data: [],
+};
+
 
 /* LOAD DATA */
 d3.csv('../data/census.csv', d3.autoType)
@@ -267,15 +271,17 @@ d3.csv('../data/census.csv', d3.autoType)
         /* SCALES */
         // xScale
         const xScaleMaleAge = d3.scaleLinear()
-            .domain([0, d3.max(data, d => data[0].Statistics)]) //d3 max = function expecting an array - can pass in an accessor function
+            .domain(data.map(d => (d.M_Under5Years, d.M_5to9Years, d.M_10to14Years, d.M_15to17Years, d.M_18to24Years, d.M_25to34Years, d.M_35to44Years, d.M_45to54Years, d.M_55to64Years, d.M_65to74Years, d.M_75to84Years, d.M_85YearsandOver))) //d3 max = function expecting an array - can pass in an accessor function
             .range([margin, width - margin])
+            
 
 
         // yScale
         const yScaleMaleAge = d3.scaleBand()
-            .domain(data.map(d => d.M_5to9Years, d.M_10to14Years, d.M_15to17Years, d.M_18to24Years, d.M_25to34Years, d.M_35to44Years, d.M_45to54Years, d.M_55to64Years, d.M_65to74Years, d.M_75to84Years, d.M_85YearsandOver))
+        .domain(['<5', '5-9', '10-14', '15-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65-74', '75-84', '85+'])
             .range([height - margin, margin])
             .paddingInner(.5)
+            
 
         // // colorScale
         // const colorScale = d3.scaleOrdinal()
@@ -312,14 +318,14 @@ d3.csv('../data/census.csv', d3.autoType)
             .attr("fill", "darkcyan")
 
 
-        // BARS
+        BARS
         svgMaleAge.selectAll("rect")
             .data(data)
             .join("rect")
             .attr("height", yScaleMaleAge.bandwidth()) //girth of bars 
-            .attr("width", d => xScaleMaleAge(data[0].Statistics) - margin) //=> shorthand for function - must return a value
+            .attr("width", d => xScaleMaleAge - margin) //=> shorthand for function - must return a value
             .attr("x", d => margin) //bars will start at the margin
-            .attr("y", d => yScaleMaleAge(d.d.M_5to9Years, d.M_10to14Years, d.M_15to17Years, d.M_18to24Years, d.M_25to34Years, d.M_35to44Years, d.M_45to54Years, d.M_55to64Years, d.M_65to74Years, d.M_75to84Years, d.M_85YearsandOver))
+            .attr("y", d => yScaleMaleAge(['<5', '5-9', '10-14', '15-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65-74', '75-84', '85+']))
             .attr("fill", "darkred")
 
         // AXIS LABELS
@@ -327,11 +333,9 @@ d3.csv('../data/census.csv', d3.autoType)
             .data(data)
             .enter()
             .append("text")
-            .text(d => data[0].Statistics)
-            .attr("x", d => xScaleMaleAge(data[0].Statistics))
-            .attr("y", d => yScaleMaleAge(d.d.M_5to9Years, d.M_10to14Years, d.M_15to17Years, d.M_18to24Years, d.M_25to34Years, d.M_35to44Years, d.M_45to54Years, d.M_55to64Years, d.M_65to74Years, d.M_75to84Years, d.M_85YearsandOver) + yScaleMaleAge.bandwidth() / 1) //dividing by 2 puts the count the middle of the bar
+            .text(d => data[0].M_Under5Years)
+            .attr("x", d => xScaleMaleAge(data[0].M_Under5Years))
+            .attr("y", d => yScaleMaleAge(['<5', '5-9', '10-14', '15-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65-74', '75-84', '85+']) + yScaleMaleAge.bandwidth() / 1) //dividing by 2 puts the count the middle of the bar
             .attr("class", "labels")
             .style("font-size", "10px")
-
-
     })
