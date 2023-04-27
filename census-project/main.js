@@ -3,6 +3,11 @@ const width = window.innerWidth * .9;
 const height = 1050;
 margin = 100;
 
+let svg;
+let xScale;
+let yScale;
+let yAxis;
+
 
 /* LOAD DATA */
 d3.csv('../data/census.csv', d3.autoType)
@@ -75,7 +80,7 @@ d3.csv('../data/census.csv', d3.autoType)
             .attr("width", d => xScale(d.TotalPopulationBySex) - margin) //=> shorthand for function - must return a value
             .attr("x", d => margin) //bars will start at the margin
             .attr("y", d => yScale(d.Statistics))
-            .attr("fill", "darkred")
+            .attr("fill", "green")
 
         // AXIS LABELS
         svg.selectAll("labels")
@@ -155,7 +160,7 @@ d3.csv('../data/census.csv', d3.autoType)
             .attr("width", d => xScaleMale(d.MalePop) - margin) //=> shorthand for function - must return a value
             .attr("x", d => margin) //bars will start at the margin
             .attr("y", d => yScaleMale(d.Statistics))
-            .attr("fill", "darkred")
+            .attr("fill", "purple")
 
         // AXIS LABELS
         svgMale.selectAll("labels")
