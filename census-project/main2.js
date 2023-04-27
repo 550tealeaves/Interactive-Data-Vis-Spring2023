@@ -4,7 +4,7 @@ const margin = { top: 20, right: 30, bottom: 40, left: 90 },
     height = 400 - margin.top - margin.bottom;
 
 // Parse the Data
-d3.csv('../data/census.csv', d3.autoType)
+d3.csv('../data/census_transposed.csv', d3.autoType)
     .then(data => {
         console.log("data", data)
 
