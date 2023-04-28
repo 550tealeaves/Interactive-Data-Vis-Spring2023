@@ -41,7 +41,7 @@ d3.csv('../data/census_transposed.csv', d3.autoType).then(data => {
         .paddingInner(.5)
 
 
-    // // colorScale
+    // // colorScaleMaleAge
     // const colorScale = d3.scaleOrdinal()
     //     .domain(['running', 'chasing', 'climbing', 'eating', 'foraging'])
     //     .range(["red", "lightblue", "green", "pink", "purple"])
