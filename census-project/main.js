@@ -8,16 +8,18 @@ let xScale;
 let yScale;
 let yAxis;
 
-let state = {
-    data: [],
-};
+// let state = {
+//     data: [],
+// };
 
 
 /* LOAD DATA */
-d3.csv('../data/census.csv', d3.autoType)
-    .then(data => {
+Promise.all([
+    d3.csv("../data/census.csv"), 
+    d3.csv("../data/census_transposed.csv", d3.autoType),    
+]).then(([data, censustwo]) => {
         console.log("data", data)
-
+        console.log("censustwo", censustwo)
 
         /* HTML ELEMENTS */
         // APPEND SVG
