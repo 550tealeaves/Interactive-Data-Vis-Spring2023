@@ -13,7 +13,7 @@ let state = {
 };
 
 /* LOAD DATA */
-d3.csv('../data/census_transposed.csv', d3.autoType).then(data => {
+d3.csv('../data/census_age.csv', d3.autoType).then(data => {
     console.log("data", data)
 
 
@@ -29,14 +29,14 @@ d3.csv('../data/census_transposed.csv', d3.autoType).then(data => {
     /* SCALES */
     // xScale
     const xScaleMaleAge = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.Statistics)]) //d3 max = function expecting an array - can pass in an accessor function
+        .domain([0, d3.max(data, d => d.value)]) //d3 max = function expecting an array - can pass in an accessor function
         .range([margin, width - margin])
 
 
 
     // yScale
     const yScaleMaleAge = d3.scaleBand()
-        .domain(['<5', '5-9', '10-14', '15-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65-74', '75-84', '85+'])
+        .domain(data.map(d => d.age))
         .range([height - margin, margin])
         .paddingInner(.5)
 
@@ -83,7 +83,7 @@ d3.csv('../data/census_transposed.csv', d3.autoType).then(data => {
         .attr("height", yScaleMaleAge.bandwidth()) //girth of bars 
         .attr("width", d => xScaleMaleAge - margin) //=> shorthand for function - must return a value
         .attr("x", d => margin) //bars will start at the margin
-        .attr("y", d => yScaleMaleAge(['<5', '5-9', '10-14', '15-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65-74', '75-84', '85+']))
+        .attr("y", d => yScaleMaleAge(d => d.age))
         .attr("fill", "darkred")
 
     // AXIS LABELS
@@ -91,9 +91,9 @@ d3.csv('../data/census_transposed.csv', d3.autoType).then(data => {
         .data(data)
         .enter()
         .append("text")
-        .text(d => d.Statistics)
-        .attr("x", d => xScaleMaleAge(d.Statistics))
-        .attr("y", d => yScaleMaleAge(['<5', '5-9', '10-14', '15-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65-74', '75-84', '85+']) + yScaleMaleAge.bandwidth() / 1) //dividing by 2 puts the count the middle of the bar
+        .text(d => d.value)
+        .attr("x", d => xScaleMaleAge(d.value))
+        .attr("y", d => yScaleMaleAge(d.age) + yScaleMaleAge.bandwidth() / 1) //dividing by 2 puts the count the middle of the bar
         .attr("class", "labels")
         .style("font-size", "10px")
 
