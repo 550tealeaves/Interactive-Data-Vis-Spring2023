@@ -81,7 +81,7 @@ d3.csv('../data/census_age_male.csv', d3.autoType).then(data => {
         .data(data)
         .join("rect")
         .attr("height", yScaleMaleAge.bandwidth()) //girth of bars 
-        .attr("width", d => xScaleMaleAge - margin) //=> shorthand for function - must return a value
+        .attr("width", d => xScaleMaleAge(d.value) - margin) //=> shorthand for function - must return a value
         .attr("x", d => margin) //bars will start at the margin
         .attr("y", d => yScaleMaleAge(d => d.age))
         .attr("fill", "darkred")
@@ -91,7 +91,7 @@ d3.csv('../data/census_age_male.csv', d3.autoType).then(data => {
         .data(data)
         .enter()
         .append("text")
-        .text(d => d.value)
+        .text(d => d.value.toLocaleString())
         .attr("x", d => xScaleMaleAge(d.value))
         .attr("y", d => yScaleMaleAge(d.age) + yScaleMaleAge.bandwidth() / 1) //dividing by 2 puts the count the middle of the bar
         .attr("class", "labels")

@@ -371,18 +371,18 @@ age,sex,state,value
 65-74,M,NewJersey,403049
 75-84,M,NewJersey,182138
 85+,M,NewJersey,67914
-<5,M,New Mexico,61578
-5-9,M,New Mexico,68043
-10-14,M,New Mexico,74617
-15-17,M,New Mexico,43125
-18-24,M,New Mexico,102046
-25-34,M,New Mexico,144760
-35-44,M,New Mexico,131926
-45-54,M,New Mexico,119662
-55-64,M,New Mexico,132493
-65-74,M,New Mexico,106777
-75-84,M,New Mexico,47392
-85+,M,New Mexico,16029
+<5,M,NewMexico,61578
+5-9,M,NewMexico,68043
+10-14,M,NewMexico,74617
+15-17,M,NewMexico,43125
+18-24,M,NewMexico,102046
+25-34,M,NewMexico,144760
+35-44,M,NewMexico,131926
+45-54,M,NewMexico,119662
+55-64,M,NewMexico,132493
+65-74,M,NewMexico,106777
+75-84,M,NewMexico,47392
+85+,M,NewMexico,16029
 <5,M,NewYork,590167
 5-9,M,NewYork,577739
 10-14,M,NewYork,620488
