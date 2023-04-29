@@ -13,7 +13,7 @@ let state = {
 };
 
 /* LOAD DATA */
-d3.csv('../data/census_age.csv', d3.autoType).then(data => {
+d3.csv('../data/census_age_male.csv', d3.autoType).then(data => {
     console.log("data", data)
 
 
