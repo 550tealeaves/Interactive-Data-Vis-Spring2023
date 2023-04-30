@@ -110,16 +110,6 @@ d3.csv('../data/census.csv', d3.autoType)
                 .delay(200)    
                 .attr("fill", "black")
             })
-            // .on("mouseout", function () {  //WHEN MOUSE NOT ON BAR, IT WILL COLORFADE
-            //     d3.select(this)
-            //         .transition("colorfade")
-            //         .duration(150)
-            //         // .attr("fill", function (d) {
-            //         //     return "rgb(" + Math.round(d.value * 2) + ","
-            //         //         + Math.round(d.value * 2) + "," + Math.round(d.value * 2) + ")";
-            //         // }) //this causes bars to lose color once cursor leaves
-            // })
-            //.attr("fill", d => colorScale(d.TotalPopulationBySex))
 
         d3.select("#valueSort").on("click", function () {
             data.sort(function (a, b) {
