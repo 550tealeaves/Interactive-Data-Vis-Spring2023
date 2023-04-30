@@ -110,10 +110,6 @@ d3.csv('../data/census.csv', d3.autoType)
                 .delay(200)    
                 .attr("fill", "black")
             })
-            .on('click', function() {
-                sortOrder();
-            });
-            
             // .on("mouseout", function () {  //WHEN MOUSE NOT ON BAR, IT WILL COLORFADE
             //     d3.select(this)
             //         .transition("colorfade")
@@ -125,79 +121,52 @@ d3.csv('../data/census.csv', d3.autoType)
             // })
             //.attr("fill", d => colorScale(d.TotalPopulationBySex))
 
-        const sortOrder = function () {
-
-            //Flip value of sortOrder
-            sortOrder = !sortOrder;
-
-            svg.selectAll("rect")
-                .sort(function (a, b) {
-                    if (sortOrder) {
-                        return d3.ascending(a, b);
-                    } else {
-                        return d3.descending(a, b);
-                    }
-                })
-                .transition()
-                .delay(function (d, i) {
-                    return i * 50;
-                })
-                .duration(1000)
-                .attr("y", function (d, i) {
-                    return Scale(i);
-                });
-
-        };
-    
-
-
-
-        // d3.select("#valueSort").on("click", function () {
-        //     data.sort(function (a, b) {
-        //         return d3.descending(b.TotalPopulationBySex, a.TotalPopulationBySex);
-        //     })
-        //     data.sort(function (a, b) {
-        //         return d3.ascending(a.TotalPopulationBySex, b.TotalPopulationBySex);
-        //     })
-        //     yScale.domain(data.map(d => d.Statistics)) //(d => d.Statistics) replaces (function(d) {return d.Statistics;});
+        d3.select("#valueSort").on("click", function () {
+            data.sort(function (a, b) {
+                return d3.descending(b.TotalPopulationBySex, a.TotalPopulationBySex);
+            })
+            data.sort(function (a, b) {
+                return d3.ascending(a.TotalPopulationBySex, b.TotalPopulationBySex);
+            })
+            yScale.domain(data.map(d => d.Statistics)) //(d => d.Statistics) replaces (function(d) {return d.Statistics;});
             
-        //     svg.selectAll(".bar")
-        //         .transition()
-        //         .duration(700) //changes how fast the bars shift
-        //         .attr("y", function (d, i) {
-        //             return yScale(d.Statistics);
-        //         }) //will move the bars
+            svg.selectAll(".bar")
+                .transition()
+                .duration(700) //changes how fast the bars shift
+                .attr("y", function (d, i) {
+                    return yScale(d.Statistics);
+                }) //will move the bars
                 
 
-        //     svg.selectAll(".labels") //select class labels to move
-        //         .transition()
-        //         .duration(500)
-        //         .attr("y", function (d, i) {
-        //             return yScale(d.Statistics) + yScale.bandwidth() / 1;
-        //         }) //will move the labels
-        // })
+            svg.selectAll(".labels") //select class labels to move
+                .transition()
+                .duration(500)
+                .attr("y", function (d, i) {
+                    return yScale(d.Statistics) + yScale.bandwidth() / 1;
+                }) //will move the labels
+        })
         
-        // d3.select("#stateSort").on("click", function() {
-        //     data.sort(function (a, b) {
-        //         return d3.alphabetical(a.Statistics, b.Statistics)
-        //     })
+        d3.select("#stateSort").on("click", function() {
+            data.sort(function (a, b) {
+                return d3.alphabetical(a.Statistics, b.Statistics)
+            })
 
-        //     yScale.domain(data.map(d => d.Statistics))
+            yScale.domain(data.map(d => d.Statistics))
             
-        //     svg.selectAll(".bar")
-        //         .transition()
-        //         .duration(700)
-        //         .attr("transform", function (d, i) {
-        //             return "translate (" + (yScale(d.Statistics) + yScale.bandwidth() / 2 - 8) + "," + (height + 20) + ")"
-        //         })
+            svg.selectAll(".bar")
+                .transition()
+                .duration(700)
+                .attr("transform", function (d, i) {
+                    return "translate (" + (yScale(d.Statistics) + yScale.bandwidth() / 2 - 8) + "," + (height + 20) + ")"
+                })
             
-        //     svg.selectAll(".labels")
-        //         .transition()
-        //         .duration(700)
-        //         .attr("transform", function (d, i) {
-        //             return "translate (" + (yScale(d.Statistics));
-        //         })
-        // })
+            svg.selectAll(".labels")
+                .transition()
+                .duration(700)
+                .attr("transform", function (d, i) {
+                    return "translate (" + (yScale(d.Statistics));
+                })
+        })
     
         //SECOND SVG - MALE POPULATION BY STATE 
 
