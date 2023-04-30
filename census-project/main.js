@@ -7,9 +7,11 @@ let svg;
 let xScale;
 let yScale;
 let yAxis;
+let colorScale;
 
 let state = {
     data: [],
+    selectedState: "All"
 };
 
 
@@ -111,11 +113,12 @@ d3.csv('../data/census.csv', d3.autoType)
             .attr("y", d => yScale(d.Statistics) + yScale.bandwidth() / 1) //dividing by 2 puts the count the middle of the bar
             .style("font-size", "10px")
 
-        d3.select("#byValue").on("click", function () {
+        d3.select("#valueSort").on("click", function () {
             data.sort(function (a, b) {
                 return d3.ascending(a.TotalPopulationBySex, b.TotalPopulationBySex)
             })
             yScale.domain(data.map(d => d.Statistics)) //(d => d.Statistics) replaces (function(d) {return d.Statistics;});
+            
             svg.selectAll(".bar")
                 .transition()
                 .duration(700) //changes how fast the bars shift
@@ -129,15 +132,29 @@ d3.csv('../data/census.csv', d3.autoType)
                 .attr("y", function (d, i) {
                     return yScale(d.Statistics) + yScale.bandwidth() / 1;
                 }) //will move the labels
-
-            // svg.selectAll("bars")
-            //     .transition()
-            //     .duration(500)
-            //     .attr("transform", function (d, i) {
-            //         return "translate(" + (yScale(d.Statistics) + yScale.bandwidth() / 2 - 8) + "," + (height + 15) + ")"
-            //     })  //not needed b/c no class "bars" created
         })
+        
+        d3.select("#stateSort").on("click", function() {
+            data.sort(function (a, b) {
+                return d3.ascending(a.Statistics, b.Statistics)
+            })
 
+            yScale.domain(data.map(d => d.Statistics))
+            
+            svg.selectAll(".bar")
+                .transition()
+                .duration(700)
+                .attr("transform", function (d, i) {
+                    return "translate (" + (yScale(d.Statistics) + yScale.bandwidth() / 2 - 8) + "," + (height + 20) + ")"
+                })
+            
+            svg.selectAll(".labels")
+                .transition()
+                .duration(700)
+                .attr("transform", function (d, i) {
+                    return "translate (" + (yScale(d.Statistics));
+                })
+        })
     
         //SECOND SVG - MALE POPULATION BY STATE 
 
