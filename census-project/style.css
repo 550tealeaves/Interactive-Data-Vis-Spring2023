@@ -1,3 +1,12 @@
 body{
     background-color: rgb(245, 232, 228);
+    margin: 20px;
+}
+
+button {
+    background-color: darkmagenta;
+    color: white;
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 15px;
 }

@@ -80,11 +80,25 @@ d3.csv('../data/census.csv', d3.autoType)
         svg.selectAll("rect")
             .data(data)
             .join("rect")
+            .attr("class", "bar")
             .attr("height", yScale.bandwidth()) //girth of bars 
             .attr("width", d => xScale(d.TotalPopulationBySex) - margin) //=> shorthand for function - must return a value
             .attr("x", d => margin) //bars will start at the margin
             .attr("y", d => yScale(d.Statistics))
-            .attr("fill", d => colorScale(d.TotalPopulationBySex))
+            .on('mouseover', function(){
+                d3.select(this)
+                    .attr("fill", d => colorScale(d.TotalPopulationBySex))
+            })
+            .on("mouseout", function () {  //WHEN MOUSE NOT ON BAR, IT WILL COLORFADE
+                d3.select(this)
+                    .transition("colorfade")
+                    .duration(150)
+                    .attr("fill", function (d) {
+                        return "rgb(" + Math.round(d.value * 2) + ","
+                            + Math.round(d.value * 2) + "," + Math.round(d.value * 2) + ")";
+                    })
+            })
+            //.attr("fill", d => colorScale(d.TotalPopulationBySex))
 
         // AXIS LABELS
         svg.selectAll("labels")
@@ -97,6 +111,32 @@ d3.csv('../data/census.csv', d3.autoType)
             .attr("class", "labels")
             .style("font-size", "10px")
 
+        d3.select("#byValue").on("click", function () {
+            data.sort(function (a, b) {
+                return d3.descending(a.TotalPopulationBySex, b.TotalPopulationBySex)
+            })
+            x.domain(data.map(d => d.Statistics)) //(d => d.Statistics) replaces (function(d) {return d.Statistics;});
+            svg.selectAll(".bar")
+                .transition()
+                .duration(500)
+                .attr("x", function (d, i) {
+                    return x(d.Statistics);
+                })
+
+            svg.selectAll("labels")
+                .transition()
+                .duration(500)
+                .attr("x", function (d, i) {
+                    return x(d.Statistics) + x.bandwidth() / 2;
+                })
+
+            svg.selectAll("bars")
+                .transition()
+                .duration(500)
+                .attr("transform", function (d, i) {
+                    return "translate(" + (x(d.Statistics) + x.bandwidth() / 2 - 8) + "," + (height + 15) + ")"
+                })
+        })
 
     
         //SECOND SVG - MALE POPULATION BY STATE 
