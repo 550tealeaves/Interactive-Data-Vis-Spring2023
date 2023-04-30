@@ -132,7 +132,7 @@ svg.selectAll(".val-label")
     .text(d => d.value) //(d=>d.value) replaces (function(d) {return d.value});
 
 
-//LABELS THE BARS AND ROTATES THEM (TEST 1, TEST 2 ETC)
+//LABELS THE BOTTOM BARS ON THE X-AXIS AND ROTATES THEM (TEST 1, TEST 2 ETC)
 svg.selectAll(".bar-label")
     .data(data)
     .enter()
@@ -156,7 +156,7 @@ d3.select("#byKey").on("click", function () {
     x.domain(data.map(d => d.key)) //(d => d.key) replaces (function(d) {return d.key;});
     svg.selectAll(".bar")
         .transition()
-        .duration(500)
+        .duration(500) //changes how fast the bars shift
         .attr("x", function (d, i) {
             return x(d.key);
         })

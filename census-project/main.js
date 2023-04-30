@@ -93,10 +93,10 @@ d3.csv('../data/census.csv', d3.autoType)
                 d3.select(this)
                     .transition("colorfade")
                     .duration(150)
-                    .attr("fill", function (d) {
-                        return "rgb(" + Math.round(d.value * 2) + ","
-                            + Math.round(d.value * 2) + "," + Math.round(d.value * 2) + ")";
-                    })
+                    // .attr("fill", function (d) {
+                    //     return "rgb(" + Math.round(d.value * 2) + ","
+                    //         + Math.round(d.value * 2) + "," + Math.round(d.value * 2) + ")";
+                    // }) //this causes bars to lose color once cursor leaves
             })
             //.attr("fill", d => colorScale(d.TotalPopulationBySex))
 
@@ -105,37 +105,37 @@ d3.csv('../data/census.csv', d3.autoType)
             .data(data)
             .enter()
             .append("text")
+            .attr("class", "labels")
             .text(d => d.TotalPopulationBySex.toLocaleString())//returns formatted string - if # then adds commas
             .attr("x", d => xScale(d.TotalPopulationBySex))
             .attr("y", d => yScale(d.Statistics) + yScale.bandwidth() / 1) //dividing by 2 puts the count the middle of the bar
-            .attr("class", "labels")
             .style("font-size", "10px")
 
         d3.select("#byValue").on("click", function () {
             data.sort(function (a, b) {
-                return d3.descending(a.TotalPopulationBySex, b.TotalPopulationBySex)
+                return d3.ascending(a.TotalPopulationBySex, b.TotalPopulationBySex)
             })
-            x.domain(data.map(d => d.Statistics)) //(d => d.Statistics) replaces (function(d) {return d.Statistics;});
+            yScale.domain(data.map(d => d.Statistics)) //(d => d.Statistics) replaces (function(d) {return d.Statistics;});
             svg.selectAll(".bar")
                 .transition()
-                .duration(500)
-                .attr("x", function (d, i) {
-                    return x(d.Statistics);
-                })
+                .duration(700) //changes how fast the bars shift
+                .attr("y", function (d, i) {
+                    return yScale(d.Statistics);
+                }) //will move the bars
 
-            svg.selectAll("labels")
+            svg.selectAll(".labels") //select class labels to move
                 .transition()
                 .duration(500)
-                .attr("x", function (d, i) {
-                    return x(d.Statistics) + x.bandwidth() / 2;
-                })
+                .attr("y", function (d, i) {
+                    return yScale(d.Statistics) + yScale.bandwidth() / 1;
+                }) //will move the labels
 
-            svg.selectAll("bars")
-                .transition()
-                .duration(500)
-                .attr("transform", function (d, i) {
-                    return "translate(" + (x(d.Statistics) + x.bandwidth() / 2 - 8) + "," + (height + 15) + ")"
-                })
+            // svg.selectAll("bars")
+            //     .transition()
+            //     .duration(500)
+            //     .attr("transform", function (d, i) {
+            //         return "translate(" + (yScale(d.Statistics) + yScale.bandwidth() / 2 - 8) + "," + (height + 15) + ")"
+            //     })  //not needed b/c no class "bars" created
         })
 
     

@@ -93,7 +93,7 @@ d3.csv('../data/census_age_male.csv', d3.autoType).then(data => {
         .append("text")
         .text(d => d.value.toLocaleString())
         .attr("x", d => xScaleMaleAge(d.value))
-        .attr("y", d => yScaleMaleAge(d.age) + yScaleMaleAge.bandwidth() / 1) //dividing by 2 puts the count the middle of the bar
+        .attr("y", d => yScaleMaleAge(d.age) + yScaleMaleAge.bandwidth() / 1.5) //dividing by 2 puts the count the middle of the bar
         .attr("class", "labels")
         .style("font-size", "10px")
 
