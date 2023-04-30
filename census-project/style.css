@@ -10,3 +10,10 @@ button {
     padding: 10px;
     border-radius: 15px;
 }
+
+button:hover{
+    background-color: white;
+    color: darkmagenta;
+}
+
+
