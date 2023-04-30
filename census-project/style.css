@@ -9,11 +9,22 @@ button {
     margin: 10px auto;
     padding: 10px;
     border-radius: 15px;
+    box-shadow: 0 0 0 1px rgb(209, 16, 16);
 }
 
 button:hover{
     background-color: white;
     color: darkmagenta;
+    transition: 0.3s;
 }
 
+/*button:focus is for keyboard users who press tab and button can highlight*/
+button:focus{
+    outline-color: transparent;
+    box-shadow: 0 0 0 2px #380367;
+}
+
+button:active{
+    background-color: palegoldenrod;
+}
 
