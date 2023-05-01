@@ -100,6 +100,9 @@ d3.csv('../data/census.csv', d3.autoType)
             .attr("width", d => xScale(d.TotalPopulationBySex) - margin) //=> shorthand for function - must return a value
             .attr("x", d => margin) //bars will start at the margin
             .attr("y", d => yScale(d.Statistics))
+            .append("title") //adds tooltip (text) too all "rect" elements on mouseover
+            .text(d => (d.Statistics + " population is " + d.TotalPopulationBySex.toLocaleString())) 
+            //d => (d.Statistics + " population is " + d.TotalPopulationBySex.toLocaleString())  replaces (function(d) { return (d.Statistics + " population is " + d.TotalPopulationBySex.toLocaleString()) })
             .on('mouseover', function(){
                 d3.select(this)
                     .attr("fill", d => colorScale(d.TotalPopulationBySex))
@@ -107,8 +110,8 @@ d3.csv('../data/census.csv', d3.autoType)
             .on('mouseout', function(){
                 d3.select(this)
                 .transition("colorfade")
-                .delay(200)    
-                .attr("fill", "black")
+                .delay(100)    
+                .attr("fill", "darkgoldenrod") //bars will turn color when mouse leaves
             })
 
         d3.select("#valueSort").on("click", function () {

@@ -58,11 +58,11 @@ d3.csv('../data/census.csv', d3.autoType)
             .call(xAxis)
 
         // yAxis
-        const yAxis = d3.axisLeft(yScale)
-        svg.append("g")
-            .attr("class", "axis")
-            .attr("transform", `translate(${margin},0)`) //moves the yAxis over 60px, 0 
-            .call(yAxis)
+        // const yAxis = d3.axisLeft(yScale)
+        // svg.append("g")
+        //     .attr("class", "axis")
+        //     .attr("transform", `translate(${margin},0)`) //moves the yAxis over 60px, 0 
+        //     .call(yAxis)
 
 
         //ADD CHART TITLE    
@@ -110,44 +110,33 @@ d3.csv('../data/census.csv', d3.autoType)
                     .delay(200)
                     .attr("fill", "black") //fades out to black when mouse moves off
             })
+        d3.select("#valueSort")
             .on('click', function () {
-                sortOrder();
-            });
+                sortBars();
 
-        // .on("mouseout", function () {  //WHEN MOUSE NOT ON BAR, IT WILL COLORFADE
-        //     d3.select(this)
-        //         .transition("colorfade")
-        //         .duration(150)
-        //         // .attr("fill", function (d) {
-        //         //     return "rgb(" + Math.round(d.value * 2) + ","
-        //         //         + Math.round(d.value * 2) + "," + Math.round(d.value * 2) + ")";
-        //         // }) //this causes bars to lose color once cursor leaves
-        // })
-        //.attr("fill", d => colorScale(d.TotalPopulationBySex))
+                const sortOrder = false;
 
-        const sortOrder = function () {
+                const sortBars = function () {
+                    sortOrder = !sortOrder;
+                    svg.selectAll("rect")
+                        .sort(function (a, b) {
+                            if (sortOrder) {
+                                return d3.ascending(a.Statistics, b.Statistics);
+                            } else {
+                                return d3.descending(a.Statistics, b.Statistics);
+                            }
 
-            //Flip value of sortOrder
-            sortOrder = !sortOrder;
-
-            svg.selectAll("rect")
-                .sort(function (a, b) {
-                    if (sortOrder) {
-                        return d3.ascending(a, b);
-                    } else {
-                        return d3.descending(a, b);
-                    }
-                })
-                .transition()
-                .delay(function (d, i) {
-                    return i * 50;
-                })
-                .duration(1000)
-                .attr("y", function (d, i) {
-                    return Scale(i);
-                });
-
-        };
+                        })
+                        .transition()
+                        .delay(function (d, i) {
+                            return i * 40;
+                        })
+                        .duration(7000)
+                        .attr("y", function (d, i) {
+                            return yScale(i);
+                        });
+                }; //this does not work
+            
 
 
 
@@ -182,22 +171,22 @@ d3.csv('../data/census.csv', d3.autoType)
         //         return d3.alphabetical(a.Statistics, b.Statistics)
         //     })
 
-        //     yScale.domain(data.map(d => d.Statistics))
+            yScale.domain(data.map(d => d.Statistics))
 
-        //     svg.selectAll(".bar")
-        //         .transition()
-        //         .duration(700)
-        //         .attr("transform", function (d, i) {
-        //             return "translate (" + (yScale(d.Statistics) + yScale.bandwidth() / 2 - 8) + "," + (height + 20) + ")"
-        //         })
+            svg.selectAll(".bar")
+                .transition()
+                .duration(700)
+                .attr("transform", function (d, i) {
+                    return "translate (" + (yScale(d.Statistics) + yScale.bandwidth() / 2 - 8) + "," + (height + 20) + ")"
+                })
 
-        //     svg.selectAll(".labels")
-        //         .transition()
-        //         .duration(700)
-        //         .attr("transform", function (d, i) {
-        //             return "translate (" + (yScale(d.Statistics));
-        //         })
-        // })
+            svg.selectAll(".labels")
+                .transition()
+                .duration(700)
+                .attr("transform", function (d, i) {
+                    return "translate (" + (yScale(d.Statistics));
+                })
+        })
 
         //SECOND SVG - MALE POPULATION BY STATE 
 
