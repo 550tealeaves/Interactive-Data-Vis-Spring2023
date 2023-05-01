@@ -113,9 +113,8 @@ d3.csv('../data/census.csv', d3.autoType)
             .append("title") //adds tooltip (text) too all "rect" elements on mouseover
             .text(d => (d.Statistics + " population is " + d.TotalPopulationBySex.toLocaleString())) 
             //d => (d.Statistics + " population is " + d.TotalPopulationBySex.toLocaleString())  replaces (function(d) { return (d.Statistics + " population is " + d.TotalPopulationBySex.toLocaleString()) })
-            
 
-        d3.select("#valueSort").on("click", function () {
+        d3.select(".value-sort").on("click", function () {
             data.sort(function (a, b) {
                 return d3.descending(b.TotalPopulationBySex, a.TotalPopulationBySex);
             })
@@ -137,9 +136,9 @@ d3.csv('../data/census.csv', d3.autoType)
                 }) //will move the labels
         })
         
-        d3.select("#stateSort").on("click", function() {
+        d3.select(".state-sort").on("click", function() {
             data.sort(function (a, b) {
-                return d3.alphabetical(a.Statistics, b.Statistics)
+                return d3.ascending(a.Statistics, b.Statistics)
             })
 
             yScale.domain(data.map(d => d.Statistics))
