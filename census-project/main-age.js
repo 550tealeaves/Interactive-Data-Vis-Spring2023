@@ -14,7 +14,7 @@ let yAxis;
 
 /* LOAD DATA */
 Promise.all([
-    d3.csv("../data/census_age_male.csv"), 
+    d3.csv("../data/census_age_male.csv"),
     d3.csv("../data/census_age_female.csv", d3.autoType),
 ]).then(([male, female]) => {
     console.log('male', male)
