@@ -214,17 +214,6 @@ d3.csv('../data/census.csv', d3.autoType)
             .style("text-decoration", "underline")
             .attr("fill", "darkcyan")
 
-
-        // BARS
-        svgMale.selectAll("rect")
-            .data(data)
-            .join("rect")
-            .attr("height", yScaleMale.bandwidth()) //girth of bars 
-            .attr("width", d => xScaleMale(d.MalePop) - margin) //=> shorthand for function - must return a value
-            .attr("x", d => margin) //bars will start at the margin
-            .attr("y", d => yScaleMale(d.Statistics))
-            .attr("fill", d => colorScaleMale(d.MalePop))
-
         // AXIS LABELS
         svgMale.selectAll("labels")
             .data(data)
@@ -235,6 +224,32 @@ d3.csv('../data/census.csv', d3.autoType)
             .attr("y", d => yScaleMale(d.Statistics) + yScaleMale.bandwidth() / 1) //dividing by 2 puts the count the middle of the bar
             .attr("class", "labels")
             .style("font-size", "10px")
+        
+
+        // BARS
+        svgMale.selectAll("rect")
+            .data(data)
+            .join("rect")
+            .attr("height", yScaleMale.bandwidth()) //girth of bars 
+            .attr("width", d => xScaleMale(d.MalePop) - margin) //=> shorthand for function - must return a value
+            .attr("x", d => margin) //bars will start at the margin
+            .attr("y", d => yScaleMale(d.Statistics))
+            .attr("fill", d => colorScaleMale(d.MalePop))
+            .on('mouseover', function () {
+                d3.select(this)
+                    .attr("fill", d => colorScaleMale(d.MalePop))
+            })
+            .on('mouseout', function () {
+                d3.select(this)
+                    .transition("colorfade")
+                    .delay(100)
+                    .attr("fill", "darkblue") //bars will turn color when mouse leaves
+            })
+            .append("title") //adds tooltip (text) too all "rect" elements on mouseover
+            .text(d => (d.Statistics + " male population is " + d.MalePop.toLocaleString()))
+            //d => (d.Statistics + " male population is " + d.MalePop.toLocaleString())  replaces (function(d) { return (d.Statistics + " male population is " + d.MalePop.toLocaleString()) })
+
+        
 
         
 
@@ -293,17 +308,6 @@ d3.csv('../data/census.csv', d3.autoType)
             .style("text-decoration", "underline")
             .attr("fill", "darkcyan")
 
-
-        // BARS
-        svgFemale.selectAll("rect")
-            .data(data)
-            .join("rect")
-            .attr("height", yScaleFemale.bandwidth()) //girth of bars 
-            .attr("width", d => xScaleFemale(d.FemalePop) - margin) //=> shorthand for function - must return a value
-            .attr("x", d => margin) //bars will start at the margin
-            .attr("y", d => yScaleFemale(d.Statistics))
-            .attr("fill", d => colorScaleFemale(d.FemalePop))
-
         // AXIS LABELS
         svgFemale.selectAll("labels")
             .data(data)
@@ -314,5 +318,31 @@ d3.csv('../data/census.csv', d3.autoType)
             .attr("y", d => yScaleFemale(d.Statistics) + yScaleFemale.bandwidth() / 1) //dividing by 2 puts the count the middle of the bar
             .attr("class", "labels")
             .style("font-size", "10px")    
+
+
+        // BARS
+        svgFemale.selectAll("rect")
+            .data(data)
+            .join("rect")
+            .attr("height", yScaleFemale.bandwidth()) //girth of bars 
+            .attr("width", d => xScaleFemale(d.FemalePop) - margin) //=> shorthand for function - must return a value
+            .attr("x", d => margin) //bars will start at the margin
+            .attr("y", d => yScaleFemale(d.Statistics))
+            .attr("fill", d => colorScaleFemale(d.FemalePop))
+            .on('mouseover', function () {
+                d3.select(this)
+                    .attr("fill", d => colorScaleFemale(d.FemalePop))
+            })
+            .on('mouseout', function () {
+                d3.select(this)
+                    .transition("colorfade")
+                    .delay(100)
+                    .attr("fill", "darkred") //bars will turn color when mouse leaves
+            })
+            .append("title") //adds tooltip (text) too all "rect" elements on mouseover
+            .text(d => (d.Statistics + " female population is " + d.FemalePop.toLocaleString()))
+            //d => (d.Statistics + " female population is " + d.FemalePop.toLocaleString())  replaces (function(d) { return (d.Statistics + " female population is " + d.FemalePop.toLocaleString()) })
+
+        
         
     })
