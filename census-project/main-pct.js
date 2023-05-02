@@ -99,7 +99,7 @@ Promise.all([
                 .attr("fill", "darkgoldenrod") //bars will turn color when mouse leaves
         })
         .append("title") //adds tooltip (text) too all "rect" elements on mouseover
-        .text(d => (d.Statistics + " population is " + d.MaleES_Employed))
+        .text(d => (d.MaleES_Employed + " of males employed in " + d.Statistics))
     //d => (d.Statistics + " population is " + d.MaleES_Employed.toLocaleString())  replaces (function(d) { return (d.Statistics + " population is " + d.TotalPopulationBySex.toLocaleString()) })
 
     d3.select(".value-sort").on("click", function () {
