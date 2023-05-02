@@ -60,7 +60,7 @@ Promise.all([
         .attr("x", width / 2)
         .attr("y", height / 16) //higher the denominator, higher the text moves up pg
         .attr("text-anchor", "middle")
-        .text("Total State Population")
+        .text("% of Males Employed")
         .style("font-size", "24px")
         .style("text-decoration", "underline")
         .attr("fill", "darkcyan")
@@ -145,5 +145,6 @@ Promise.all([
                 return "translate (" + (yScale(d.Statistics));
             })
     })
+
 
 });
