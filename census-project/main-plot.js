@@ -24,7 +24,7 @@ Promise.all([
 
     const colorScale = d3.scaleOrdinal()
         .domain([0, d3.max(data.map(d => [d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations]))]) //maps to the two different values
-        .range(["purple", "green"])
+        .range(["purple", "teal"])
 
 
 
@@ -106,7 +106,7 @@ Promise.all([
         .append("text")
         .attr("class", "axis")
         .attr("transform", `translate(750,${height - margin.bottom + 50})`)
-        .attr("fill", "brown")
+        .attr("fill", "purple")
         .style("font-weight", "bold")
         .style("font-size", "18px")
         .text("Males")
