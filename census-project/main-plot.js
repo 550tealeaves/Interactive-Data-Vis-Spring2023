@@ -23,8 +23,8 @@ Promise.all([
         .range([height - margin.bottom, margin.top])
 
     const colorScale = d3.scaleOrdinal()
-        .domain(["D", "C"]) //"d" & "c" = values in column Dogs_or_Cats
-        .range(["brown", "orange"])
+        .domain([0, d3.max(data.map(d => [d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations]))]) //maps to the two different values
+        .range(["purple", "green"])
 
 
 
@@ -59,8 +59,7 @@ Promise.all([
         .attr("cx", d => xScale(d.Male_ManagementBusinessandFinancialOperations)) //alternative below
         .attr("cy", d => yScale(d.Fem_ManagementBusinessandFinancialOperations)) //alternative below
         .attr("r", radius)
-        .attr("fill", )
-        //.attr("fill", d => colorScale(d.Dogs_or_Cats)) //will color the circles based on this scale
+        .attr("fill", d => colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations])) //will color the circles based on this scale - replaces colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations ]))
 
     //LABEL THE DOTS
     svg.selectAll("labels")
@@ -92,16 +91,16 @@ Promise.all([
         .attr("transform", `translate(750,${height - margin.bottom + 50})`)
         .attr("fill", "brown")
         .style("font-weight", "bold")
-        .style("font-size", "16px")
+        .style("font-size", "18px")
         .text("Males")
 
     //LABEL THE Y-AXIS 
     svg
         .append("text")
         .attr("class", "axis")
-        .attr("fill", "orange")
+        .attr("fill", "teal")
         .style("font-weight", "bold")
-        .style("font-size", "16px")
+        .style("font-size", "18px")
         .attr('transform', (d, i) => {
             return 'translate( ' + xScale(i) + ' , ' + 350 + '),' + 'rotate(270)';
         }) // higher positve # - more label moves DOWN y-axis 
