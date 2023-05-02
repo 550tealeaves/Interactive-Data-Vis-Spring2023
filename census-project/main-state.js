@@ -4,6 +4,7 @@ const height = 1050;
 margin = 100;
 
 
+
 /* LOAD DATA */
 d3.csv('../data/census_states_pct.csv', d3.autoType)
     .then(data => {
@@ -19,7 +20,7 @@ d3.csv('../data/census_states_pct.csv', d3.autoType)
         /* SCALES */
         // xScale
         const xScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.MaleES_Employed)]) //d3 max = function expecting an array - can pass in an accessor function
+            .domain([0, d3.max(data, d => d.Male_ConstructionExtractionandMaintenance)]) //d3 max = function expecting an array - can pass in an accessor function
             .range([margin, width - margin])
 
 
@@ -58,7 +59,7 @@ d3.csv('../data/census_states_pct.csv', d3.autoType)
             .attr("x", width / 2)
             .attr("y", height / 16) //higher the denominator, higher the text moves up pg
             .attr("text-anchor", "middle")
-            .text("Total State Population")
+            .text("Males in construction extraction and maintenance")
             .style("font-size", "24px")
             .style("text-decoration", "underline")
             .attr("fill", "darkcyan")
@@ -70,8 +71,8 @@ d3.csv('../data/census_states_pct.csv', d3.autoType)
             .enter()
             .append("text")
             .attr("class", "labels")
-            .text(d => d.MaleES_Employed)//returns formatted string - if # then adds commas
-            .attr("x", d => xScale(d.MaleES_Employed))
+            .text(d => d.Male_ConstructionExtractionandMaintenance)//returns formatted string - if # then adds commas
+            .attr("x", d => xScale(d.Male_ConstructionExtractionandMaintenance))
             .attr("y", d => yScale(d.Statistics) + yScale.bandwidth() / 1) //dividing by 2 puts the count the middle of the bar
             .style("font-size", "10px")
 
@@ -83,12 +84,12 @@ d3.csv('../data/census_states_pct.csv', d3.autoType)
             //.join("rect")
             .attr("class", "bar")
             .attr("height", yScale.bandwidth()) //girth of bars 
-            .attr("width", d => xScale(d.MaleES_Employed) - margin) //=> shorthand for function - must return a value
+            .attr("width", d => xScale(d.Male_ConstructionExtractionandMaintenance) - margin) //=> shorthand for function - must return a value
             .attr("x", d => margin) //bars will start at the margin
             .attr("y", d => yScale(d.Statistics))
             .on('mouseover', function () {
                 d3.select(this)
-                    .attr("fill", d => colorScale(d.MaleES_Employed))
+                    .attr("fill", d => colorScale(d.Male_ConstructionExtractionandMaintenance))
             })
             .on('mouseout', function () {
                 d3.select(this)
@@ -97,12 +98,12 @@ d3.csv('../data/census_states_pct.csv', d3.autoType)
                     .attr("fill", "darkgoldenrod") //bars will turn color when mouse leaves
             })
             .append("title") //adds tooltip (text) too all "rect" elements on mouseover
-            .text(d => (d.Statistics + " population is " + d.MaleES_Employed))
-        //d => (d.Statistics + " population is " + d.MaleES_Employed.toLocaleString())  replaces (function(d) { return (d.Statistics + " population is " + d.TotalPopulationBySex.toLocaleString()) })
+            .text(d => (d.Statistics + ": " + d.Male_ConstructionExtractionandMaintenance))
+        //d => (d.Statistics + " population is " + d.Male_ConstructionExtractionandMaintenance.toLocaleString())  replaces (function(d) { return (d.Statistics + " population is " + d.TotalPopulationBySex.toLocaleString()) })
 
         d3.select(".value-sort").on("click", function () {
             data.sort(function (a, b) {
-                return d3.descending(b.MaleES_Employed, a.MaleES_Employed);
+                return d3.descending(b.Male_ConstructionExtractionandMaintenance, a.Male_ConstructionExtractionandMaintenance);
             })
             yScale.domain(data.map(d => d.Statistics)) //(d => d.Statistics) replaces (function(d) {return d.Statistics;});
 
