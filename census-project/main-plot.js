@@ -2,7 +2,7 @@
 const width = window.innerWidth * 0.9,
     height = window.innerHeight * 0.8,
     margin = { top: 20, bottom: 60, left: 60, right: 40 },
-    radius = 4;
+    radius = 6;
 
 
 Promise.all([
@@ -54,12 +54,29 @@ Promise.all([
     //CREATE SCATTERPLOT
     const dot = svg
         .selectAll("circle")
-        .data(data, d => d.Location)
+        .data(data, d => d.Statistics)
         .join("circle")
         .attr("cx", d => xScale(d.Male_ManagementBusinessandFinancialOperations)) //alternative below
         .attr("cy", d => yScale(d.Fem_ManagementBusinessandFinancialOperations)) //alternative below
         .attr("r", radius)
         .attr("fill", d => colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations])) //will color the circles based on this scale - replaces colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations ]))
+        .on('mouseover', function () {
+            d3.select(this)
+                .attr("fill", d => colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations]))
+        })
+        .append("title") //adds tooltip (text) too all "rect" elements on mouseover
+        .text(d => (d.Statistics + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations + ", F: " + d.Fem_ManagementBusinessandFinancialOperations)) //code for tooltip
+
+        // .on('mouseout', function () {
+        //     d3.select(this)
+        //         .transition("colorfade")
+        //         .delay(100)
+        //         .attr("fill", "purple") //bars will turn color when mouse leaves
+        // })
+        // .text(d => (d.Statistics + " male population is " + d.MalePop.toLocaleString()))
+        
+        
+        //d => (d.Statistics + " population is " + d.TotalPopulationBySex.toLocaleString())  replaces (function(d) { return (d.Statistics + " population is " + d.TotalPopulationBySex.toLocaleString()) })
 
     //LABEL THE DOTS
     svg.selectAll("labels")
