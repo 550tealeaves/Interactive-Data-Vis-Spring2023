@@ -24,7 +24,7 @@ Promise.all([
 
     const colorScale = d3.scaleOrdinal()
         .domain([0, d3.max(data.map(d => [d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations]))]) //maps to the two different values
-        .range(["purple", "teal"])
+        .range(["purple", "orange"])
 
 
 
@@ -55,6 +55,8 @@ Promise.all([
     const dot = svg
         .selectAll("circle")
         .data(data, d => d.Statistics)
+        .enter()
+        .append("circle")
         .join("circle")
         .attr("cx", d => xScale(d.Male_ManagementBusinessandFinancialOperations)) //alternative below
         .attr("cy", d => yScale(d.Fem_ManagementBusinessandFinancialOperations)) //alternative below
@@ -83,6 +85,7 @@ Promise.all([
         .data(data)
         .enter()
         .append("text")
+        .join("text")
         .text(d => d.Male_ManagementBusinessandFinancialOperations + ", " + d.Fem_ManagementBusinessandFinancialOperations) //labels dots
         .attr("x", d => xScale(d.Male_ManagementBusinessandFinancialOperations) - margin.left / 7)
         .attr("y", d => yScale(d.Fem_ManagementBusinessandFinancialOperations))
@@ -127,13 +130,13 @@ Promise.all([
     svg
         .append("text")
         .attr("class", "axis-label") //gave it a new class name b/c it seems to move w/ the dot labels
-        .attr("fill", "teal")
+        .attr("fill", "orange")
         .style("font-weight", "bold")
         .style("font-size", "18px")
         .attr('transform', (d, i) => {
             return 'translate( ' + yScale(i) + ' , ' + 350 + '),' + 'rotate(270)';
         }) // higher positve # - more label moves DOWN y-axis 
-        .attr('y', -1085) //-40 moves label 40 to the left - (+40 moves to right)
+        .attr('y', -970) //-40 moves label 40 to the left - (+40 moves to right)
         // .attr("transform", `translate(${margin.left - 60},200), ' + 'rotate(45)`)
         .text("Females")
 
