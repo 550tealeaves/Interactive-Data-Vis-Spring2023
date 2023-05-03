@@ -14,12 +14,12 @@ Promise.all([
 
     //X SCALE
     const xScale = d3.scaleLinear()
-        .domain([0, d3.max(data.map(d => d.Male_ManagementBusinessandFinancialOperations))])
+        .domain([d3.min(data.map(d => d.Male_ManagementBusinessandFinancialOperations)), d3.max(data.map(d => d.Male_ManagementBusinessandFinancialOperations))]) //restricting axis to the min/max of the data (to increase the spread of the plots)
         .range([margin.left, width - margin.right])
 
     //Y SCALE
     const yScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.Fem_ManagementBusinessandFinancialOperations)])
+        .domain([d3.min(data.map(d => d.Fem_ManagementBusinessandFinancialOperations)), d3.max(data, d => d.Fem_ManagementBusinessandFinancialOperations)]) //restricting axis to the min/max of the data (to increase the spread of the plots)
         .range([height - margin.bottom, margin.top])
 
     const colorScale = d3.scaleOrdinal()
@@ -60,10 +60,10 @@ Promise.all([
         .attr("cy", d => yScale(d.Fem_ManagementBusinessandFinancialOperations)) //alternative below
         .attr("r", radius)
         .attr("fill", d => colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations])) //will color the circles based on this scale - replaces colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations ]))
-        .on('mouseover', function () {
-            d3.select(this)
-                .attr("fill", d => colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations]))
-        })
+        // .on('mouseover', function () {
+        //     d3.select(this)
+        //         .attr("fill", d => colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations]))
+        // })
         .append("title") //adds tooltip (text) too all "rect" elements on mouseover
         .text(d => (d.Statistics + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations + ", F: " + d.Fem_ManagementBusinessandFinancialOperations)) //code for tooltip
 
@@ -119,9 +119,9 @@ Promise.all([
         .style("font-weight", "bold")
         .style("font-size", "18px")
         .attr('transform', (d, i) => {
-            return 'translate( ' + xScale(i) + ' , ' + 350 + '),' + 'rotate(270)';
+            return 'translate( ' + yScale(i) + ' , ' + 350 + '),' + 'rotate(270)';
         }) // higher positve # - more label moves DOWN y-axis 
-        .attr('y', -40) //-40 moves label 40 to the left - (+40 moves to right)
+        .attr('y', -970) //-40 moves label 40 to the left - (+40 moves to right)
         // .attr("transform", `translate(${margin.left - 60},200), ' + 'rotate(45)`)
         .text("Females")
 
