@@ -60,12 +60,12 @@ Promise.all([
         .attr("cy", d => yScale(d.Fem_ManagementBusinessandFinancialOperations)) //alternative below
         .attr("r", radius)
         .attr("fill", d => colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations])) //will color the circles based on this scale - replaces colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations ]))
-        // .on('mouseover', function () {
-        //     d3.select(this)
-        //         .attr("fill", d => colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations]))
-        // })
-        .append("title") //adds tooltip (text) too all "rect" elements on mouseover
-        .text(d => (d.Statistics + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations + ", F: " + d.Fem_ManagementBusinessandFinancialOperations)) //code for tooltip
+        .on('mouseover', function () {
+            d3.select(this)
+               .append("title") //adds tooltip (text) too all "rect" elements on mouseover
+                .text(d => (d.Statistics + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations + ", F: " + d.Fem_ManagementBusinessandFinancialOperations)) //code for tooltip  
+        })
+        
 
         // .on('mouseout', function () {
         //     d3.select(this)
@@ -84,9 +84,21 @@ Promise.all([
         .enter()
         .append("text")
         .text(d => d.Male_ManagementBusinessandFinancialOperations + ", " + d.Fem_ManagementBusinessandFinancialOperations) //labels dots
-        .attr("x", d => xScale(d.Male_ManagementBusinessandFinancialOperations) - margin.left / 6)
+        .attr("x", d => xScale(d.Male_ManagementBusinessandFinancialOperations) - margin.left / 7)
         .attr("y", d => yScale(d.Fem_ManagementBusinessandFinancialOperations))
         .attr("font-size", 11)
+        .on('mouseover', function() {
+            d3.select(this)
+                .attr("fill", "red")        
+        }) // this works when you mouse over - turn red
+        .on('mouseout', function() {
+            d3.select(this)
+            .transition("colorfade")
+            .attr("fill", "transparent")
+        }) //mouseout function works and the labels turn clear  
+
+        //PROBLEM - the graph starts off with dots - want to see them blank and mouseover to reveal label and mouseout to hide them
+
 
     //LABEL THE SCATTERPLOT
     svg
@@ -104,7 +116,7 @@ Promise.all([
     //LABEL THE X-AXIS
     svg
         .append("text")
-        .attr("class", "axis")
+        .attr("class", "axis-label")
         .attr("transform", `translate(750,${height - margin.bottom + 50})`)
         .attr("fill", "purple")
         .style("font-weight", "bold")
@@ -114,14 +126,14 @@ Promise.all([
     //LABEL THE Y-AXIS 
     svg
         .append("text")
-        .attr("class", "axis")
+        .attr("class", "axis-label") //gave it a new class name b/c it seems to move w/ the dot labels
         .attr("fill", "teal")
         .style("font-weight", "bold")
         .style("font-size", "18px")
         .attr('transform', (d, i) => {
             return 'translate( ' + yScale(i) + ' , ' + 350 + '),' + 'rotate(270)';
         }) // higher positve # - more label moves DOWN y-axis 
-        .attr('y', -970) //-40 moves label 40 to the left - (+40 moves to right)
+        .attr('y', -1085) //-40 moves label 40 to the left - (+40 moves to right)
         // .attr("transform", `translate(${margin.left - 60},200), ' + 'rotate(45)`)
         .text("Females")
 
