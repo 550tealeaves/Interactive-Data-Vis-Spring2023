@@ -55,18 +55,22 @@ Promise.all([
     const dot = svg
         .selectAll("circle")
         .data(data, d => d.Statistics)
-        .enter()
-        .append("circle")
         .join("circle")
+        .attr("class", "circle")
         .attr("cx", d => xScale(d.Male_ManagementBusinessandFinancialOperations)) //alternative below
         .attr("cy", d => yScale(d.Fem_ManagementBusinessandFinancialOperations)) //alternative below
         .attr("r", radius)
         .attr("fill", d => colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations])) //will color the circles based on this scale - replaces colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations ]))
-        .on('mouseover', function () {
-            d3.select(this)
-               .append("title") //adds tooltip (text) too all "rect" elements on mouseover
-                .text(d => (d.Statistics + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations + ", F: " + d.Fem_ManagementBusinessandFinancialOperations)) //code for tooltip  
-        })
+        .on('mouseover', function (e, d) {
+            console.log(e, d);
+            
+            //d3.select(this)
+               d3.select("#dot-labels") //adds dot labels when you over (text) too all "circle" elements on mouseover
+                .text(d.Statistics + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations + ", F: " + d.Fem_ManagementBusinessandFinancialOperations) //code for labels  
+                .attr("x", xScale(d.Male_ManagementBusinessandFinancialOperations) - margin.left / 7)
+                .attr("y", yScale(d.Fem_ManagementBusinessandFinancialOperations))
+                
+            }) //mouseover takes 2 arguments (e = event, d = data)
         
 
         // .on('mouseout', function () {
@@ -81,24 +85,27 @@ Promise.all([
         //d => (d.Statistics + " population is " + d.TotalPopulationBySex.toLocaleString())  replaces (function(d) { return (d.Statistics + " population is " + d.TotalPopulationBySex.toLocaleString()) })
 
     //LABEL THE DOTS
-    svg.selectAll("labels")
-        .data(data)
-        .enter()
+    //.enter.append() = .join()
+
+//for tooltips, select text and id
+
+    svg
         .append("text")
-        .join("text")
-        .text(d => d.Male_ManagementBusinessandFinancialOperations + ", " + d.Fem_ManagementBusinessandFinancialOperations) //labels dots
-        .attr("x", d => xScale(d.Male_ManagementBusinessandFinancialOperations) - margin.left / 7)
-        .attr("y", d => yScale(d.Fem_ManagementBusinessandFinancialOperations))
-        .attr("font-size", 11)
-        .on('mouseover', function() {
-            d3.select(this)
-                .attr("fill", "red")        
-        }) // this works when you mouse over - turn red
-        .on('mouseout', function() {
-            d3.select(this)
-            .transition("colorfade")
-            .attr("fill", "transparent")
-        }) //mouseout function works and the labels turn clear  
+        .attr("font-size", 12)
+        .attr("fill", "red")
+        .attr("id", "dot-labels")
+        // .on('mouseover', function() {
+        //     d3.select(this)
+        //         .attr("fill", "red")        
+        
+        
+        
+        //     }) // this works when you mouse over - turn red
+        // .on('mouseout', function() {
+        //     d3.select(this)
+        //     .transition("colorfade")
+        //     .attr("fill", "transparent")
+        // }) //mouseout function works and the labels turn clear  
 
         //PROBLEM - the graph starts off with dots - want to see them blank and mouseover to reveal label and mouseout to hide them
 
@@ -127,7 +134,7 @@ Promise.all([
         .text("Males")
 
     //LABEL THE Y-AXIS 
-    svg
+    svg //use margin to arrange y-axis - Mia
         .append("text")
         .attr("class", "axis-label") //gave it a new class name b/c it seems to move w/ the dot labels
         .attr("fill", "orange")
