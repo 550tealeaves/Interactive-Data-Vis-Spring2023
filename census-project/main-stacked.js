@@ -1,3 +1,5 @@
+//https://d3-graph-gallery.com/graph/barplot_stacked_basicWide.html
+
 /* CONSTANTS AND GLOBALS */
 const width = window.innerWidth * .9;
 const height = 1050;
