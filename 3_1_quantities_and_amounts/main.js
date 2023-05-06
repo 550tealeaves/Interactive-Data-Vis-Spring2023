@@ -18,7 +18,9 @@ let state = {
 d3.csv("../data/squirrelActivities.csv", d3.autoType).then(raw_data => {
   console.log("data", raw_data);  //since we are saving data into state object - raw data is first loaded
   // save our data to application state
-  state.data = raw_data; //replace the empty array in the application state w/ state.data  - state.data = state("data")
+  state.data = raw_data; //replace the empty array in the application state w/ state.data  - 
+  // alt way - state("data") = raw_data - this is best used when accessing keys w/ spaces (NO spaces w/ .)
+
   console.log('state', state)
   console.log(state.data)
   init(); //raw_data is stored in data:[] the global scope

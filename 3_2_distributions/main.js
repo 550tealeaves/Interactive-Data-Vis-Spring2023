@@ -23,6 +23,8 @@ d3.json("../data/environmentRatings.json", d3.autoType).then(raw_data => {
   //console.log("data", raw_data);
   // save our data to application state
   state.data = raw_data;
+  // alternatively written as state["data"] = raw_data
+  //use state["my data"] when loading keys w/ spaces (can't have spaces w/ .)
   init();
 });
 
