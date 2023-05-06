@@ -22,7 +22,7 @@ d3.csv("../data/squirrelActivities.csv", d3.autoType).then(raw_data => {
   // alt way - state("data") = raw_data - this is best used when accessing keys w/ spaces (NO spaces w/ .)
 
   console.log('state', state)
-  console.log(state.data)
+  console.log(state.data) //state = object w/ data = key 
   init(); //raw_data is stored in data:[] the global scope
 });
 
@@ -38,10 +38,6 @@ function init() {
   yScale = d3.scaleLinear()
     .domain([0, d3.max(state.data, d => d.count)]) //bar charts domain always starts at 0
     .range([height - margin.bottom, margin.top])
-
-
-  
-
 
   draw(); // calls the draw function
 }
