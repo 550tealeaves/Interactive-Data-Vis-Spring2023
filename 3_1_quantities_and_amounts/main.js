@@ -66,5 +66,4 @@ function draw() {
 
     
     console.log('svg', svg) //can log multiple things if you separate w/ comma - this shows initially as undefined b/c it was defined in the scope of the init function only  - this console.log is outside of that scope = had to move the const svg down
-
 }
