@@ -10,6 +10,8 @@ let svg;
 let xScale;
 let yScale;
 let colorScale;
+let xAxis;
+let yAxis;
 
 /* APPLICATION STATE */
 let state = {
@@ -33,11 +35,11 @@ d3.json("../data/environmentRatings.json", d3.autoType).then(raw_data => {
 function init() {
   // + SCALES
   xScale = d3.scaleLinear()
-    .domain(d3.extent(state.data, d => d. ideologyScore2020)) //d3.extent returns min/max scores
+    .domain(d3.extent(state.data, d => d. ideologyScore2020)) //d3.extent returns min/max values
     .range([margin.left, width - margin.right]) // 0 to end w/ padding
 
   yScale = d3.scaleLinear()
-    .domain(d3.extent(state.data, d => d.envScore2020))
+    .domain(d3.extent(state.data, d => d.envScore2020)) //d3.extent returns min/max values
     .range([height - margin.top, margin.bottom])
   
   colorScale = d3.scaleOrdinal()
@@ -45,18 +47,29 @@ function init() {
     .range(["red", "blue"])
 
   
-    // are there independents?
+    // ARE THERE ANY INDEPENDENTS?
+    //Filter - d.Party !== "R (does not equal R) && (and) d.Party !== "D" (does not equal D) 
     const filteredData = state.data.filter((d) => d.Party !== "R" && d.Party !== "D")
-    console.log("independents", filteredData)
+    console.log("independents", filteredData) //independents is the name shown in console log and it's taking in the filteredData
 
 
-  // + AXES
+  // + AXES - NOT WORKING
+  // xAxis = d3.axisBottom(xScale)
+  //   svg.append("g")
+  //     .attr("transform", `translate(0,${height - margin.bottom})`)
+  //     .call(xAxis);
+
+  // yAxis = d3.axisLeft(yScale)
+  //   svg.append("g")
+  //     .attr("transform", `translate(${margin.left},0)`)
+  //     .call(yAxis);
 
 
   // + UI ELEMENT SETUP
-  const selectElement = d3.select("#dropdown")
+  const selectElement = d3.select("#dropdown") //selects the element "select" w/ id dropdown
     .on('change', (event) => { //for select elements, use onChange
-      console.log('selected', event.target.value)
+      console.log('selected', event.target.value) //event.target = element that changes during event & .value = get value from the attribute value
+      
       // how and where do we store new value?
       state.selectedParty = event.target.value
       console.log('state', state)
@@ -69,8 +82,8 @@ function init() {
   //selectElement.selectAll("option") //select all option elements 
     // .data(["All", "Democrat", "Republican"])
     // .join("option") 
-    // .attr("value", d => d)
-    // .html(d => d)
+    // .attr("value", d => d) // 2nd d references the .data(["all", "dem", "rep"])
+    // .html(d => d) // tells html to put the .data(["all", "dem", "rep"]) in the tags
 
     
 

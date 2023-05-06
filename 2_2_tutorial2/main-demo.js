@@ -9,12 +9,12 @@ d3.json("../data/environmentRatings.json", d3.autoType).then(data => {
     console.log(data)
 
     /* SCALES */
-    // xscale  - linear,count
+    // xScale  - linear,count
     const xScale = d3.scaleLinear()
         .domain([0, d3.max(data.map(d => d.envScore2020))])
         .range([margin.left, width - margin.right])
 
-    // yscale - linear,count
+    // yScale - linear,count
     const yScale = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.ideologyScore2020)])
         .range([height - margin.bottom, margin.top])
