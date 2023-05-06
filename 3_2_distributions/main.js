@@ -63,7 +63,10 @@ function init() {
       draw() //everytime we change state (choose something in dropdown), call draw
     })  
 
-  //selectElement.selectAll("option") //can create the dropdown list w/ JS OR HTML
+  
+  
+  //CREATE DROPDOWN LIST (EITHER IN JS (BELOW) OR HTML)
+  //selectElement.selectAll("option") //select all option elements 
     // .data(["All", "Democrat", "Republican"])
     // .join("option") 
     // .attr("value", d => d)

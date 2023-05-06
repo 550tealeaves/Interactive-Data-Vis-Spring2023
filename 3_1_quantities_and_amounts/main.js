@@ -18,7 +18,7 @@ let state = {
 d3.csv("../data/squirrelActivities.csv", d3.autoType).then(raw_data => {
   console.log("data", raw_data);  //since we are saving data into state object - raw data is first loaded
   // save our data to application state
-  state.data = raw_data; //replace the empty array in the application state w/ state.data  - 
+  state.data = raw_data; //replace the empty array in the application state w/ state.data 
   // alt way - state("data") = raw_data - this is best used when accessing keys w/ spaces (NO spaces w/ .)
 
   console.log('state', state)
@@ -50,25 +50,21 @@ function draw() {
   // DEFINE SVG
   const svg = d3.select("#container")
     .append("svg")
-    .attr("width", width)
-    .attr("height", height)
+    .attr("width", width) // width defined in global scope
+    .attr("height", height) // height defined in global scope 
 
+    //put in draw() b/c want to redraw the rectangles when state changes 
     const rect = svg
       .selectAll("rect.bar")
-      .data(state.data)
+      .data(state.data) //storing the data in the state constant 
       .join("rect")
       .attr("class", "bar") //4th J bro - needed especially for updates
       .attr("width", xScale.bandwidth()) //this makes the width adjustable
       .attr("x", d => xScale(d.activity))
       .attr("y", d => yScale(d.count))
-      .attr("height", d => height - yScale(d.count))
+      .attr("height", d => height - yScale(d.count)) //position at certain point on y and draw down
 
     
     console.log('svg', svg) //can log multiple things if you separate w/ comma - this shows initially as undefined b/c it was defined in the scope of the init function only  - this console.log is outside of that scope = had to move the const svg down
-
-
-
- 
-
 
 }
