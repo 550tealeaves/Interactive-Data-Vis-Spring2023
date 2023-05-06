@@ -112,7 +112,7 @@ function init() {
 }
 
 /* DRAW FUNCTION */
-// we call this everytime there is an update to the data/state
+// we call this every time there is an update to the data/state
 function draw() {
 
     // + FILTER DATA BASED ON STATE
@@ -156,3 +156,4 @@ function draw() {
                 )
         );
 }
+

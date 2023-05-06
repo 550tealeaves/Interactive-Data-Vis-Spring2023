@@ -4,7 +4,7 @@ const width = window.innerWidth * 0.7,
   margin = { top: 20, bottom: 50, left: 60, right: 40 },
   radius = 10;
 
-// these variables allow us to access anything we manipulate in init() but need access to in draw().
+// these variables are in global scope = allow us to access anything we manipulate in init() but need access to in draw().
 // All these variables are empty before we assign something to them.
 let svg;
 let xScale;
@@ -33,8 +33,8 @@ d3.json("../data/environmentRatings.json", d3.autoType).then(raw_data => {
 function init() {
   // + SCALES
   xScale = d3.scaleLinear()
-    .domain(d3.extent(state.data, d => d. ideologyScore2020)) //will return min/max scores
-    .range([margin.left, width - margin.right])
+    .domain(d3.extent(state.data, d => d. ideologyScore2020)) //d3.extent returns min/max scores
+    .range([margin.left, width - margin.right]) // 0 to end w/ padding
 
   yScale = d3.scaleLinear()
     .domain(d3.extent(state.data, d => d.envScore2020))
@@ -60,7 +60,7 @@ function init() {
       // how and where do we store new value?
       state.selectedParty = event.target.value
       console.log('state', state)
-      draw() //everytime we change state (choose something in dropdown), call draw
+      draw() //every time we change state (choose something in dropdown), call draw
     })  
 
   
