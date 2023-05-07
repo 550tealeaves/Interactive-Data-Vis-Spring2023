@@ -71,7 +71,9 @@ function init() {
       console.log('selected', event.target.value) //event.target = element that changes during event & .value = get value from the attribute value
       
       // how and where do we store new value?
-      state.selectedParty = event.target.value
+      //reassign the .selectedParty portion of (state) & set equal to event.target.value 
+      //changes state to the selectedParty
+      state.selectedParty = event.target.value 
       console.log('state', state)
       draw() //every time we change state (choose something in dropdown), call draw
     })  
@@ -119,17 +121,17 @@ function draw() {
     .join(
       // + HANDLE ENTER SELECTION
       enter => enter
-        .append("circle")
-        .attr("cx", 0)
+        .append("circle") //must write .append 1st time enter is listed
+        .attr("cx", 0) //start X at 0 (before transition) 
         .attr("cy", d => yScale(d.envScore2020))
-        .attr("r", 0)
+        .attr("r", 0) // radius starts at 0 (before transition)
         .attr("fill", d => colorScale(d.Party))
-        .call(sel => sel
-          .transition()
-          .attr("r", radius)
-          .transition()
+        .call(sel => sel   //.call(sel => sel) gives access to the selection
+          .transition() //returns transition NOT a selection - call transition on selection, which is the dots
+          .attr("r", radius) //transitions into radius = 10
+          .transition() 
           .duration(2000)
-          .attr("cx", d => xScale(d.ideologyScore2020))
+          .attr("cx", d => xScale(d.ideologyScore2020)) //transitions to ideologyScore2020 value - dots move across the DOM
 
         ),
 
@@ -138,16 +140,16 @@ function draw() {
 
       // + HANDLE EXIT SELECTION
       exit => exit
-      .call(sel => sel
+      .call(sel => sel  //.call(sel => sel) gives access to the selection
         //before transition
         .attr("opacity", 1)
-        .transition()
+        .transition() //returns transition NOT a selection
         .duration(3000)
-        .delay((d, i) => i * 50) 
+        .delay((d, i) => i * 50) // i = index - multiply index by 50 milliseconds
         
         //after transition
         .attr("opacity", 0)
-        .remove()
+        .remove() //removes the dots 
         )
     );
 }
