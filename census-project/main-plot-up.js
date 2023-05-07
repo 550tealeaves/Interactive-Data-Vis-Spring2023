@@ -18,5 +18,28 @@ d3.csv("../data/census_occ_pct.csv", d3.autoType).then(data => {
     console.log("allJobs", allJobs);
     console.log("colorCode", colorCode);
 
+    //add options to dropdown
+    d3.select("#dropdown")
+    .selectAll('myOptions')
+        .data(["Management, Business, and Financial Operations  Occupations", "Professional and Related Occupations", "Healthcare Support Occupations", "Protective Service Occupations", "Food Preparation and Serving Related Occupations", "Building and Grounds Cleaning and Maintenance  Occupations", "Personal Care and Service Occupations", "Sales and Related Occupations", "Office and Administrative Support Occupations", "Farming, Fishing, and Forestry Occupations", "Construction, Extraction, and Maintenance  Occupations", "Production Occupations", "Transportation and Material Moving Occupations"])
+    //.data(allJobs) //all headers from jobs shows here
+    .join('option')
+    .text(d => d)
+    .attr("value", d => d)
+
+    //X SCALE
+    const xScale = d3.scaleLinear()
+        .domain(d3.extent(data, d => d.Male_ManagementBusinessandFinancialOperations)) //restricting axis to the min/max of the data (to increase the spread of the plots)
+        .range([margin.left, width - margin.right])
+
+    //Y SCALE
+    const yScale = d3.scaleLinear()
+        .domain(d3.extent(data, d => d.Fem_ManagementBusinessandFinancialOperations)) //restricting axis to the min/max of the data (to increase the spread of the plots)
+        .range([height - margin.bottom, margin.top])
+
+    const colorScale = d3.scaleOrdinal()
+        .domain(["M", "F"]) //maps to the two different values
+        .range(["purple", "orange"])
+
     
 });
