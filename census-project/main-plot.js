@@ -8,7 +8,7 @@ const width = window.innerWidth * 0.9,
     
 Promise.all([
     d3.csv("../data/census_categories_pct.csv"),
-    d3.csv("../data/census_states_pct.csv", d3.autoType),
+    d3.csv("../data/census_states_pct_nototals.csv", d3.autoType),
 ]).then(([catPct, data]) => {
     console.log("catPct", catPct)
     console.log("statesPct", data)
@@ -26,7 +26,7 @@ Promise.all([
         .range([height - margin.bottom, margin.top])
 
     const colorScale = d3.scaleOrdinal()
-        .domain([0, d3.max(data.map(d => [d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations]))]) //maps to the two different values
+        .domain(["M", "F"]) //maps to the two different values
         .range(["purple", "orange"])
 
 
@@ -63,7 +63,7 @@ Promise.all([
         .attr("cx", d => xScale(d.Male_ManagementBusinessandFinancialOperations)) //alternative below
         .attr("cy", d => yScale(d.Fem_ManagementBusinessandFinancialOperations)) //alternative below
         .attr("r", radius)
-        .attr("fill", d => colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations])) //will color the circles based on this scale - replaces colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations ]))
+        .attr("fill", d => colorScale(d.M_F_ManagementBusinessandFinancialOperations)) //will color the circles based on this scale - replaces colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations ]))
         .on('mouseover', function (e, d) {
             console.log(e, d);
             
