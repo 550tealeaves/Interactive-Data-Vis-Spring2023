@@ -5,6 +5,7 @@ const width = window.innerWidth * 0.9,
     radius = 6;
 
 
+    
 Promise.all([
     d3.csv("../data/census_categories_pct.csv"),
     d3.csv("../data/census_states_pct.csv", d3.autoType),
