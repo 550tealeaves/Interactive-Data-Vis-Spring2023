@@ -6,7 +6,7 @@ const width = window.innerWidth * 0.9,
 
 
 /* LOAD DATA */
-d3.csv('../data/census_states_pct_total.csv', d3.autoType)
+d3.csv('../data/census_occ_pct.csv', d3.autoType)
     .then(data => {
         console.log("data", data)
 
