@@ -27,17 +27,17 @@ let state = {
     Promise.all([
     d3.json("../data/usState.json")
     ]).then(([geojson]) => {
-    state.geojson = geojson;
+    state.geojson = geojson; //store object in state
     console.log("state: ", state);
     init(); //forces synchronicity
-    });
+    });  //runs 1x after data finished loading 
 
 /**
 * INITIALIZING FUNCTION
 * this will be run *one time* when the data finishes loading in
 * */
 function init() { 
-    // REASSIGN SVG
+    // REASSIGN SVG - just call svg to refer to global scope
     svg = d3.select("#container")
         .append("svg")
         .attr("width", width)
@@ -47,7 +47,7 @@ function init() {
 
 
 
-    // CREATE PROJECTION 
+    // CREATE PROJECTION - stored object geojson into state b/c need to access it to create projection
     const projection = d3.geoAlbersUsa()
         .fitSize([width, height], state.geojson)
 
@@ -56,13 +56,13 @@ function init() {
 
        
     // DRAW THE MAP
-    svg.selectAll(".state")
+    svg.selectAll(".state") //select elements called state
         .data(state.geojson.features) //have to use state b/c geojson defined in state
         .join("path")
         .attr("class", "state") //w/o class state - it wouldn't find elements w/ path state when redrawing
-        .attr("d", d => geoPath(d))
+        .attr("d", d => geoPath(d)) //d defines coordinates path follows
         .attr("fill", "transparent")
-        .on("mouseover", (event, d) => {  //mouseover is for hovering over div & child elements
+        .on("mouseover", (event, d) => {  //mouseover is for hovering over div & child elements - 
             console.log('event', event)
 
     //         hover: {
@@ -72,25 +72,23 @@ function init() {
     //          }
             // ADD THE NAME
             state.hover.state = d.properties.NAME
-        }) 
+        })  // calling .on evokes an event - always pass event, and then the data used - 
 
+        //pass both states and 
         .on("mousemove", (event) => {
             console.log('event', event)
             // const mx = d3.pointer(event)[0] //d3.pointer locates mouse on screen
             // const my = d3.pointer(event)[1]
             const [mx, my] = d3.pointer(event) //shorter way of writing above 2 lines
-            // USE PROJECITON INVERT METHOD TO GET LAT/LONG
+            // USE PROJECTION INVERT METHOD TO GET LAT/LONG
             const [projX, projY] = projection.invert([mx, my])
             state.hover.longitude = projX
             state.hover.latitude = projY
             draw()
-
         })
-
-
-
     draw(); // calls the draw function
 }
+
 
 /**
 * DRAW FUNCTION
@@ -105,5 +103,4 @@ function draw() {
         .join("div")
         .attr("class", "row")
         .html(d => d)
-
 }

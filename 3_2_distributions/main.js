@@ -129,8 +129,8 @@ function draw() {
         .call(sel => sel   //.call(sel => sel) gives access to the selection
           .transition() //returns transition NOT a selection - call transition on selection, which is the dots
           .attr("r", radius) //transitions into radius = 10
-          .transition() 
-          .duration(2000)
+          .transition() // transition another attribute
+          .duration(2000) // dots will grow in 
           .attr("cx", d => xScale(d.ideologyScore2020)) //transitions to ideologyScore2020 value - dots move across the DOM
 
         ),
