@@ -12,6 +12,8 @@ let colorScale;
 let xAxis;
 let yAxis;
 
+
+
 /* APPLICATION STATE */
 // data initialized as empty array - must load and assign it to state
 let state = {
@@ -20,8 +22,12 @@ let state = {
 };
 
 /* LOAD DATA */
-d3.csv("../data/census_states_pct_total.csv", d3.autoType).then(raw_data => {
+d3.csv("../data/census_occ_pct.csv", d3.autoType).then(raw_data => {
     console.log("raw_data", raw_data);
     state.data = raw_data;
     init();
 });
+
+
+/* INITIALIZING FUNCTION */
+// this will be run *one time* when the data finishes loading in

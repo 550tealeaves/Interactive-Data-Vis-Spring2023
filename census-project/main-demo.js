@@ -170,7 +170,10 @@ d3.select("#byKey").on("click", function () {
 
 d3.select("#byValue").on("click", function () {
     data.sort(function (a, b) {
-        return d3.descending(a.value, b.value)
+        return d3.ascending(a.value, b.value)
+    })
+    data.sort(function (b, a) {
+        return d3.ascending(b.value, a.value)
     })
     x.domain(data.map(function (d) {
         return d.key;
