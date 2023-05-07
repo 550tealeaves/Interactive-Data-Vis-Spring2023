@@ -7,11 +7,13 @@ const width = window.innerWidth * 0.9,
 
     
 Promise.all([
-    d3.csv("../data/census_categories_pct.csv"),
+    d3.csv("../data/census_occ_cat_subset.csv"),
     d3.csv("../data/census_occ_pct.csv", d3.autoType),
 ]).then(([catPct, data]) => {
     console.log("catPct", catPct)
     console.log("statesPct", data)
+    console.log("maleCat", catPct.slice(1, 13));
+    console.log("maleState", data.columns.slice(1, 13));
 
     //X SCALE
     const xScale = d3.scaleLinear()

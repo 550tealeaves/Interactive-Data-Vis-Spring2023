@@ -24,6 +24,7 @@ let state = {
 /* LOAD DATA */
 d3.csv("../data/census_occ_pct.csv", d3.autoType).then(raw_data => {
     console.log("raw_data", raw_data);
+    console.log(raw_data.slice(1, 13));
     state.data = raw_data;
     init();
 });
