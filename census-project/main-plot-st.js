@@ -24,9 +24,14 @@ let state = {
 /* LOAD DATA */
 d3.csv("../data/census_occ_pct.csv", d3.autoType).then(raw_data => {
     console.log("raw_data", raw_data);
-    console.log(raw_data.slice(1, 13));
+    console.log(raw_data.columns.slice(1, 13));
     state.data = raw_data;
-    init();
+    var maleJobs = ["Male_ManagementBusinessandFinancialOperations", "Male_ProfessionalandRelated", "Male_HealthcareSupport", "Male_ProtectiveService", "Male_FoodPrepandServing", "Male_BuildingandGroundsCleaningandMaintenance", "Male_PersonalCareandService", "Male_SalesandRelated", "Male_OfficeandAdminSupport", "Male_FarmingFishingandForestry", "Male_ConstructionExtractionandMaintenance", "Male_Production", "Male_TranspoandMaterialMoving"]
+    var femJobs = ["Fem_ManagementBusinessandFinancialOperations", "Fem_ProfessionalandRelated", "Fem_HealthcareSupport", "Fem_ProtectiveService", "Fem_FoodPrepandServing", "Fem_BuildingandGroundsCleaningandMaintenance", "Fem_PersonalCareandService", "Fem_SalesandRelated", "Fem_OfficeandAdminSupport", "Fem_FarmingFishingandForestry", "Fem_ConstructionExtractionandMaintenance", "Fem_Production", "Fem_TranspoandMaterialMoving"]
+    console.log("maleJobs", maleJobs);
+    console.log("femJobs", femJobs);
+
+    //init();
 });
 
 

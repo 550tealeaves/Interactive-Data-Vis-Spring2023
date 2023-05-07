@@ -14,6 +14,8 @@ Promise.all([
     console.log("statesPct", data)
     console.log("maleCat", catPct.slice(1, 13));
     console.log("maleState", data.columns.slice(1, 13));
+    var allGroup = ["Alabama", "Alaska"]
+    console.log("allGroup", allGroup);
 
     //X SCALE
     const xScale = d3.scaleLinear()
