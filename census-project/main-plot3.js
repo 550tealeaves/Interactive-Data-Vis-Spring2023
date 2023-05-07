@@ -21,12 +21,12 @@ d3.csv('../data/census_states_pct_nototals.csv', d3.autoType)
 
         //X SCALE
         const xScale = d3.scaleLinear()
-            .domain([d3.min(data.map(d => d.Male_ManagementBusinessandFinancialOperations)), d3.max(data.map(d => d.Male_ManagementBusinessandFinancialOperations))]) //restricting axis to the min/max of the data (to increase the spread of the plots)
+            .domain(d3.extent(data, d => d.Male_ManagementBusinessandFinancialOperations)) //restricting axis to the min/max of the data (to increase the spread of the plots)
             .range([margin.left, width - margin.right])
 
         //Y SCALE
         const yScale = d3.scaleLinear()
-            .domain([d3.min(data.map(d => d.Fem_ManagementBusinessandFinancialOperations)), d3.max(data, d => d.Fem_ManagementBusinessandFinancialOperations)]) //restricting axis to the min/max of the data (to increase the spread of the plots)
+            .domain(d3.extent(data, d => d.Fem_ManagementBusinessandFinancialOperations)) //restricting axis to the min/max of the data (to increase the spread of the plots)
             .range([height - margin.bottom, margin.top])
 
         const colorScale = d3.scaleOrdinal()
@@ -90,7 +90,7 @@ d3.csv('../data/census_states_pct_nototals.csv', d3.autoType)
         svg.selectAll("labels")
             .data(data)
             .join("text")
-            .text(d => d.Male_ManagementBusinessandFinancialOperations + ", " + d.Fem_ManagementBusinessandFinancialOperations) //labels dots
+            .text(d => (d.Male_ManagementBusinessandFinancialOperations) + ", " + (d.Fem_ManagementBusinessandFinancialOperations)) //labels dots
             .attr("x", d => xScale(d.Male_ManagementBusinessandFinancialOperations) - margin.left / 5)
             .attr("y", d => yScale(d.Fem_ManagementBusinessandFinancialOperations) - margin.left / 9)
             .attr("font-size", 10)
