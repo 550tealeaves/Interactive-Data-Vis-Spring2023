@@ -4,18 +4,9 @@ const width = window.innerWidth * 0.9,
     radius = 6;
 
 
-let svg;
-let xScale;
-let yScale;
-let colorScale;
-let xAxis;
-let yAxis;
-
-
-
 
 /* LOAD DATA */
-d3.csv('../data/census_states_pct_nototals.csv', d3.autoType)
+d3.csv('../data/census_states_pct_total.csv', d3.autoType)
     .then(data => {
         console.log("data", data)
 
