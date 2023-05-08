@@ -112,9 +112,40 @@ d3.json("../data/census_occ_subset.json", d3.autoType).then(raw_data => {
         .range(["purple", "orange"])
 
     // + AXES
-    //X AXIS - when comment out these two codes, the options show on the bar
-    // xAxis = d3.axisBottom(xScale)
-        // svg.append("g")
+    const xAxis = d3.axisBottom(xScale)
+    const yAxis = d3.axisLeft(yScale)
+        
+    
+    //EVENT LISTENER
+    const selectElement = d3.select("#dropdown")
+        .on("change", (event) => {
+            console.log('selected', event.target.value);
+            state.selectedJobs = event.target.value
+            console.log("state", state)
+            draw()
+
+        })
+    
+    // + CREATE SVG ELEMENT
+    svg = d3.select("#container") //writing it in init() b/c only need it ran once
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+
+    draw();
+}    
+    
+/* DRAW FUNCTION */
+// we call this every time there is an update to the data/state
+function draw() {
+    // + FILTER DATA BASED ON JOBS
+    const filteredData = state.data
+        .filter(d => state.selectedJobs === "Management, business, finance" || state.selectedJobs === d.Party) //filter and return any value that's All or selected party
+    console.log('filteredData', filteredData)
+}
+
+
+// svg.append("g")
     //     .attr("class", "axis") //assigns axis class
     //     .attr("transform", `translate(0,${height - margin.bottom})`) //moves axes from default position at top to the bottom by 0, (height-margin.bottom)
     //     .call(xAxis)
@@ -127,49 +158,48 @@ d3.json("../data/census_occ_subset.json", d3.autoType).then(raw_data => {
     //     .attr("transform", `translate(${margin.left},0)`) //positions yAxis from default - moves it left by margin.left = ticks visible 
     //     .call(yAxis)
 
-    // + UI ELEMENT SETUP
-    const selectElement = d3.select("#dropdown") // select dropdown element from HTML
-    // add in dropdown options
-    selectElement
-        .selectAll("option")
-        .data([ 
-            { key: "M_F_ManagementBusinessandFinancialOperations", label: "Management, business, finance" }, // doesn't exist in data, we're adding this as an extra option
-            { key: "M_F_ProfessionalandRelated", label: "Professional and related" },
-            { key: "M_F_HealthcareSupport", label: "Healthcare support" },
-            {
-                key: "M_F_ProtectiveService", label: "Protective Services"
-            },
-            {
-                key: "M_F_FoodPrepandServing", label: "Food Prep and Serving"
-            },
-            {
-                key: "M_F_BuildingandGroundsCleaningandMaintenance", label: "Building & Grounds Cleaning & Maintenance"
-            },
-            {
-                key: "M_F_PersonalCareandService", label: "Personal Care and Service"
-            },
-            {
-                key: "M_F_SalesandRelated", label: "Sales and related"
-            },
-            {
-                key: "M_F_OfficeandAdminSupport", label: "Office & Admin support"
-            },
-            {
-                key: "M_F_FarmingFishingandForestry", label: "Farming, fishing, & forestry"
-            },
-            {
-                key: "M_F_ConstructionExtractionandMaintenance", label: "Construction, extraction, & maintenance"
-            }, 
-            {
-                key: "M_F_Production", label: "Production"
-            },
-            {
-                key: "M_F_TranspoandMaterialMoving", label: "Transportation & material moving"
-            }
-        ])
-        .join("option")
-        .attr("value", d => d.key) // set the key to the 'value' -- what we will use to FILTER our data later
-        .text(d => d.label); // set the label to text -- easier for the user to read than the key
+    // // + UI ELEMENT SETUP
+    // const selectElement = d3.select("#dropdown") // select dropdown element from HTML
+    // // add in dropdown options
+    // selectElement
+    //     .selectAll("option")
+    //     .data([ 
+    //         { key: "M_F_ManagementBusinessandFinancialOperations", label: "Management, business, finance" }, // doesn't exist in data, we're adding this as an extra option
+    //         { key: "M_F_ProfessionalandRelated", label: "Professional and related" },
+    //         { key: "M_F_HealthcareSupport", label: "Healthcare support" },
+    //         {
+    //             key: "M_F_ProtectiveService", label: "Protective Services"
+    //         },
+    //         {
+    //             key: "M_F_FoodPrepandServing", label: "Food Prep and Serving"
+    //         },
+    //         {
+    //             key: "M_F_BuildingandGroundsCleaningandMaintenance", label: "Building & Grounds Cleaning & Maintenance"
+    //         },
+    //         {
+    //             key: "M_F_PersonalCareandService", label: "Personal Care and Service"
+    //         },
+    //         {
+    //             key: "M_F_SalesandRelated", label: "Sales and related"
+    //         },
+    //         {
+    //             key: "M_F_OfficeandAdminSupport", label: "Office & Admin support"
+    //         },
+    //         {
+    //             key: "M_F_FarmingFishingandForestry", label: "Farming, fishing, & forestry"
+    //         },
+    //         {
+    //             key: "M_F_ConstructionExtractionandMaintenance", label: "Construction, extraction, & maintenance"
+    //         }, 
+    //         {
+    //             key: "M_F_Production", label: "Production"
+    //         },
+    //         {
+    //             key: "M_F_TranspoandMaterialMoving", label: "Transportation & material moving"
+    //         }
+    //     ])
+    //     .join("option")
+    //     .attr("value", d => d.key) // set the key to the 'value' -- what we will use to FILTER our data later
+    //     .text(d => d.label); // set the label to text -- easier for the user to read than the key
 
 
-}
