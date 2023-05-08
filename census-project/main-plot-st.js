@@ -18,30 +18,33 @@ let yAxis;
 // data initialized as empty array - must load and assign it to state
 let state = {
     data: [],
-    selectedJobs: "Management, business, finance"
+    selectedJobs: "TOTAL"
 };
 
 /* LOAD DATA */
-d3.json("../data/census_occ_subset.json", d3.autoType).then(raw_data => {
+d3.json("../data/census_occ_total_subset.json", d3.autoType).then(raw_data => {
     
     console.log("raw_data", raw_data);
     console.log(raw_data[0].Fem_HealthcareSupport)
+    console.log(raw_data[15].M_F_OfficeandAdminSupport)
     state.data = raw_data;
-    var allStates = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", "TOTAL"]
+    
     var maleJobs = ["Male_ManagementBusinessandFinancialOperations", "Male_ProfessionalandRelated", "Male_HealthcareSupport", "Male_ProtectiveService", "Male_FoodPrepandServing", "Male_BuildingandGroundsCleaningandMaintenance", "Male_PersonalCareandService", "Male_SalesandRelated", "Male_OfficeandAdminSupport", "Male_FarmingFishingandForestry", "Male_ConstructionExtractionandMaintenance", "Male_Production", "Male_TranspoandMaterialMoving"]
     var femJobs = ["Fem_ManagementBusinessandFinancialOperations", "Fem_ProfessionalandRelated", "Fem_HealthcareSupport", "Fem_ProtectiveService", "Fem_FoodPrepandServing", "Fem_BuildingandGroundsCleaningandMaintenance", "Fem_PersonalCareandService", "Fem_SalesandRelated", "Fem_OfficeandAdminSupport", "Fem_FarmingFishingandForestry", "Fem_ConstructionExtractionandMaintenance", "Fem_Production", "Fem_TranspoandMaterialMoving"]
     var allJobs = ["Male_ManagementBusinessandFinancialOperations", "Male_ProfessionalandRelated", "Male_HealthcareSupport", "Male_ProtectiveService", "Male_FoodPrepandServing", "Male_BuildingandGroundsCleaningandMaintenance", "Male_PersonalCareandService", "Male_SalesandRelated", "Male_OfficeandAdminSupport", "Male_FarmingFishingandForestry", "Male_ConstructionExtractionandMaintenance", "Male_Production", "Male_TranspoandMaterialMoving", "Fem_ManagementBusinessandFinancialOperations", "Fem_ProfessionalandRelated", "Fem_HealthcareSupport", "Fem_ProtectiveService", "Fem_FoodPrepandServing", "Fem_BuildingandGroundsCleaningandMaintenance", "Fem_PersonalCareandService", "Fem_SalesandRelated", "Fem_OfficeandAdminSupport", "Fem_FarmingFishingandForestry", "Fem_ConstructionExtractionandMaintenance", "Fem_Production", "Fem_TranspoandMaterialMoving"]
     var colorCode = ["M_F_ManagementBusinessandFinancialOperations", "M_F_ProfessionalandRelated", "M_F_HealthcareSupport", "M_F_ProtectiveService", "M_F_FoodPrepandServing", "M_F_BuildingandGroundsCleaningandMaintenance", "M_F_PersonalCareandService", "M_F_SalesandRelated", "M_F_OfficeandAdminSupport", "M_F_FarmingFishingandForestry", "M_F_ConstructionExtractionandMaintenance", "M_F_Production", "M_F_TranspoandMaterialMoving"]
-    console.log("allStates", allStates);
+    var allStates = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", "TOTAL"]
     console.log("maleJobs", maleJobs);
     console.log("femJobs", femJobs);
     console.log("allJobs", allJobs);
     console.log("colorCode", colorCode);
-
+    console.log("allStates", allStates);
+    
+    
     var dataReady = allJobs.map(function (jobs) {
         return {
             name: jobs,
-            values: state.data.map(function (d) {
+            details: state.data.map(function (d) {
                 return {
                     state: d.Statistics, value: +d[jobs]
                 }; //returns array of objects that has state + all corresponding value
@@ -51,7 +54,7 @@ d3.json("../data/census_occ_subset.json", d3.autoType).then(raw_data => {
     var dataReadyMale = maleJobs.map(function (jobs) {
         return {
             name: jobs,
-            values: state.data.map(function (d) {
+            details: state.data.map(function (d) {
                 return {
                     state: d.Statistics, value: +d[jobs]
                 }; //returns array of objects that has state + corresponding male value
@@ -61,7 +64,7 @@ d3.json("../data/census_occ_subset.json", d3.autoType).then(raw_data => {
     var dataReadyFem = femJobs.map(function (jobs) {
         return {
             name: jobs,
-            values: state.data.map(function (d) {
+            details: state.data.map(function (d) {
                 return {
                     state: d.Statistics, value: +d[jobs]
                 }; //returns array of objects that has state + corresponding female value
@@ -71,18 +74,33 @@ d3.json("../data/census_occ_subset.json", d3.autoType).then(raw_data => {
     var dataReadyColor = colorCode.map(function (color) {
         return {
             name: color,
-            values: state.data.map(function (d) {
+            details: state.data.map(function (d) {
                 return {
                     state: d.Statistics, value: d[color]
                 }; //returns array of objects that has state + all corresponding value
             })
         }
     }) //formats the allJobs variable 
+
+    var dataReadyStates = allStates.map(function (states) {
+        return {
+            name: states,
+            details: state.data.map(function (d) {
+                return {
+                    title: ([dataReady]), value: +d[states]
+                }; //returns array of objects that has state + all corresponding value
+            })
+        }
+    }) //formats the allJobs variable
+
+    
     console.log("dataReady", dataReady);
     console.log("dataReadyMale", dataReadyMale);
     console.log("dataReadyFem", dataReadyFem);
     console.log("dataReadyColor", dataReadyColor);
-    console.log(dataReady[0].values[2].value)
+    console.log(dataReady[0].details[2].value)
+    console.log("dataReadyStates", dataReadyStates);
+
 
     init();
 });
@@ -123,12 +141,11 @@ d3.json("../data/census_occ_subset.json", d3.autoType).then(raw_data => {
     
     //EVENT LISTENER
     const selectElement = d3.select("#dropdown")
-        .on("change", (event) => {
+        .on("change", event => {
             console.log('selected', event.target.value);
             state.selectedJobs = event.target.value
             console.log("state", state)
             draw()
-
         })
     
     // + CREATE SVG ELEMENT
@@ -145,7 +162,7 @@ d3.json("../data/census_occ_subset.json", d3.autoType).then(raw_data => {
 function draw() {
     // + FILTER DATA BASED ON JOBS
     const filteredData = state.data
-        .filter(d => state.selectedJobs === d.dataReady[0].value || state.selectedJobs === d.dataReady[13].value) //filter and return any value that's All or selected party
+        .filter(d => state.selectedJobs === d.TOTAL || state.selectedJobs === d.dataReadyMale || state.selectedJobs === d.dataReadyFem) //filter and return any value that's All or selected party
     console.log('filteredData', filteredData)
 
 
