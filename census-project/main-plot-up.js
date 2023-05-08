@@ -6,17 +6,8 @@ const width = window.innerWidth * 0.9,
 
 
 /* LOAD DATA */
-d3.csv("../data/census_occ_pct.csv", d3.autoType).then(data => {
-    data.forEach(function(d) {
-        d.Fem_BuildingandGroundsCleaningandMaintenance = +d.Fem_BuildingandGroundsCleaningandMaintenance;
-        d.Fem_HealthcareSupport = +d.Fem_HealthcareSupport;
-        d.M_F_BuildingandGroundsCleaningandMaintenance = +d.M_F_BuildingandGroundsCleaningandMaintenance;
-        d.M_F_HealthcareSupport = +d.M_F_HealthcareSupport;
-        d.Male_BuildingandGroundsCleaningandMaintenance = +d.Male_BuildingandGroundsCleaningandMaintenance;
-        d.Male_HealthcareSupport = +d.Male_HealthcareSupport;
-    }); //trying to convert these values into numbers - but it just adds a row - doesn't convert it
+d3.json("../data/census_occ_subset.json", d3.autoType).then(data => {
     console.log("data", data);
-    console.log(data.columns.slice(1, 13));
     var maleJobs = ["Male_ManagementBusinessandFinancialOperations", "Male_ProfessionalandRelated", "Male_HealthcareSupport", "Male_ProtectiveService", "Male_FoodPrepandServing", "Male_BuildingandGroundsCleaningandMaintenance", "Male_PersonalCareandService", "Male_SalesandRelated", "Male_OfficeandAdminSupport", "Male_FarmingFishingandForestry", "Male_ConstructionExtractionandMaintenance", "Male_Production", "Male_TranspoandMaterialMoving"]
     var femJobs = ["Fem_ManagementBusinessandFinancialOperations", "Fem_ProfessionalandRelated", "Fem_HealthcareSupport", "Fem_ProtectiveService", "Fem_FoodPrepandServing", "Fem_BuildingandGroundsCleaningandMaintenance", "Fem_PersonalCareandService", "Fem_SalesandRelated", "Fem_OfficeandAdminSupport", "Fem_FarmingFishingandForestry", "Fem_ConstructionExtractionandMaintenance", "Fem_Production", "Fem_TranspoandMaterialMoving"]
     var allJobs = ["Male_ManagementBusinessandFinancialOperations", "Male_ProfessionalandRelated", "Male_HealthcareSupport", "Male_ProtectiveService", "Male_FoodPrepandServing", "Male_BuildingandGroundsCleaningandMaintenance", "Male_PersonalCareandService", "Male_SalesandRelated", "Male_OfficeandAdminSupport", "Male_FarmingFishingandForestry", "Male_ConstructionExtractionandMaintenance", "Male_Production", "Male_TranspoandMaterialMoving", "Fem_ManagementBusinessandFinancialOperations", "Fem_ProfessionalandRelated", "Fem_HealthcareSupport", "Fem_ProtectiveService", "Fem_FoodPrepandServing", "Fem_BuildingandGroundsCleaningandMaintenance", "Fem_PersonalCareandService", "Fem_SalesandRelated", "Fem_OfficeandAdminSupport", "Fem_FarmingFishingandForestry", "Fem_ConstructionExtractionandMaintenance", "Fem_Production", "Fem_TranspoandMaterialMoving"]

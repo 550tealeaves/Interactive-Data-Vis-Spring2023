@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scatterplot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="d-block">
+        <h3 class="text-bg-success bg-opacity-50 text-center">What are the occupations of men and women in the US?</h3>
+
+        <p>Using the 2021 5-year estimate from <a href="https://www.socialexplorer.com/tables/ACS2021_5yr/R13371346"
+                target="_blank">Social
+                Explorer</a>, we can see some interesting patterns of occupation for men and women in the US.
+        </p>
+        <small class="mb-3">Note about the data - although sex is collected as binary data in the Census, it may not
+            accurately represent how
+            many feel about their gender. Additionally, data on occupation is written in and does not reflect employees
+            with multiple jobs or
+            military positions. Moreover, the Census makes assumptions on incomplete or vague entries by assigning
+            information from <span style="color: darkgreen; font-weight: bold;">"similar persons"</span>.</small>
+
+        <div class="d-flex">
+            <button class="value-sort"> Zoom in</button>
+        </div>
+    </div>
+
+    <div class="filter-options">
+        <label for="dropdown">Select Occupation</label>
+        <select name="dropdown" id="dropdown">
+            <!--<option value="mbfoo" class="value">Management, business, finance</option>
+            <option value="pro" class="value">Professional</option>
+            <option value="hso" class="value">Healthcare support</option>
+            <option value="protect" class="value">Protective service</option>
+            <option value="fps" class="value">Food prep & service</option>
+            <option value="bgcmo" class="value">Building & maintenance</option>
+            <option value="pcso" class="value">Personal care & service</option>
+            <option value="sro" class="value">Sales</option>
+            <option value="oaso" class="value">Office & admin support</option>
+            <option value="fffo" class="value">Farming, fishing, forestry</option>
+            <option value="cemo" class="value">Construction, extraction, maintenance</option>
+            <option value="prod" class="value">Production</option>
+            <option value="tmmo" class="value">Transportation & moving</option>>-->
+
+        </select>
+    </div>
+
+
+    <div id="container">
+
+    </div>
+    <div id="second-container">
+
+    </div>
+    <div id="third-container">
+
+    </div>
+    <script src="../lib/d3.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+    <script src="main-plot-json.js"></script>
+</body>
+
+</html>
