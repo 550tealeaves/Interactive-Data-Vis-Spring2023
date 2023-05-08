@@ -155,4 +155,20 @@ Promise.all([
         .text("Females")
 
 
+    //CREATE A LEGEND
+    //https://stackoverflow.com/questions/55219862/updating-stacked-bar-chart-d3-with-multiple-datasets
+    legend.append("rect")
+        .attr("x", width - 10) //separates letters from legend box
+        .attr("width", 15)
+        .attr("height", 15) //increase the length of the legend box
+        .attr("fill", d => colorScale.range())
+
+    //LABEL THE LEGEND
+    legend.append("text")
+        .attr("x", width - 13)
+        .attr("y", 7) //moves M/F up down
+        .attr("dy", ".35em")
+        .style("text-anchor", "end")
+        .text(d => d)
+
 });
