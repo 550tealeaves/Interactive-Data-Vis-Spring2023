@@ -29,10 +29,15 @@ d3.json("../data/census_occ_total_subset.json", d3.autoType).then(raw_data => {
     console.log(raw_data[15].M_F_OfficeandAdminSupport)
     state.data = raw_data;
     
+    //CREATE DIFFERENT DATA GROUPS
     var maleJobs = ["Male_ManagementBusinessandFinancialOperations", "Male_ProfessionalandRelated", "Male_HealthcareSupport", "Male_ProtectiveService", "Male_FoodPrepandServing", "Male_BuildingandGroundsCleaningandMaintenance", "Male_PersonalCareandService", "Male_SalesandRelated", "Male_OfficeandAdminSupport", "Male_FarmingFishingandForestry", "Male_ConstructionExtractionandMaintenance", "Male_Production", "Male_TranspoandMaterialMoving"]
+    
     var femJobs = ["Fem_ManagementBusinessandFinancialOperations", "Fem_ProfessionalandRelated", "Fem_HealthcareSupport", "Fem_ProtectiveService", "Fem_FoodPrepandServing", "Fem_BuildingandGroundsCleaningandMaintenance", "Fem_PersonalCareandService", "Fem_SalesandRelated", "Fem_OfficeandAdminSupport", "Fem_FarmingFishingandForestry", "Fem_ConstructionExtractionandMaintenance", "Fem_Production", "Fem_TranspoandMaterialMoving"]
+    
     var allJobs = ["Male_ManagementBusinessandFinancialOperations", "Male_ProfessionalandRelated", "Male_HealthcareSupport", "Male_ProtectiveService", "Male_FoodPrepandServing", "Male_BuildingandGroundsCleaningandMaintenance", "Male_PersonalCareandService", "Male_SalesandRelated", "Male_OfficeandAdminSupport", "Male_FarmingFishingandForestry", "Male_ConstructionExtractionandMaintenance", "Male_Production", "Male_TranspoandMaterialMoving", "Fem_ManagementBusinessandFinancialOperations", "Fem_ProfessionalandRelated", "Fem_HealthcareSupport", "Fem_ProtectiveService", "Fem_FoodPrepandServing", "Fem_BuildingandGroundsCleaningandMaintenance", "Fem_PersonalCareandService", "Fem_SalesandRelated", "Fem_OfficeandAdminSupport", "Fem_FarmingFishingandForestry", "Fem_ConstructionExtractionandMaintenance", "Fem_Production", "Fem_TranspoandMaterialMoving"]
+    
     var colorCode = ["M_F_ManagementBusinessandFinancialOperations", "M_F_ProfessionalandRelated", "M_F_HealthcareSupport", "M_F_ProtectiveService", "M_F_FoodPrepandServing", "M_F_BuildingandGroundsCleaningandMaintenance", "M_F_PersonalCareandService", "M_F_SalesandRelated", "M_F_OfficeandAdminSupport", "M_F_FarmingFishingandForestry", "M_F_ConstructionExtractionandMaintenance", "M_F_Production", "M_F_TranspoandMaterialMoving"]
+    
     var allStates = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", "TOTAL"]
     console.log("maleJobs", maleJobs);
     console.log("femJobs", femJobs);
@@ -40,10 +45,10 @@ d3.json("../data/census_occ_total_subset.json", d3.autoType).then(raw_data => {
     console.log("colorCode", colorCode);
     console.log("allStates", allStates);
     
-    
+    //IMPORT THE DATA TO THE CORRESPONDING GROUPS
     var dataReady = allJobs.map(function (jobs) {
         return {
-            name: jobs,
+            title: jobs,
             details: state.data.map(function (d) {
                 return {
                     state: d.Statistics, value: +d[jobs]
@@ -53,7 +58,7 @@ d3.json("../data/census_occ_total_subset.json", d3.autoType).then(raw_data => {
     }) //formats the allJobs variable 
     var dataReadyMale = maleJobs.map(function (jobs) {
         return {
-            name: jobs,
+            title: jobs,
             details: state.data.map(function (d) {
                 return {
                     state: d.Statistics, value: +d[jobs]
@@ -63,7 +68,7 @@ d3.json("../data/census_occ_total_subset.json", d3.autoType).then(raw_data => {
     }) //formats the maleJobs variable
     var dataReadyFem = femJobs.map(function (jobs) {
         return {
-            name: jobs,
+            title: jobs,
             details: state.data.map(function (d) {
                 return {
                     state: d.Statistics, value: +d[jobs]
@@ -73,7 +78,7 @@ d3.json("../data/census_occ_total_subset.json", d3.autoType).then(raw_data => {
     }) //formats the femJobs variable
     var dataReadyColor = colorCode.map(function (color) {
         return {
-            name: color,
+            title: color,
             details: state.data.map(function (d) {
                 return {
                     state: d.Statistics, value: d[color]
