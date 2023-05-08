@@ -121,6 +121,13 @@ d3.json("../data/census_occ_total_subset.json", d3.autoType).then(raw_data => {
         //     .text(function(d) {return d;})
         //     .attr("value", d => d)
 
+    // + CREATE SVG ELEMENT
+    svg = d3.select("#container") //writing it in init() b/c only need it ran once
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+
+
     //X SCALE
     xScale = d3.scaleLinear()
         .domain(d3.extent(state.data, d => d.dataReadyMale))
@@ -152,11 +159,7 @@ d3.json("../data/census_occ_total_subset.json", d3.autoType).then(raw_data => {
             draw()
         })
     
-    // + CREATE SVG ELEMENT
-    svg = d3.select("#container") //writing it in init() b/c only need it ran once
-        .append("svg")
-        .attr("width", width)
-        .attr("height", height)
+
 
     draw();
 }    
@@ -170,6 +173,44 @@ function draw() {
     console.log('filteredData', filteredData)
 
 
+//X AXIS 
+const xAxisGroup = d3.axisBottom(xScale)
+    svg.append("g")
+        .attr("class", "axis") //assigns axis class
+        .attr("transform", `translate(0,${height - margin.bottom})`) //moves axes from default position at top to the bottom by 0, (height-margin.bottom)
+        .call(xAxis)
+
+
+//Y AXIS
+const yAxisGroup = d3.axisLeft(yScale)
+    svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", `translate(${margin.left},0)`) //positions yAxis from default - moves it left by margin.left = ticks visible 
+        .call(yAxis)
+
+
+// add labels - xAxis
+xAxisGroup.append("text")
+    .attr("class", 'axis-title')
+    .attr("x", width / 2)
+    .attr("y", 40)
+    .attr("text-anchor", "middle")
+    .text("Males")
+    .attr("fill", "purple")
+
+// add labels - yAxis
+yAxisGroup.append("text")
+    .attr("class", 'axis-title')
+    .attr("x", -40)
+    .attr("y", height / 2)
+    .attr("writing-mode", "vertical-lr")
+    .attr("text-anchor", "middle")
+    .text("Females")
+    .attr("fill", "orange")
+
+
+
+
 const dot = svg
     .selectAll("circle")
     .data(filteredData, d => d.Statistics) //state = unique ID
@@ -180,7 +221,16 @@ const dot = svg
         .attr("cx", 0)
         .attr("cy", d => yScale(d.dataReadyFem))
         .attr("r", 0)
-        .attr("fill", "green")
+        .attr("fill", "red") //will color the circles based on this scale - replaces colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations ]))
+        .on('mouseover', function (e, d) {
+            d3.select(this)
+                .append("title") //adds tooltip (text) too all "rect" elements on mouseover
+                .text(function (d, i) {
+                    return d.Statistics + " - " + "M: " + dataReadyMale[0].values[0].value + ", F: " + dataReadyFem[0].values[0].value;
+                } //code for tooltip  
+                )
+        })
+
         .call(sel => sel
             .transition()
             .attr("r", radius)
@@ -204,7 +254,7 @@ const dot = svg
             .delay((d, i) => i * 50) // i = index - multiply index by 50 milliseconds
 
             //after transition
-            .attr("opacity", 0)
+            .attr("fill", "purple")
             .remove() //removes the dots 
         )
 
