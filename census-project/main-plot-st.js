@@ -167,7 +167,8 @@ d3.json("../data/census_occ_total_subset.json", d3.autoType).then(raw_data => {
 function draw() {
     // + FILTER DATA BASED ON JOBS
     const filteredData = state.data
-        .filter(d => state.selectedJobs === d.TOTAL || state.selectedJobs === d.dataReadyMale || state.selectedJobs === d.dataReadyFem) //filter and return any value that's All or selected party
+        .filter(d => state.selectedJobs === d.dataReady[0].Total_BuildingandGroundsCleaningandMaintenance
+ || state.selectedJobs === d.dataReadyMale[0].details[0].value || state.selectedJobs === d.dataReadyFem[0].detail[0].value) //filter and return any value that's All or selected party
     console.log('filteredData', filteredData)
 
 
