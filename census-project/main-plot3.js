@@ -138,4 +138,26 @@ d3.csv('../data/census_occ_pct.csv', d3.autoType)
             // .attr("transform", `translate(${margin.left - 60},200), ' + 'rotate(45)`)
             .text("Females")
 
+        const legend = svg
+            .selectAll(".legend")
+            .data(colorScale.domain()) //shows M above F
+            //.data(colorScale.domain().slice().reverse()) this puts F above M
+            .join("g")
+            .attr("transform", function(d, i) {
+                return "translate(0," + i*20 + ")";
+            });
+
+        //CREATE A LEGEND
+        legend.append("rect")
+            .attr("x", width - 10) //separates letters from legend box
+            .attr("width", 15)
+            .attr("height", 15) //increase the length of the legend box
+            .attr("fill", d => colorScale.range())
+
+        legend.append("text")
+            .attr("x", width - 13)
+            .attr("y", 7) //moves M/F up down
+            .attr("dy", ".35em")
+            .style("text-anchor", "end")
+            .text(d => d)
     });

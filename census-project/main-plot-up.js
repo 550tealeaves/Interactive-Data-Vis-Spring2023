@@ -73,17 +73,121 @@ d3.json("../data/census_occ_subset.json", d3.autoType).then(data => {
 
     //X SCALE
     const xScale = d3.scaleLinear()
-        .domain(d3.extent(data, d => d.Male_ManagementBusinessandFinancialOperations)) //restricting axis to the min/max of the data (to increase the spread of the plots)
+        .domain(d3.extent(dataReadyMale, d => d.value)) //restricting axis to the min/max of the data (to increase the spread of the plots)
         .range([margin.left, width - margin.right])
 
     //Y SCALE
     const yScale = d3.scaleLinear()
-        .domain(d3.extent(data, d => d.Fem_ManagementBusinessandFinancialOperations)) //restricting axis to the min/max of the data (to increase the spread of the plots)
+        .domain(d3.extent(dataReadyFem, d => d.value)) //restricting axis to the min/max of the data (to increase the spread of the plots)
         .range([height - margin.bottom, margin.top])
 
     const colorScale = d3.scaleOrdinal()
         .domain(["M", "F"]) //maps to the two different values
         .range(["purple", "orange"])
 
+
+    /*HTML Elements */
+    //CREATE SVG
+    const svg = d3.select("#container")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+
+    //X AXIS 
+    const xAxis = d3.axisBottom(xScale)
+    svg.append("g")
+        .attr("class", "axis") //assigns axis class
+        .attr("transform", `translate(0,${height - margin.bottom})`) //moves axes from default position at top to the bottom by 0, (height-margin.bottom)
+        .call(xAxis)
+
+
+    //Y AXIS
+    const yAxis = d3.axisLeft(yScale)
+    svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", `translate(${margin.left},0)`) //positions yAxis from default - moves it left by margin.left = ticks visible 
+        .call(yAxis)
     
+
+
+    //CREATE SCATTERPLOT
+    const dot = svg
+        .selectAll("circle")
+        .data([dataReadyMale + dataReadyFem])
+        .join("circle")
+        .attr("class", "circle")
+        .attr("cx", d => xScale(dataReadyMale => d.value)) //alternative below
+        .attr("cy", d => yScale(dataReadyFem => d.value)) //alternative below
+        .attr("r", radius)
+        .attr("fill", d => colorScale(dataReadyColor => d.value)) //will color the circles based on this scale - replaces colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations ]))
+        .on('mouseover', function (e, d) {
+            d3.select(this)
+                .append("title") //adds tooltip (text) too all "rect" elements on mouseover
+                .text(dataReadyMale => (d.Statistics + " - " + "M: " + (dataReadyMale(d.value)) + ", F: "))  //code for tooltip  
+        })
+
+
+
+    // //LABEL THE DOTS
+    // svg.selectAll("labels")
+    //     .data(dataReady)
+    //     .join("text")
+    //     .text(dataReadyMale => (d.value) + ", " + (dataReadyFem => d.Fem_ManagementBusinessandFinancialOperations)) //labels dots
+    //     .attr("x", dataReadyMale => xScale(d.value) - margin.left / 5)
+    //     .attr("y", dataReadyFem => yScale(d.value) - margin.left / 9)
+    //     .attr("font-size", 10)
+    //     .attr("font-weight", "bold")
+    //     .attr("fill", "transparent")
+    //     .on('mouseover', function () {
+    //         d3.select(this)
+    //             .attr("fill", "black")
+    //     }) // this works when you mouse over - turn red
+    //     .on('mouseout', function () {
+    //         d3.select(this)
+    //             .attr("fill", "transparent")
+    //     }) //mouseout function works and the labels turn clear  
+
+
+
+
+    // //LABEL THE SCATTERPLOT
+    // svg
+    //     .append("text")
+    //     .attr("class", "title")
+    //     .attr("x", width / 2)
+    //     .attr("y", height / 20) //higher the denominator, higher the text moves up pg
+    //     .attr("text-anchor", "middle")
+    //     .text("Management, Business, and Financial Operations")
+    //     .style("font-size", "20px")
+    //     .style("font-weight", "bold")
+    //     .style("text-decoration", "underline")
+    //     .attr("fill", "darkblue")
+
+
+
+    // //LABEL THE X-AXIS
+    // svg
+    //     .append("text")
+    //     .attr("class", "axis-label")
+    //     .attr("transform", `translate(750,${height - margin.bottom + 50})`)
+    //     .attr("fill", "purple")
+    //     .style("font-weight", "bold")
+    //     .style("font-size", "18px")
+    //     .text("Males")
+
+    // //LABEL THE Y-AXIS 
+    // svg
+    //     .append("text")
+    //     .attr("class", "axis-label") //gave it a new class name b/c it seems to move w/ the dot labels
+    //     .attr("fill", "orange")
+    //     .style("font-weight", "bold")
+    //     .style("font-size", "18px")
+    //     .attr('transform', (d, i) => {
+    //         return 'translate( ' + yScale(i) + ' , ' + 350 + '),' + 'rotate(270)';
+    //     }) // higher positive # - more label moves DOWN y-axis 
+    //     .attr('dy', '-54.0em') //-40 moves label 40 to the left - (+40 moves to right)
+    //     // .attr("transform", `translate(${margin.left - 60},200), ' + 'rotate(45)`)
+    //     .text("Females")
+
+
 });
