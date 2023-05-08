@@ -22,9 +22,9 @@ let state = {
 };
 
 /* LOAD DATA */
-d3.csv("../data/census_occ_pct.csv", d3.autoType).then(raw_data => {
+d3.json("../data/census_occ_subset.json", d3.autoType).then(raw_data => {
+    
     console.log("raw_data", raw_data);
-    console.log(raw_data.columns.slice(1, 13));
     state.data = raw_data;
     var maleJobs = ["Male_ManagementBusinessandFinancialOperations", "Male_ProfessionalandRelated", "Male_HealthcareSupport", "Male_ProtectiveService", "Male_FoodPrepandServing", "Male_BuildingandGroundsCleaningandMaintenance", "Male_PersonalCareandService", "Male_SalesandRelated", "Male_OfficeandAdminSupport", "Male_FarmingFishingandForestry", "Male_ConstructionExtractionandMaintenance", "Male_Production", "Male_TranspoandMaterialMoving"]
     var femJobs = ["Fem_ManagementBusinessandFinancialOperations", "Fem_ProfessionalandRelated", "Fem_HealthcareSupport", "Fem_ProtectiveService", "Fem_FoodPrepandServing", "Fem_BuildingandGroundsCleaningandMaintenance", "Fem_PersonalCareandService", "Fem_SalesandRelated", "Fem_OfficeandAdminSupport", "Fem_FarmingFishingandForestry", "Fem_ConstructionExtractionandMaintenance", "Fem_Production", "Fem_TranspoandMaterialMoving"]
@@ -44,20 +44,20 @@ d3.csv("../data/census_occ_pct.csv", d3.autoType).then(raw_data => {
     function init(){
         d3.select("#dropdown")
             .selectAll("difOption")
-            .data(allJobs)
+            .data(state.data)
             .enter()
             .append("option")
             .text(function(d) {return d;})
             .attr("value", d => d)
 
     //X SCALE
-    const xScale = d3.scaleLinear()
+    xScale = d3.scaleLinear()
         .domain([0, 1])
         //.domain(d3.extent(data, d => d.Male_ManagementBusinessandFinancialOperations)) //restricting axis to the min/max of the data (to increase the spread of the plots)
         .range([margin.left, width - margin.right])
 
     //Y SCALE
-    const yScale = d3.scaleLinear()
+    yScale = d3.scaleLinear()
         .domain([0, 1])
         //.domain(d3.extent(data, d => d.Fem_ManagementBusinessandFinancialOperations)) //restricting axis to the min/max of the data (to increase the spread of the plots)
         .range([height - margin.bottom, margin.top])
@@ -66,6 +66,65 @@ d3.csv("../data/census_occ_pct.csv", d3.autoType).then(raw_data => {
         .domain(["M", "F"]) //maps to the two different values
         .range(["purple", "orange"])
 
+    // + AXES
+    //X AXIS - when comment out these two codes, the options show on the bar
+    // xAxis = d3.axisBottom(xScale)
+        // svg.append("g")
+    //     .attr("class", "axis") //assigns axis class
+    //     .attr("transform", `translate(0,${height - margin.bottom})`) //moves axes from default position at top to the bottom by 0, (height-margin.bottom)
+    //     .call(xAxis)
+
+
+    // //Y AXIS
+    //     yAxis = d3.axisLeft(yScale)
+    //     svg.append("g")
+    //     .attr("class", "axis")
+    //     .attr("transform", `translate(${margin.left},0)`) //positions yAxis from default - moves it left by margin.left = ticks visible 
+    //     .call(yAxis)
+
+    // + UI ELEMENT SETUP
+    const selectElement = d3.select("#dropdown") // select dropdown element from HTML
+    // add in dropdown options
+    selectElement
+        .selectAll("option")
+        .data([ 
+            { key: "M_F_ManagementBusinessandFinancialOperations", label: "Management, business, finance" }, // doesn't exist in data, we're adding this as an extra option
+            { key: "M_F_ProfessionalandRelated", label: "Professional and related" },
+            { key: "M_F_HealthcareSupport", label: "Healthcare support" },
+            {
+                key: "M_F_ProtectiveService", label: "Protective Services"
+            },
+            {
+                key: "M_F_FoodPrepandServing", label: "Food Prep and Serving"
+            },
+            {
+                key: "M_F_BuildingandGroundsCleaningandMaintenance", label: "Building & Grounds Cleaning & Maintenance"
+            },
+            {
+                key: "M_F_PersonalCareandService", label: "Personal Care and Service"
+            },
+            {
+                key: "M_F_SalesandRelated", label: "Sales and related"
+            },
+            {
+                key: "M_F_OfficeandAdminSupport", label: "Office & Admin support"
+            },
+            {
+                key: "M_F_FarmingFishingandForestry", label: "Farming, fishing, & forestry"
+            },
+            {
+                key: "M_F_ConstructionExtractionandMaintenance", label: "Construction, extraction, & maintenance"
+            }, 
+            {
+                key: "M_F_Production", label: "Production"
+            },
+            {
+                key: "M_F_TranspoandMaterialMoving", label: "Transportation & material moving"
+            }
+        ])
+        .join("option")
+        .attr("value", d => d.key) // set the key to the 'value' -- what we will use to FILTER our data later
+        .text(d => d.label); // set the label to text -- easier for the user to read than the key
 
 
 }

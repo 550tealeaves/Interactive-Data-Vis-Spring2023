@@ -66,7 +66,7 @@ d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/da
     svg.append("g")
       .call(d3.axisLeft(y));
 
-    // Add the lines
+    //Add the lines
     var line = d3.line()
       .x(function(d) { return x(+d.time) })
       .y(function(d) { return y(+d.value) })

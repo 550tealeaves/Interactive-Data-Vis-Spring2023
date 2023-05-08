@@ -7,6 +7,9 @@ const width = window.innerWidth * 0.9,
 
 /* LOAD DATA */
 d3.json("../data/census_occ_subset.json", d3.autoType).then(data => {
+    return data = d+data;
+
+});
     console.log("data", data);
     var maleJobs = ["Male_ManagementBusinessandFinancialOperations", "Male_ProfessionalandRelated", "Male_HealthcareSupport", "Male_ProtectiveService", "Male_FoodPrepandServing", "Male_BuildingandGroundsCleaningandMaintenance", "Male_PersonalCareandService", "Male_SalesandRelated", "Male_OfficeandAdminSupport", "Male_FarmingFishingandForestry", "Male_ConstructionExtractionandMaintenance", "Male_Production", "Male_TranspoandMaterialMoving"]
     var femJobs = ["Fem_ManagementBusinessandFinancialOperations", "Fem_ProfessionalandRelated", "Fem_HealthcareSupport", "Fem_ProtectiveService", "Fem_FoodPrepandServing", "Fem_BuildingandGroundsCleaningandMaintenance", "Fem_PersonalCareandService", "Fem_SalesandRelated", "Fem_OfficeandAdminSupport", "Fem_FarmingFishingandForestry", "Fem_ConstructionExtractionandMaintenance", "Fem_Production", "Fem_TranspoandMaterialMoving"]
@@ -113,7 +116,7 @@ d3.json("../data/census_occ_subset.json", d3.autoType).then(data => {
     //CREATE SCATTERPLOT
     const dot = svg
         .selectAll("circle")
-        .data([dataReadyMale + dataReadyFem])
+        .data([data])
         .join("circle")
         .attr("class", "circle")
         .attr("cx", d => xScale(dataReadyMale => d.value)) //alternative below
@@ -123,8 +126,10 @@ d3.json("../data/census_occ_subset.json", d3.autoType).then(data => {
         .on('mouseover', function (e, d) {
             d3.select(this)
                 .append("title") //adds tooltip (text) too all "rect" elements on mouseover
-                .text(dataReadyMale => (d.Statistics + " - " + "M: " + (dataReadyMale(d.value)) + ", F: "))  //code for tooltip  
-        })
+                .text(function(d, i) {
+                    return d.Statistics + " - " + "M: " + dataReadyMale[0].values[0].value + ", F: " + dataReadyFem[0].values[0].value;
+                } //code for tooltip  
+        )})
 
 
 
@@ -190,4 +195,3 @@ d3.json("../data/census_occ_subset.json", d3.autoType).then(data => {
     //     .text("Females")
 
 
-});
