@@ -6,9 +6,11 @@ margin = 100;
 
 Promise.all([
     d3.csv("../data/census_categories_pct.csv"),
+    d3.csv("../data/census_novar_nofilter.csv"),
     d3.csv("../data/census_states_pct.csv", d3.autoType),
-]).then(([catPct, data]) => {
+]).then(([catPct, regular, data]) => {
     console.log("catPct", catPct)
+    console.log("regular", regular)
     console.log("statesPct", data)
 
     const svg = d3.select("#container")

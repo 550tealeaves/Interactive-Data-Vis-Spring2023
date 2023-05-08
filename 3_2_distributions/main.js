@@ -122,7 +122,7 @@ function draw() {
       // + HANDLE ENTER SELECTION
       enter => enter
         .append("circle") //must write .append 1st time enter is listed
-        .attr("cx", 0) //start X at 0 (before transition) 
+        .attr("cx", 0) //start X at 0 (before transition) "
         .attr("cy", d => yScale(d.envScore2020))
         .attr("r", 0) // radius starts at 0 (before transition)
         .attr("fill", d => colorScale(d.Party))
@@ -130,7 +130,7 @@ function draw() {
           .transition() //returns transition NOT a selection - call transition on selection, which is the dots
           .attr("r", radius) //transitions into radius = 10
           .transition() // transition another attribute
-          .duration(2000) // dots will grow in 
+          .duration(2000) // dots will grow in "
           .attr("cx", d => xScale(d.ideologyScore2020)) //transitions to ideologyScore2020 value - dots move across the DOM
 
         ),

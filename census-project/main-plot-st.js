@@ -25,11 +25,14 @@ let state = {
 d3.json("../data/census_occ_subset.json", d3.autoType).then(raw_data => {
     
     console.log("raw_data", raw_data);
+    console.log(raw_data[0].Fem_HealthcareSupport)
     state.data = raw_data;
+    var allStates = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", "TOTAL"]
     var maleJobs = ["Male_ManagementBusinessandFinancialOperations", "Male_ProfessionalandRelated", "Male_HealthcareSupport", "Male_ProtectiveService", "Male_FoodPrepandServing", "Male_BuildingandGroundsCleaningandMaintenance", "Male_PersonalCareandService", "Male_SalesandRelated", "Male_OfficeandAdminSupport", "Male_FarmingFishingandForestry", "Male_ConstructionExtractionandMaintenance", "Male_Production", "Male_TranspoandMaterialMoving"]
     var femJobs = ["Fem_ManagementBusinessandFinancialOperations", "Fem_ProfessionalandRelated", "Fem_HealthcareSupport", "Fem_ProtectiveService", "Fem_FoodPrepandServing", "Fem_BuildingandGroundsCleaningandMaintenance", "Fem_PersonalCareandService", "Fem_SalesandRelated", "Fem_OfficeandAdminSupport", "Fem_FarmingFishingandForestry", "Fem_ConstructionExtractionandMaintenance", "Fem_Production", "Fem_TranspoandMaterialMoving"]
     var allJobs = ["Male_ManagementBusinessandFinancialOperations", "Male_ProfessionalandRelated", "Male_HealthcareSupport", "Male_ProtectiveService", "Male_FoodPrepandServing", "Male_BuildingandGroundsCleaningandMaintenance", "Male_PersonalCareandService", "Male_SalesandRelated", "Male_OfficeandAdminSupport", "Male_FarmingFishingandForestry", "Male_ConstructionExtractionandMaintenance", "Male_Production", "Male_TranspoandMaterialMoving", "Fem_ManagementBusinessandFinancialOperations", "Fem_ProfessionalandRelated", "Fem_HealthcareSupport", "Fem_ProtectiveService", "Fem_FoodPrepandServing", "Fem_BuildingandGroundsCleaningandMaintenance", "Fem_PersonalCareandService", "Fem_SalesandRelated", "Fem_OfficeandAdminSupport", "Fem_FarmingFishingandForestry", "Fem_ConstructionExtractionandMaintenance", "Fem_Production", "Fem_TranspoandMaterialMoving"]
     var colorCode = ["M_F_ManagementBusinessandFinancialOperations", "M_F_ProfessionalandRelated", "M_F_HealthcareSupport", "M_F_ProtectiveService", "M_F_FoodPrepandServing", "M_F_BuildingandGroundsCleaningandMaintenance", "M_F_PersonalCareandService", "M_F_SalesandRelated", "M_F_OfficeandAdminSupport", "M_F_FarmingFishingandForestry", "M_F_ConstructionExtractionandMaintenance", "M_F_Production", "M_F_TranspoandMaterialMoving"]
+    console.log("allStates", allStates);
     console.log("maleJobs", maleJobs);
     console.log("femJobs", femJobs);
     console.log("allJobs", allJobs);
@@ -79,6 +82,7 @@ d3.json("../data/census_occ_subset.json", d3.autoType).then(raw_data => {
     console.log("dataReadyMale", dataReadyMale);
     console.log("dataReadyFem", dataReadyFem);
     console.log("dataReadyColor", dataReadyColor);
+    console.log(dataReady[0].values[2].value)
 
     init();
 });
@@ -108,7 +112,8 @@ d3.json("../data/census_occ_subset.json", d3.autoType).then(raw_data => {
         .range([height - margin.bottom, margin.top])
 
     const colorScale = d3.scaleOrdinal()
-        .domain(d3.extent(state.data, d => d.dataReadyColor)) //maps to the two different values
+        .domain(["M", "F"]) //maps to the two different values    
+    // .domain(d3.extent(state.data, d => d.dataReadyColor)) //maps to the two different values
         .range(["purple", "orange"])
 
     // + AXES
@@ -140,8 +145,51 @@ d3.json("../data/census_occ_subset.json", d3.autoType).then(raw_data => {
 function draw() {
     // + FILTER DATA BASED ON JOBS
     const filteredData = state.data
-        .filter(d => state.selectedJobs === "Management, business, finance" || state.selectedJobs === d.Party) //filter and return any value that's All or selected party
+        .filter(d => state.selectedJobs === d.dataReady[0].value || state.selectedJobs === d.dataReady[13].value) //filter and return any value that's All or selected party
     console.log('filteredData', filteredData)
+
+
+const dot = svg
+    .selectAll("circle")
+    .data(filteredData, d => d.Statistics) //state = unique ID
+    .join(
+        // + HANDLE ENTER SELECTION
+        enter => enter
+        .append("circle")
+        .attr("cx", 0)
+        .attr("cy", d => yScale(d.dataReadyFem))
+        .attr("r", 0)
+        .attr("fill", "green")
+        .call(sel => sel
+            .transition()
+            .attr("r", radius)
+            .transition()
+            .duration(2000)
+            .attr("cs", d => xScale(d.dataReadyMale))
+            
+        ),
+
+        // + HANDLE UPDATE SELECTION
+      update => update,
+
+
+        // + HANDLE EXIT SELECTION
+        exit => exit
+        .call(sel => sel  //.call(sel => sel) gives access to the selection
+            //before transition
+            .attr("opacity", 1)
+            .transition() //returns transition NOT a selection
+            .duration(3000)
+            .delay((d, i) => i * 50) // i = index - multiply index by 50 milliseconds
+
+            //after transition
+            .attr("opacity", 0)
+            .remove() //removes the dots 
+        )
+
+
+    );
+    
 }
 
 

@@ -6,7 +6,7 @@ const width = window.innerWidth * 0.9,
 
 
 /* LOAD DATA */
-d3.json("../data/census_occ_subset.json", d3.autoType).then(data => {
+d3.json("../data/census_occ_total_subset.json", d3.autoType).then(data => {
    
     console.log("data", data);
     var maleJobs = ["Male_ManagementBusinessandFinancialOperations", "Male_ProfessionalandRelated", "Male_HealthcareSupport", "Male_ProtectiveService", "Male_FoodPrepandServing", "Male_BuildingandGroundsCleaningandMaintenance", "Male_PersonalCareandService", "Male_SalesandRelated", "Male_OfficeandAdminSupport", "Male_FarmingFishingandForestry", "Male_ConstructionExtractionandMaintenance", "Male_Production", "Male_TranspoandMaterialMoving"]
