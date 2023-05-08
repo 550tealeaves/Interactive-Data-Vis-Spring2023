@@ -7,9 +7,7 @@ const width = window.innerWidth * 0.9,
 
 /* LOAD DATA */
 d3.json("../data/census_occ_subset.json", d3.autoType).then(data => {
-    return data = d+data;
-
-});
+   
     console.log("data", data);
     var maleJobs = ["Male_ManagementBusinessandFinancialOperations", "Male_ProfessionalandRelated", "Male_HealthcareSupport", "Male_ProtectiveService", "Male_FoodPrepandServing", "Male_BuildingandGroundsCleaningandMaintenance", "Male_PersonalCareandService", "Male_SalesandRelated", "Male_OfficeandAdminSupport", "Male_FarmingFishingandForestry", "Male_ConstructionExtractionandMaintenance", "Male_Production", "Male_TranspoandMaterialMoving"]
     var femJobs = ["Fem_ManagementBusinessandFinancialOperations", "Fem_ProfessionalandRelated", "Fem_HealthcareSupport", "Fem_ProtectiveService", "Fem_FoodPrepandServing", "Fem_BuildingandGroundsCleaningandMaintenance", "Fem_PersonalCareandService", "Fem_SalesandRelated", "Fem_OfficeandAdminSupport", "Fem_FarmingFishingandForestry", "Fem_ConstructionExtractionandMaintenance", "Fem_Production", "Fem_TranspoandMaterialMoving"]
@@ -66,13 +64,13 @@ d3.json("../data/census_occ_subset.json", d3.autoType).then(data => {
 
 
     //ADD DROPDOWN OPTIONS 
-    d3.select("#dropdown")
-    .selectAll('myOptions')
-        .data(["Management, Business, and Financial Operations  Occupations", "Professional and Related Occupations", "Healthcare Support Occupations", "Protective Service Occupations", "Food Preparation and Serving Related Occupations", "Building and Grounds Cleaning and Maintenance  Occupations", "Personal Care and Service Occupations", "Sales and Related Occupations", "Office and Administrative Support Occupations", "Farming, Fishing, and Forestry Occupations", "Construction, Extraction, and Maintenance  Occupations", "Production Occupations", "Transportation and Material Moving Occupations"])
-    //.data(allJobs) //all headers from jobs variable shows here
-    .join('option')
-    .text(d => d)
-    .attr("value", d => d)
+    // d3.select("#dropdown")
+    // .selectAll('myOptions')
+    //     .data(["Management, Business, and Financial Operations  Occupations", "Professional and Related Occupations", "Healthcare Support Occupations", "Protective Service Occupations", "Food Preparation and Serving Related Occupations", "Building and Grounds Cleaning and Maintenance  Occupations", "Personal Care and Service Occupations", "Sales and Related Occupations", "Office and Administrative Support Occupations", "Farming, Fishing, and Forestry Occupations", "Construction, Extraction, and Maintenance  Occupations", "Production Occupations", "Transportation and Material Moving Occupations"])
+    // //.data(allJobs) //all headers from jobs variable shows here
+    // .join('option')
+    // .text(d => d)
+    // .attr("value", d => d)
 
     //X SCALE
     const xScale = d3.scaleLinear()
@@ -194,4 +192,4 @@ d3.json("../data/census_occ_subset.json", d3.autoType).then(data => {
     //     // .attr("transform", `translate(${margin.left - 60},200), ' + 'rotate(45)`)
     //     .text("Females")
 
-
+});

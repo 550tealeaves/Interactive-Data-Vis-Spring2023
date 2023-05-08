@@ -35,6 +35,51 @@ d3.json("../data/census_occ_subset.json", d3.autoType).then(raw_data => {
     console.log("allJobs", allJobs);
     console.log("colorCode", colorCode);
 
+    var dataReady = allJobs.map(function (jobs) {
+        return {
+            name: jobs,
+            values: state.data.map(function (d) {
+                return {
+                    state: d.Statistics, value: +d[jobs]
+                }; //returns array of objects that has state + all corresponding value
+            })
+        }
+    }) //formats the allJobs variable 
+    var dataReadyMale = maleJobs.map(function (jobs) {
+        return {
+            name: jobs,
+            values: state.data.map(function (d) {
+                return {
+                    state: d.Statistics, value: +d[jobs]
+                }; //returns array of objects that has state + corresponding male value
+            })
+        }
+    }) //formats the maleJobs variable
+    var dataReadyFem = femJobs.map(function (jobs) {
+        return {
+            name: jobs,
+            values: state.data.map(function (d) {
+                return {
+                    state: d.Statistics, value: +d[jobs]
+                }; //returns array of objects that has state + corresponding female value
+            })
+        }
+    }) //formats the femJobs variable
+    var dataReadyColor = colorCode.map(function (color) {
+        return {
+            name: color,
+            values: state.data.map(function (d) {
+                return {
+                    state: d.Statistics, value: d[color]
+                }; //returns array of objects that has state + all corresponding value
+            })
+        }
+    }) //formats the allJobs variable 
+    console.log("dataReady", dataReady);
+    console.log("dataReadyMale", dataReadyMale);
+    console.log("dataReadyFem", dataReadyFem);
+    console.log("dataReadyColor", dataReadyColor);
+
     init();
 });
 
@@ -42,28 +87,28 @@ d3.json("../data/census_occ_subset.json", d3.autoType).then(raw_data => {
 /* INITIALIZING FUNCTION */
 // this will be run *one time* when the data finishes loading in
     function init(){
-        d3.select("#dropdown")
-            .selectAll("difOption")
-            .data(state.data)
-            .enter()
-            .append("option")
-            .text(function(d) {return d;})
-            .attr("value", d => d)
+        // d3.select("#dropdown")
+        //     .selectAll("difOption")
+        //     .data(state.data)
+        //     .enter()
+        //     .append("option")
+        //     .text(function(d) {return d;})
+        //     .attr("value", d => d)
 
     //X SCALE
     xScale = d3.scaleLinear()
-        .domain([0, 1])
+        .domain(d3.extent(state.data, d => d.dataReadyMale))
         //.domain(d3.extent(data, d => d.Male_ManagementBusinessandFinancialOperations)) //restricting axis to the min/max of the data (to increase the spread of the plots)
         .range([margin.left, width - margin.right])
 
     //Y SCALE
     yScale = d3.scaleLinear()
-        .domain([0, 1])
+        .domain(d3.extent(state.data, d => d.dataReadyFem))
         //.domain(d3.extent(data, d => d.Fem_ManagementBusinessandFinancialOperations)) //restricting axis to the min/max of the data (to increase the spread of the plots)
         .range([height - margin.bottom, margin.top])
 
     const colorScale = d3.scaleOrdinal()
-        .domain(["M", "F"]) //maps to the two different values
+        .domain(d3.extent(state.data, d => d.dataReadyColor)) //maps to the two different values
         .range(["purple", "orange"])
 
     // + AXES
