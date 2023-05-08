@@ -47,9 +47,20 @@ d3.csv("../data/census_occ_pct.csv", d3.autoType).then(data => {
             })
         }
     }) //formats the femJobs variable
+    var dataReadyColor = colorCode.map(function (color) {
+        return {
+            name: color,
+            values: data.map(function (d) {
+                return {
+                    state: d.Statistics, value: d[color]
+                }; //returns array of objects that has state + all corresponding value
+            })
+        }
+    }) //formats the allJobs variable 
     console.log("dataReady", dataReady);
     console.log("dataReadyMale", dataReadyMale);
     console.log("dataReadyFem", dataReadyFem);
+    console.log("dataReadyColor", dataReadyColor);
 
 
     //ADD DROPDOWN OPTIONS 
