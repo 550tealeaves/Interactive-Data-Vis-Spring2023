@@ -61,7 +61,7 @@ d3.csv('../data/census.csv', d3.autoType)
         draw();
         }
 
-        function draw() {
+    function draw() {
         // yAxis
         yAxis = d3.axisLeft(yScale)
         svg.append("g")
@@ -151,7 +151,11 @@ d3.csv('../data/census.csv', d3.autoType)
                 }) //will move the labels
 
         })
+
     }
+        
+    
+        //START HERE
         // //SECOND SVG - MALE POPULATION BY STATE 
 
         // const svgMale = d3.select("#second-container")
