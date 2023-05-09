@@ -17,8 +17,14 @@ h1, h2{
     
 }
 
-li, ol{
+li{
     list-style-position: inside;
+}
+
+.quote{
+    font-weight: bold;
+    font-style: italic;
+    text-decoration: underline;
 }
 
 button {
