@@ -113,36 +113,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
             })
             yScale.domain(data.map(function (d) {
                 return d.Statistics;
-            }));  //this does not change the y-axis
-
-
-            // const pressButton = d3.select(this).node().value;
-            // // console.log(pressButton);
-            // if (pressButton == "Ascendingly") {
-            //     data.sort((a, b) => {
-            //         return d3.ascending(a.TotalEmpSec_EmployedCivilianPop16YearsandOver
-            // , b.TotalEmpSec_EmployedCivilianPop16YearsandOver
-            // )
-            //     })
-            // } else if (pressButton == "Descendingly") {
-            //     data.sort((a, b) => {
-            //         return d3.descending(a.TotalEmpSec_EmployedCivilianPop16YearsandOver
-            // , b.TotalEmpSec_EmployedCivilianPop16YearsandOver
-            // )
-            //     })
-            // } else if (pressButton == "Alphabetically") {
-            //     data.sort((a, b) => {
-            //         return d3.ascending(a.Statistics, b.Statistics)
-            //     })
-            // }
-
-
-
-            //trying to make Y-axis disappear - not working
-            svg.select("axis")
-                .transition()
-                .duration(400)
-                .attr("fill", "transparent")
+            }));  
 
 
             svg.selectAll(".bar")
@@ -377,13 +348,13 @@ d3.csv('../data/census_four.csv', d3.autoType)
 
             svgFemale.selectAll(".bar")
                 .transition()
-                .duration(700) //changes how fast the bars shift
+                .duration(700) 
                 .attr("y", function (d, i) {
                     return yScaleFemale(d.Statistics);
                 })
 
 
-            svgFemale.selectAll(".labels") //select class labels to move
+            svgFemale.selectAll(".labels") 
                 .transition()
                 .duration(700)
                 .attr("y", function (d, i) {
