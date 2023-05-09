@@ -102,7 +102,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
                     .attr("fill", "darkgoldenrod")
             })
             .append("title")
-            .text(d => (d.Statistics + " population is " + d.TotalEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString()))
+            .text(d => (d.Statistics + " employed population is " + d.TotalEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString()))
 
 
 
@@ -221,7 +221,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
                     .attr("fill", "darkblue")
             })
             .append("title")
-            .text(d => (d.Statistics + " male population is " + d.MaleEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString()))
+            .text(d => (d.Statistics + " employed male pop is " + d.MaleEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString()))
 
 
         //Sort by clicking button
@@ -337,7 +337,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
                     .attr("fill", "darkred")
             })
             .append("title")
-            .text(d => (d.Statistics + " female population is " + d.FemEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString()))
+            .text(d => (d.Statistics + " employed female pop is " + d.FemEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString()))
 
         //Sort by clicking button
         d3.select(".value-sort-female").on("click", function () {
