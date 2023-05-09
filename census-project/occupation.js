@@ -20,17 +20,15 @@ Promise.all([
     //X SCALE
     const xScale = d3.scaleLinear()
         .domain(d3.extent(data, d => d.Male_ManagementBusinessandFinancialOperations))
-        //.domain([d3.min(data.map(d => d.Male_ManagementBusinessandFinancialOperations)), d3.max(data.map(d => d.Male_ManagementBusinessandFinancialOperations))]) //restricting axis to the min/max of the data (to increase the spread of the plots)
         .range([margin.left, width - margin.right])
 
     //Y SCALE
     const yScale = d3.scaleLinear()
         .domain(d3.extent(data, d => d.Fem_ManagementBusinessandFinancialOperations))
-        //.domain([d3.min(data.map(d => d.Fem_ManagementBusinessandFinancialOperations)), d3.max(data, d => d.Fem_ManagementBusinessandFinancialOperations)]) //restricting axis to the min/max of the data (to increase the spread of the plots)
         .range([height - margin.bottom, margin.top])
 
     const colorScale = d3.scaleOrdinal()
-        .domain(["M", "F"]) //maps to the two different values
+        .domain(["M", "F"]) 
         .range(["purple", "orange"])
 
 
@@ -45,8 +43,8 @@ Promise.all([
     //X AXIS 
     const xAxis = d3.axisBottom(xScale)
     svg.append("g")
-        .attr("class", "axis") //assigns axis class
-        .attr("transform", `translate(0,${height - margin.bottom})`) //moves axes from default position at top to the bottom by 0, (height-margin.bottom)
+        .attr("class", "axis") 
+        .attr("transform", `translate(0,${height - margin.bottom})`) 
         .call(xAxis)
 
 
@@ -54,7 +52,7 @@ Promise.all([
     const yAxis = d3.axisLeft(yScale)
     svg.append("g")
         .attr("class", "axis")
-        .attr("transform", `translate(${margin.left},0)`) //positions yAxis from default - moves it left by margin.left = ticks visible 
+        .attr("transform", `translate(${margin.left},0)`) 
         .call(yAxis)
 
 
@@ -64,37 +62,20 @@ Promise.all([
         .data(data, d => d.Statistics)
         .join("circle")
         .attr("class", "circle")
-        .attr("cx", d => xScale(d.Male_ManagementBusinessandFinancialOperations)) //alternative below
-        .attr("cy", d => yScale(d.Fem_ManagementBusinessandFinancialOperations)) //alternative below
+        .attr("cx", d => xScale(d.Male_ManagementBusinessandFinancialOperations))
+        .attr("cy", d => yScale(d.Fem_ManagementBusinessandFinancialOperations))
         .attr("r", radius)
-        .attr("fill", d => colorScale(d.M_F_ManagementBusinessandFinancialOperations)) //will color the circles based on this scale - replaces colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations ]))
+        .attr("fill", d => colorScale(d.M_F_ManagementBusinessandFinancialOperations)) 
         .on('mouseover', function (e, d) {
             console.log(e, d);
             
             //d3.select(this)
-               d3.select("#dot-labels") //adds dot labels when you over (text) too all "circle" elements on mouseover
-                .text(d.Statistics + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations + ", F: " + d.Fem_ManagementBusinessandFinancialOperations) //code for labels  
+               d3.select("#dot-labels") 
+                .text(d.Statistics + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations + ", F: " + d.Fem_ManagementBusinessandFinancialOperations)   
                 .attr("x", xScale(d.Male_ManagementBusinessandFinancialOperations) - margin.left / 7)
                 .attr("y", yScale(d.Fem_ManagementBusinessandFinancialOperations))
                 
-            }) //mouseover takes 2 arguments (e = event, d = data)
-        
-
-        // .on('mouseout', function () {
-        //     d3.select(this)
-        //         .transition("colorfade")
-        //         .delay(100)
-        //         .attr("fill", "purple") //bars will turn color when mouse leaves
-        // })
-        // .text(d => (d.Statistics + " male population is " + d.MalePop.toLocaleString()))
-        
-        
-        //d => (d.Statistics + " population is " + d.TotalPopulationBySex.toLocaleString())  replaces (function(d) { return (d.Statistics + " population is " + d.TotalPopulationBySex.toLocaleString()) })
-
-    //LABEL THE DOTS
-    //.enter.append() = .join()
-
-//for tooltips, select text and id
+            }) 
 
     svg
         .append("text")
@@ -122,7 +103,7 @@ Promise.all([
         .append("text")
         .attr("class", "title")
         .attr("x", width / 2)
-        .attr("y", height / 20) //higher the denominator, higher the text moves up pg
+        .attr("y", height / 20) 
         .attr("text-anchor", "middle")
         .text("Management, Business, and Financial Operations")
         .style("font-size", "20px")
@@ -143,30 +124,29 @@ Promise.all([
     //LABEL THE Y-AXIS 
     svg //use margin to arrange y-axis - Mia
         .append("text")
-        .attr("class", "axis-label") //gave it a new class name b/c it seems to move w/ the dot labels
+        .attr("class", "axis-label")
         .attr("fill", "orange")
         .style("font-weight", "bold")
         .style("font-size", "18px")
         .attr('transform', (d, i) => {
             return 'translate( ' + yScale(i) + ' , ' + 350 + '),' + 'rotate(270)';
-        }) // higher positve # - more label moves DOWN y-axis 
-        .attr('y', -970) //-40 moves label 40 to the left - (+40 moves to right)
-        // .attr("transform", `translate(${margin.left - 60},200), ' + 'rotate(45)`)
+        })  
+        .attr('y', -970) 
         .text("Females")
 
 
     //CREATE A LEGEND
     //https://stackoverflow.com/questions/55219862/updating-stacked-bar-chart-d3-with-multiple-datasets
     legend.append("rect")
-        .attr("x", width - 10) //separates letters from legend box
+        .attr("x", width - 10) 
         .attr("width", 15)
-        .attr("height", 15) //increase the length of the legend box
+        .attr("height", 15) 
         .attr("fill", d => colorScale.range())
 
     //LABEL THE LEGEND
     legend.append("text")
         .attr("x", width - 13)
-        .attr("y", 7) //moves M/F up down
+        .attr("y", 7) 
         .attr("dy", ".35em")
         .style("text-anchor", "end")
         .text(d => d)
