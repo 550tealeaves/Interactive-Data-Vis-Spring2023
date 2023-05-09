@@ -73,6 +73,10 @@ d3.json("../data/census_occ_total_subset.json", d3.autoType).then(data => {
     // .attr("value", d => d)
 
     //X SCALE
+    const filteredData = state.data
+        .filter(d => state.selectedJobs === d.TOTAL || state.selectedJobs === d.dataReadyMale || state.selectedJobs === d.dataReadyFem)
+    console.log('filteredData', filteredData)
+    
     const xScale = d3.scaleLinear()
         .domain(d3.extent(dataReadyMale, d => d.value)) //restricting axis to the min/max of the data (to increase the spread of the plots)
         .range([margin.left, width - margin.right])

@@ -52,40 +52,40 @@ d3.json("../data/census_occ_total_subset.json", d3.autoType).then(raw_data => {
             details: state.data.map(function (d) {
                 return {
                     state: d.Statistics, value: +d[jobs]
-                }; //returns array of objects that has state + all corresponding value
+                }; 
             })
         }
-    }) //formats the allJobs variable 
+    }) 
     var dataReadyMale = maleJobs.map(function (jobs) {
         return {
             title: jobs,
             details: state.data.map(function (d) {
                 return {
                     state: d.Statistics, value: +d[jobs]
-                }; //returns array of objects that has state + corresponding male value
+                }; 
             })
         }
-    }) //formats the maleJobs variable
+    }) 
     var dataReadyFem = femJobs.map(function (jobs) {
         return {
             title: jobs,
             details: state.data.map(function (d) {
                 return {
                     state: d.Statistics, value: +d[jobs]
-                }; //returns array of objects that has state + corresponding female value
+                }; 
             })
         }
-    }) //formats the femJobs variable
+    }) 
     var dataReadyColor = colorCode.map(function (color) {
         return {
             title: color,
             details: state.data.map(function (d) {
                 return {
                     state: d.Statistics, value: d[color]
-                }; //returns array of objects that has state + all corresponding value
+                }; 
             })
         }
-    }) //formats the allJobs variable 
+    }) 
 
     var dataReadyStates = allStates.map(function (states) {
         return {
@@ -93,10 +93,10 @@ d3.json("../data/census_occ_total_subset.json", d3.autoType).then(raw_data => {
             details: state.data.map(function (d) {
                 return {
                     title: ([dataReady]), value: +d[states]
-                }; //returns array of objects that has state + all corresponding value
+                }; 
             })
         }
-    }) //formats the allJobs variable
+    }) 
 
     console.log("dataReady", dataReady);
     console.log("dataReadyMale", dataReadyMale);
@@ -113,16 +113,8 @@ d3.json("../data/census_occ_total_subset.json", d3.autoType).then(raw_data => {
 /* INITIALIZING FUNCTION */
 // this will be run *one time* when the data finishes loading in
     function init(){
-        // d3.select("#dropdown")
-        //     .selectAll("difOption")
-        //     .data(state.data)
-        //     .enter()
-        //     .append("option")
-        //     .text(function(d) {return d;})
-        //     .attr("value", d => d)
-
     // + CREATE SVG ELEMENT
-    svg = d3.select("#container") //writing it in init() b/c only need it ran once
+    svg = d3.select("#container") 
         .append("svg")
         .attr("width", width)
         .attr("height", height)
@@ -139,8 +131,7 @@ d3.json("../data/census_occ_total_subset.json", d3.autoType).then(raw_data => {
         .range([height - margin.bottom, margin.top])
 
     const colorScale = d3.scaleOrdinal()
-        .domain(["M", "F"])     
-    // .domain(d3.extent(state.data, d => d.dataReadyColor)) 
+        .domain(["M", "F"])      
         .range(["purple", "orange"])
 
     // + AXES
@@ -162,27 +153,17 @@ d3.json("../data/census_occ_total_subset.json", d3.autoType).then(raw_data => {
 // we call this every time there is an update to the data/state
 function draw() {
     // + FILTER DATA BASED ON JOBS
-    if (state.selectedJobs !== 'Select Occupation') {
-        filteredData = state.data.filter((d) => d.selectedJobs === state.dataReadyFem || state.dataReadyMale)
-        console.log("selection by Job", state.selectedJobs)
-        console.log('filteredData not total', filteredData)
-    } else {
-        filteredData = clone
-    }
-    
-    console.log('clone', clone)
-    
-    // const filteredData = state.data
-    //     .filter(d => state.selectedJobs === d.TOTAL || state.selectedJobs === d.dataReadyMale || state.selectedJobs === d.dataReadyFem) //filter and return any value that's All or selected party
-    // console.log('filteredData', filteredData)
+    const filteredData = state.data
+        .filter(d => state.selectedJobs === d.TOTAL || state.selectedJobs === d.dataReadyMale || state.selectedJobs === d.dataReadyFem) 
+    console.log('filteredData', filteredData)
 
 
 
 //X AXIS 
 const xAxisGroup = d3.axisBottom(xScale)
     svg.append("g")
-        .attr("class", "axis") //assigns axis class
-        .attr("transform", `translate(0,${height - margin.bottom})`) //moves axes from default position at top to the bottom by 0, (height-margin.bottom)
+        .attr("class", "axis") 
+        .attr("transform", `translate(0,${height - margin.bottom})`) 
         .call(xAxis)
 
 
@@ -190,7 +171,7 @@ const xAxisGroup = d3.axisBottom(xScale)
 const yAxisGroup = d3.axisLeft(yScale)
     svg.append("g")
         .attr("class", "axis")
-        .attr("transform", `translate(${margin.left},0)`) //positions yAxis from default - moves it left by margin.left = ticks visible 
+        .attr("transform", `translate(${margin.left},0)`)  
         .call(yAxis)
 
 
@@ -218,7 +199,7 @@ yAxisGroup.append("text")
 
 const dot = svg
     .selectAll("circle")
-    .data(filteredData, d => d.Statistics) //state = unique ID
+    .data(filteredData, d => d.Statistics) 
     .join(
         // + HANDLE ENTER SELECTION
         enter => enter
@@ -226,13 +207,13 @@ const dot = svg
         .attr("cx", d => xScale(d.dataReadyMale))
         .attr("cy", d => yScale(d.dataReadyFem))
         .attr("r", 0)
-        .attr("fill", "red") //will color the circles based on this scale - replaces colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations ]))
+        .attr("fill", "red") 
         .on('mouseover', function (e, d) {
             d3.select(this)
-                .append("title") //adds tooltip (text) too all "rect" elements on mouseover
+                .append("title")  
                 .text(function (d, i) {
                     return d.Statistics + " - " + "M: " + dataReadyMale[0].values[0].value + ", F: " + dataReadyFem[0].values[0].value;
-                } //code for tooltip  
+                }   
                 )
         })
 
@@ -251,79 +232,19 @@ const dot = svg
 
         // + HANDLE EXIT SELECTION
         exit => exit
-        .call(sel => sel  //.call(sel => sel) gives access to the selection
-            //before transition
+        .call(sel => sel  
             .attr("opacity", 1)
-            .transition() //returns transition NOT a selection
+            .transition() 
             .duration(3000)
-            .delay((d, i) => i * 50) // i = index - multiply index by 50 milliseconds
+            .delay((d, i) => i * 50) 
 
             //after transition
             .attr("fill", "purple")
-            .remove() //removes the dots 
+            .remove()  
         )
 
 
     );
     
 }
-
-
-// svg.append("g")
-    //     .attr("class", "axis") //assigns axis class
-    //     .attr("transform", `translate(0,${height - margin.bottom})`) //moves axes from default position at top to the bottom by 0, (height-margin.bottom)
-    //     .call(xAxis)
-
-
-    // //Y AXIS
-    //     yAxis = d3.axisLeft(yScale)
-    //     svg.append("g")
-    //     .attr("class", "axis")
-    //     .attr("transform", `translate(${margin.left},0)`) //positions yAxis from default - moves it left by margin.left = ticks visible 
-    //     .call(yAxis)
-
-    // // + UI ELEMENT SETUP
-    // const selectElement = d3.select("#dropdown") // select dropdown element from HTML
-    // // add in dropdown options
-    // selectElement
-    //     .selectAll("option")
-    //     .data([ 
-    //         { key: "M_F_ManagementBusinessandFinancialOperations", label: "Management, business, finance" }, // doesn't exist in data, we're adding this as an extra option
-    //         { key: "M_F_ProfessionalandRelated", label: "Professional and related" },
-    //         { key: "M_F_HealthcareSupport", label: "Healthcare support" },
-    //         {
-    //             key: "M_F_ProtectiveService", label: "Protective Services"
-    //         },
-    //         {
-    //             key: "M_F_FoodPrepandServing", label: "Food Prep and Serving"
-    //         },
-    //         {
-    //             key: "M_F_BuildingandGroundsCleaningandMaintenance", label: "Building & Grounds Cleaning & Maintenance"
-    //         },
-    //         {
-    //             key: "M_F_PersonalCareandService", label: "Personal Care and Service"
-    //         },
-    //         {
-    //             key: "M_F_SalesandRelated", label: "Sales and related"
-    //         },
-    //         {
-    //             key: "M_F_OfficeandAdminSupport", label: "Office & Admin support"
-    //         },
-    //         {
-    //             key: "M_F_FarmingFishingandForestry", label: "Farming, fishing, & forestry"
-    //         },
-    //         {
-    //             key: "M_F_ConstructionExtractionandMaintenance", label: "Construction, extraction, & maintenance"
-    //         }, 
-    //         {
-    //             key: "M_F_Production", label: "Production"
-    //         },
-    //         {
-    //             key: "M_F_TranspoandMaterialMoving", label: "Transportation & material moving"
-    //         }
-    //     ])
-    //     .join("option")
-    //     .attr("value", d => d.key) // set the key to the 'value' -- what we will use to FILTER our data later
-    //     .text(d => d.label); // set the label to text -- easier for the user to read than the key
-
 
