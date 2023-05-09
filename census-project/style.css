@@ -27,6 +27,9 @@ li{
     text-decoration: underline;
 }
 
+footer{
+    font-size: 10px;
+}
 button {
     background-color: darkmagenta;
     color: white;
