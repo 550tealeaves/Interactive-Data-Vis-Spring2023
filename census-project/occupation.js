@@ -115,12 +115,12 @@ Promise.all([
         .attr("fill", "orange")
         .style("font-weight", "bold")
         .style("font-size", "18px")
-        
+        .text("Females")
         // .attr('transform', (d, i) => {
         //     return 'translate( ' + yScale(i) + ' , ' + 350 + '),' + 'rotate(270)';
         // })  
         // .attr('y', -970) 
-        .text("Females")
+        
 
 
     //CREATE A LEGEND

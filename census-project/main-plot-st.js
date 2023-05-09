@@ -131,18 +131,16 @@ d3.json("../data/census_occ_total_subset.json", d3.autoType).then(raw_data => {
     //X SCALE
     xScale = d3.scaleLinear()
         .domain(d3.extent(state.data, d => d.dataReadyMale))
-        //.domain(d3.extent(data, d => d.Male_ManagementBusinessandFinancialOperations)) //restricting axis to the min/max of the data (to increase the spread of the plots)
         .range([margin.left, width - margin.right])
 
     //Y SCALE
     yScale = d3.scaleLinear()
         .domain(d3.extent(state.data, d => d.dataReadyFem))
-        //.domain(d3.extent(data, d => d.Fem_ManagementBusinessandFinancialOperations)) //restricting axis to the min/max of the data (to increase the spread of the plots)
         .range([height - margin.bottom, margin.top])
 
     const colorScale = d3.scaleOrdinal()
-        .domain(["M", "F"]) //maps to the two different values    
-    // .domain(d3.extent(state.data, d => d.dataReadyColor)) //maps to the two different values
+        .domain(["M", "F"])     
+    // .domain(d3.extent(state.data, d => d.dataReadyColor)) 
         .range(["purple", "orange"])
 
     // + AXES
@@ -156,11 +154,7 @@ d3.json("../data/census_occ_total_subset.json", d3.autoType).then(raw_data => {
             console.log('selected', event.target.value);
             state.selectedJobs = event.target.value
             console.log("state", state)
-            draw()
         })
-    
-
-
     draw();
 }    
     
@@ -168,9 +162,20 @@ d3.json("../data/census_occ_total_subset.json", d3.autoType).then(raw_data => {
 // we call this every time there is an update to the data/state
 function draw() {
     // + FILTER DATA BASED ON JOBS
-    const filteredData = state.data
-        .filter(d => state.selectedJobs === d.TOTAL || state.selectedJobs === d.dataReadyMale || state.selectedJobs === d.dataReadyFem) //filter and return any value that's All or selected party
-    console.log('filteredData', filteredData)
+    if (state.selectedJobs !== 'Select Occupation') {
+        filteredData = state.data.filter((d) => d.selectedJobs === state.dataReadyFem || state.dataReadyMale)
+        console.log("selection by Job", state.selectedJobs)
+        console.log('filteredData not total', filteredData)
+    } else {
+        filteredData = clone
+    }
+    
+    console.log('clone', clone)
+    
+    // const filteredData = state.data
+    //     .filter(d => state.selectedJobs === d.TOTAL || state.selectedJobs === d.dataReadyMale || state.selectedJobs === d.dataReadyFem) //filter and return any value that's All or selected party
+    // console.log('filteredData', filteredData)
+
 
 
 //X AXIS 
@@ -218,7 +223,7 @@ const dot = svg
         // + HANDLE ENTER SELECTION
         enter => enter
         .append("circle")
-        .attr("cx", 0)
+        .attr("cx", d => xScale(d.dataReadyMale))
         .attr("cy", d => yScale(d.dataReadyFem))
         .attr("r", 0)
         .attr("fill", "red") //will color the circles based on this scale - replaces colorScale([d.Male_ManagementBusinessandFinancialOperations, d.Fem_ManagementBusinessandFinancialOperations ]))
