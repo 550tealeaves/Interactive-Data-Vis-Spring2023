@@ -343,7 +343,7 @@ d3.csv('../data/census.csv', d3.autoType)
             .text(d => (d.Statistics + " female population is " + d.F_Pop15andUp.toLocaleString()))
         //d => (d.Statistics + " female population is " + d.F_Pop15andUp.toLocaleString())  replaces (function(d) { return (d.Statistics + " female population is " + d.F_Pop15andUp.toLocaleString()) })
 
-        d3.select(".value-sort").on("click", function () {
+        d3.select(".value-sort-female").on("click", function () {
             data.sort(function (a, b) {
                 return d3.descending(a.F_Pop15andUp, b.F_Pop15andUp);
             })
