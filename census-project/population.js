@@ -381,7 +381,7 @@ d3.csv('../data/census.csv', d3.autoType)
 
             svgFemale.selectAll(".labels") //select class labels to move
                 .transition()
-                .duration(500)
+                .duration(700)
                 .attr("y", function (d, i) {
                     return yScaleFemale(d.Statistics) + yScaleFemale.bandwidth() / 1;
                 }) 
