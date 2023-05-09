@@ -3,6 +3,23 @@ body{
     margin: 20px;
 }
 
+h1, h2{
+    font-style: italic;
+}
+
+.h1-topic{
+    font-weight: bold;
+    color: darkmagenta;
+}
+
+.h2-topic{
+    font-style: normal;
+    
+}
+
+li, ol{
+    list-style-position: inside;
+}
 
 button {
     background-color: darkmagenta;
