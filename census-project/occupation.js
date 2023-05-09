@@ -101,7 +101,7 @@ Promise.all([
     svg
         .append("text")
         .attr("class", "axis-label")
-        .attr("transform", `translate(750,${height - margin.bottom + 50})`)
+        .attr("transform", `translate(550,${height - margin.bottom + 50})`)
         .attr("fill", "purple")
         .style("font-weight", "bold")
         .style("font-size", "18px")
@@ -111,30 +111,33 @@ Promise.all([
     svg //use margin to arrange y-axis - Mia
         .append("text")
         .attr("class", "axis-label")
+        .attr("transform", `translate(25, ${height- margin.bottom - 200})` + 'rotate (270)')
         .attr("fill", "orange")
         .style("font-weight", "bold")
         .style("font-size", "18px")
-        .attr('transform', (d, i) => {
-            return 'translate( ' + yScale(i) + ' , ' + 350 + '),' + 'rotate(270)';
-        })  
-        .attr('y', -970) 
+        
+        // .attr('transform', (d, i) => {
+        //     return 'translate( ' + yScale(i) + ' , ' + 350 + '),' + 'rotate(270)';
+        // })  
+        // .attr('y', -970) 
         .text("Females")
 
 
     //CREATE A LEGEND
     //https://stackoverflow.com/questions/55219862/updating-stacked-bar-chart-d3-with-multiple-datasets
     legend.append("rect")
-        .attr("x", width - 10) 
-        .attr("width", 15)
-        .attr("height", 15) 
+        .attr("x", width - 10) //separates letters from legend box
+        .attr("width", 10)
+        .attr("height", 15) //increase the length of the legend box
         .attr("fill", d => colorScale.range())
 
     //LABEL THE LEGEND
     legend.append("text")
         .attr("x", width - 13)
-        .attr("y", 7) 
+        .attr("y", 7) //moves M/F up down
         .attr("dy", ".35em")
         .style("text-anchor", "end")
+        .attr("fill", d => colorScale.domain())
         .text(d => d)
 
 });
