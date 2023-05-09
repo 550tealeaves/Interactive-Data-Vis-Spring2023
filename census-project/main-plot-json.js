@@ -18,7 +18,7 @@ let state = {
 
 
 /* LOAD DATA */
-d3.json("../data/census_cat_total_subset.json", d3.autoType)
+d3.csv("../data/census_state_novar_pcttotal.csv", d3.autoType)
     .then(raw_data => {
         // + SET YOUR DATA PATH
         console.log("data", raw_data);
