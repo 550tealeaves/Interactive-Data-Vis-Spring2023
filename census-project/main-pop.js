@@ -228,6 +228,27 @@ d3.csv('../data/census.csv', d3.autoType)
             .text(d => (d.Statistics + " male population is " + d.M_Pop15andUp.toLocaleString()))
         //d => (d.Statistics + " male population is " + d.M_Pop15andUp.toLocaleString())  replaces (function(d) { return (d.Statistics + " male population is " + d.M_Pop15andUp.toLocaleString()) })
 
+        d3.select(".value-sort-male").on("click", function () {
+            data.sort(function (a, b) {
+                return d3.descending(a.M_Pop15andUp, b.M_Pop15andUp);
+            })
+            yScaleMale.domain(data.map(d => d.Statistics)) //(d => d.Statistics) replaces (function(d) {return d.Statistics;});
+
+            svgMale.selectAll(".bar")
+                .transition()
+                .duration(700) //changes how fast the bars shift
+                .attr("y", function (d, i) {
+                    return yScaleMale(d.Statistics);
+                }) //will move the bars
+
+
+            svgMale.selectAll(".labels") //select class labels to move
+                .transition()
+                .duration(500)
+                .attr("y", function (d, i) {
+                    return yScaleMale(d.Statistics) + yScaleMale.bandwidth() / 1;
+                }) //will move the labels
+        })
 
 
 
@@ -322,6 +343,26 @@ d3.csv('../data/census.csv', d3.autoType)
             .text(d => (d.Statistics + " female population is " + d.F_Pop15andUp.toLocaleString()))
         //d => (d.Statistics + " female population is " + d.F_Pop15andUp.toLocaleString())  replaces (function(d) { return (d.Statistics + " female population is " + d.F_Pop15andUp.toLocaleString()) })
 
+        d3.select(".value-sort").on("click", function () {
+            data.sort(function (a, b) {
+                return d3.descending(a.F_Pop15andUp, b.F_Pop15andUp);
+            })
+            yScaleFemale.domain(data.map(d => d.Statistics)) //(d => d.Statistics) replaces (function(d) {return d.Statistics;});
 
+            svgFemale.selectAll(".bar")
+                .transition()
+                .duration(700) //changes how fast the bars shift
+                .attr("y", function (d, i) {
+                    return yScaleFemale(d.Statistics);
+                }) //will move the bars
+
+
+            svgFemale.selectAll(".labels") //select class labels to move
+                .transition()
+                .duration(500)
+                .attr("y", function (d, i) {
+                    return yScaleFemale(d.Statistics) + yScaleFemale.bandwidth() / 1;
+                }) //will move the labels
+        })
 
     })
