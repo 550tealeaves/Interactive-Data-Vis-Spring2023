@@ -82,20 +82,6 @@ Promise.all([
         .attr("font-size", 12)
         .attr("fill", "red")
         .attr("id", "dot-labels")
-        // .on('mouseover', function() {
-        //     d3.select(this)
-        //         .attr("fill", "red")        
-        
-        
-        
-        //     }) // this works when you mouse over - turn red
-        // .on('mouseout', function() {
-        //     d3.select(this)
-        //     .transition("colorfade")
-        //     .attr("fill", "transparent")
-        // }) //mouseout function works and the labels turn clear  
-
-        //PROBLEM - the graph starts off with dots - want to see them blank and mouseover to reveal label and mouseout to hide them
 
 
     //LABEL THE SCATTERPLOT
