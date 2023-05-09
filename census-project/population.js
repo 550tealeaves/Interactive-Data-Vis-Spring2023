@@ -112,27 +112,8 @@ d3.csv('../data/census.csv', d3.autoType)
                 return d3.descending(a.TotalPop15andUp, b.TotalPop15andUp)
             })
             yScale.domain(data.map(function(d) {
-                return d.Statistics;
-            }));  //this does not change the y-axis
-            
-            
-            // const pressButton = d3.select(this).node().value;
-            // // console.log(pressButton);
-            // if (pressButton == "Ascendingly") {
-            //     data.sort((a, b) => {
-            //         return d3.ascending(a.TotalPop15andUp, b.TotalPop15andUp)
-            //     })
-            // } else if (pressButton == "Descendingly") {
-            //     data.sort((a, b) => {
-            //         return d3.descending(a.TotalPop15andUp, b.TotalPop15andUp)
-            //     })
-            // } else if (pressButton == "Alphabetically") {
-            //     data.sort((a, b) => {
-            //         return d3.ascending(a.Statistics, b.Statistics)
-            //     })
-            // }
-            
-            
+                return d.Statistics
+            })) 
             
             //trying to make Y-axis disappear - not working
             svg.select("axis")
@@ -381,7 +362,7 @@ d3.csv('../data/census.csv', d3.autoType)
 
             svgFemale.selectAll(".labels") //select class labels to move
                 .transition()
-                .duration(500)
+                .duration(700)
                 .attr("y", function (d, i) {
                     return yScaleFemale(d.Statistics) + yScaleFemale.bandwidth() / 1;
                 }) 
