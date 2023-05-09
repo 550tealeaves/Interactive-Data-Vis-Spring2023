@@ -70,6 +70,10 @@ button:active{
     background-color: palegoldenrod;
 }
 
+blockquote {
+    list-style: square;
+}
+
 .thank-you{
     height: 650px;
 }
