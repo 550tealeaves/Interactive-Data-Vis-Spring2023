@@ -23,7 +23,6 @@ li{
 
 .quote{
     font-weight: bold;
-    font-style: italic;
     text-decoration: underline;
 }
 table{
@@ -43,7 +42,7 @@ tfoot {
 }
 
 footer{
-    font-size: 10px;
+    font-size: 12px;
 }
 button {
     background-color: darkmagenta;
