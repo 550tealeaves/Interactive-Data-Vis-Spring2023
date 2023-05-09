@@ -40,7 +40,7 @@ d3.csv('../data/census.csv', d3.autoType)
         // yScale
         const yScale = d3.scaleBand()
             .domain(data.map(d => d.Statistics))
-            .range([height - margin, margin])
+            .range([margin, height - margin])
             .paddingInner(.5)
 
         // colorScale
@@ -177,7 +177,7 @@ d3.csv('../data/census.csv', d3.autoType)
         // yScale
         const yScaleMale = d3.scaleBand()
             .domain(data.map(d => d.Statistics))
-            .range([height - margin, margin])
+            .range([margin, height - margin])
             .paddingInner(.5)
 
         // // colorScale
@@ -271,7 +271,7 @@ d3.csv('../data/census.csv', d3.autoType)
         // yScale
         const yScaleFemale = d3.scaleBand()
             .domain(data.map(d => d.Statistics))
-            .range([height - margin, margin])
+            .range([margin, height - margin])
             .paddingInner(.5)
 
         // colorScale
