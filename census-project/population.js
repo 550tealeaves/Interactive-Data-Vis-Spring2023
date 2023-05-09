@@ -121,10 +121,13 @@ d3.csv('../data/census.csv', d3.autoType)
                 return d3.descending(a.TotalPop15andUp, b.TotalPop15andUp);
             })
             yScale.domain(data.map(d => d.Statistics)) //(d => d.Statistics) replaces (function(d) {return d.Statistics;});
-            d3.select("yAxis")
+            
+            //trying to make Y-axis disappear - not working
+            svg.select("axis")
                 .transition()
-                .attr("fill", "blue")
-                .call(yAxis)
+                .duration(400)
+                .attr("fill", "transparent")
+                
 
             svg.selectAll(".bar")
                 .transition()
@@ -136,19 +139,11 @@ d3.csv('../data/census.csv', d3.autoType)
 
             svg.selectAll(".labels") //select class labels to move
                 .transition()
-                .duration(500)
+                .duration(700)
                 .attr("y", function (d, i) {
                     return yScale(d.Statistics) + yScale.bandwidth() / 1;
                 }) //will move the labels
             
-            d3.select("yAxis")
-                .transition()
-                .attr("fill", "blue")
-                .transition()
-                .attr("fill", "transparent")
-                .transition()
-                .delay(1000)
-                .remove();
         })
 
 
