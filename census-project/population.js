@@ -113,7 +113,7 @@ d3.csv('../data/census.csv', d3.autoType)
             })
             yScale.domain(data.map(function(d) {
                 return d.Statistics;
-            })); 
+            }));  //this does not change the y-axis
             
             
             // const pressButton = d3.select(this).node().value;
@@ -131,8 +131,6 @@ d3.csv('../data/census.csv', d3.autoType)
             //         return d3.ascending(a.Statistics, b.Statistics)
             //     })
             // }
-            
-            
             
             
             
