@@ -79,8 +79,9 @@ Promise.all([
 
     svg
         .append("text")
-        .attr("font-size", 12)
-        .attr("fill", "red")
+        .attr("font-size", 13)
+        .attr("fill", "forestgreen")
+        .attr("font-weight", "bold")
         .attr("id", "dot-labels")
 
 
