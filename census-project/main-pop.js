@@ -33,7 +33,7 @@ d3.csv('../data/census.csv', d3.autoType)
         /* SCALES */
         // xScale
         const xScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.TotalPopulationBySex)]) //d3 max = function expecting an array - can pass in an accessor function
+            .domain([0, d3.max(data, d => d.TotalPop15andUp)]) //d3 max = function expecting an array - can pass in an accessor function
             .range([margin, width - margin])
 
 
@@ -72,7 +72,7 @@ d3.csv('../data/census.csv', d3.autoType)
             .attr("x", width / 2)
             .attr("y", height / 16) //higher the denominator, higher the text moves up pg
             .attr("text-anchor", "middle")
-            .text("Total State Population")
+            .text("Total State Population Ages 15 and Up")
             .style("font-size", "24px")
             .style("text-decoration", "underline")
             .attr("fill", "darkcyan")
@@ -84,8 +84,8 @@ d3.csv('../data/census.csv', d3.autoType)
             .enter()
             .append("text")
             .attr("class", "labels")
-            .text(d => d.TotalPopulationBySex.toLocaleString())//returns formatted string - if # then adds commas
-            .attr("x", d => xScale(d.TotalPopulationBySex))
+            .text(d => d.TotalPop15andUp.toLocaleString())//returns formatted string - if # then adds commas
+            .attr("x", d => xScale(d.TotalPop15andUp))
             .attr("y", d => yScale(d.Statistics) + yScale.bandwidth() / 1) //dividing by 2 puts the count the middle of the bar
             .style("font-size", "10px")
 
@@ -97,12 +97,12 @@ d3.csv('../data/census.csv', d3.autoType)
             //.join("rect")
             .attr("class", "bar")
             .attr("height", yScale.bandwidth()) //girth of bars 
-            .attr("width", d => xScale(d.TotalPopulationBySex) - margin) //=> shorthand for function - must return a value
+            .attr("width", d => xScale(d.TotalPop15andUp) - margin) //=> shorthand for function - must return a value
             .attr("x", d => margin) //bars will start at the margin
             .attr("y", d => yScale(d.Statistics))
             .on('mouseover', function () {
                 d3.select(this)
-                    .attr("fill", d => colorScale(d.TotalPopulationBySex))
+                    .attr("fill", d => colorScale(d.TotalPop15andUp))
             })
             .on('mouseout', function () {
                 d3.select(this)
@@ -111,12 +111,12 @@ d3.csv('../data/census.csv', d3.autoType)
                     .attr("fill", "darkgoldenrod") //bars will turn color when mouse leaves
             })
             .append("title") //adds tooltip (text) too all "rect" elements on mouseover
-            .text(d => (d.Statistics + " population is " + d.TotalPopulationBySex.toLocaleString()))
-        //d => (d.Statistics + " population is " + d.TotalPopulationBySex.toLocaleString())  replaces (function(d) { return (d.Statistics + " population is " + d.TotalPopulationBySex.toLocaleString()) })
+            .text(d => (d.Statistics + " population is " + d.TotalPop15andUp.toLocaleString()))
+        //d => (d.Statistics + " population is " + d.TotalPop15andUp.toLocaleString())  replaces (function(d) { return (d.Statistics + " population is " + d.TotalPop15andUp.toLocaleString()) })
 
         d3.select(".value-sort").on("click", function () {
             data.sort(function (a, b) {
-                return d3.descending(a.TotalPopulationBySex, b.TotalPopulationBySex);
+                return d3.descending(a.TotalPop15andUp, b.TotalPop15andUp);
             })
             yScale.domain(data.map(d => d.Statistics)) //(d => d.Statistics) replaces (function(d) {return d.Statistics;});
 
@@ -136,27 +136,6 @@ d3.csv('../data/census.csv', d3.autoType)
                 }) //will move the labels
         })
 
-        d3.select(".state-sort").on("click", function () {
-            data.sort(function (a, b) {
-                return d3.ascending(a.Statistics, b.Statistics)
-            })
-
-            yScale.domain(data.map(d => d.Statistics))
-
-            svg.selectAll(".bar")
-                .transition()
-                .duration(700)
-                .attr("transform", function (d, i) {
-                    return "translate (" + (yScale(d.Statistics) + yScale.bandwidth() / 2 - 8) + "," + (height + 20) + ")"
-                })
-
-            svg.selectAll(".labels")
-                .transition()
-                .duration(700)
-                .attr("transform", function (d, i) {
-                    return "translate (" + (yScale(d.Statistics));
-                })
-        })
 
         //SECOND SVG - MALE POPULATION BY STATE 
 
@@ -170,7 +149,7 @@ d3.csv('../data/census.csv', d3.autoType)
         /* SCALES */
         // xScale
         const xScaleMale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.MalePop)]) //d3 max = function expecting an array - can pass in an accessor function
+            .domain([0, d3.max(data, d => d.M_Pop15andUp)]) //d3 max = function expecting an array - can pass in an accessor function
             .range([margin, width - margin])
 
 
@@ -209,7 +188,7 @@ d3.csv('../data/census.csv', d3.autoType)
             .attr("x", width / 2)
             .attr("y", height / 16) //higher the denominator, higher the text moves up pg
             .attr("text-anchor", "middle")
-            .text("Male Population Per State")
+            .text("Male Population Ages 15 and Up Per State")
             .style("font-size", "24px")
             .style("text-decoration", "underline")
             .attr("fill", "darkcyan")
@@ -219,8 +198,8 @@ d3.csv('../data/census.csv', d3.autoType)
             .data(data)
             .enter()
             .append("text")
-            .text(d => d.MalePop.toLocaleString())
-            .attr("x", d => xScaleMale(d.MalePop))
+            .text(d => d.M_Pop15andUp.toLocaleString())
+            .attr("x", d => xScaleMale(d.M_Pop15andUp))
             .attr("y", d => yScaleMale(d.Statistics) + yScaleMale.bandwidth() / 1) //dividing by 2 puts the count the middle of the bar
             .attr("class", "labels")
             .style("font-size", "10px")
@@ -231,13 +210,13 @@ d3.csv('../data/census.csv', d3.autoType)
             .data(data)
             .join("rect")
             .attr("height", yScaleMale.bandwidth()) //girth of bars 
-            .attr("width", d => xScaleMale(d.MalePop) - margin) //=> shorthand for function - must return a value
+            .attr("width", d => xScaleMale(d.M_Pop15andUp) - margin) //=> shorthand for function - must return a value
             .attr("x", d => margin) //bars will start at the margin
             .attr("y", d => yScaleMale(d.Statistics))
-            .attr("fill", d => colorScaleMale(d.MalePop))
+            .attr("fill", d => colorScaleMale(d.M_Pop15andUp))
             .on('mouseover', function () {
                 d3.select(this)
-                    .attr("fill", d => colorScaleMale(d.MalePop))
+                    .attr("fill", d => colorScaleMale(d.M_Pop15andUp))
             })
             .on('mouseout', function () {
                 d3.select(this)
@@ -246,8 +225,8 @@ d3.csv('../data/census.csv', d3.autoType)
                     .attr("fill", "darkblue") //bars will turn color when mouse leaves
             })
             .append("title") //adds tooltip (text) too all "rect" elements on mouseover
-            .text(d => (d.Statistics + " male population is " + d.MalePop.toLocaleString()))
-        //d => (d.Statistics + " male population is " + d.MalePop.toLocaleString())  replaces (function(d) { return (d.Statistics + " male population is " + d.MalePop.toLocaleString()) })
+            .text(d => (d.Statistics + " male population is " + d.M_Pop15andUp.toLocaleString()))
+        //d => (d.Statistics + " male population is " + d.M_Pop15andUp.toLocaleString())  replaces (function(d) { return (d.Statistics + " male population is " + d.M_Pop15andUp.toLocaleString()) })
 
 
 
@@ -264,7 +243,7 @@ d3.csv('../data/census.csv', d3.autoType)
         /* SCALES */
         // xScale
         const xScaleFemale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.FemalePop)]) //d3 max = function expecting an array - can pass in an accessor function
+            .domain([0, d3.max(data, d => d.F_Pop15andUp)]) //d3 max = function expecting an array - can pass in an accessor function
             .range([margin, width - margin])
 
 
@@ -303,7 +282,7 @@ d3.csv('../data/census.csv', d3.autoType)
             .attr("x", width / 2)
             .attr("y", height / 16) //higher the denominator, higher the text moves up pg
             .attr("text-anchor", "middle")
-            .text("Female Population Per State")
+            .text("Female Population Ages 15 and Up Per State")
             .style("font-size", "24px")
             .style("text-decoration", "underline")
             .attr("fill", "darkcyan")
@@ -313,8 +292,8 @@ d3.csv('../data/census.csv', d3.autoType)
             .data(data)
             .enter()
             .append("text")
-            .text(d => d.FemalePop.toLocaleString())
-            .attr("x", d => xScaleFemale(d.FemalePop))
+            .text(d => d.F_Pop15andUp.toLocaleString())
+            .attr("x", d => xScaleFemale(d.F_Pop15andUp))
             .attr("y", d => yScaleFemale(d.Statistics) + yScaleFemale.bandwidth() / 1) //dividing by 2 puts the count the middle of the bar
             .attr("class", "labels")
             .style("font-size", "10px")
@@ -325,13 +304,13 @@ d3.csv('../data/census.csv', d3.autoType)
             .data(data)
             .join("rect")
             .attr("height", yScaleFemale.bandwidth()) //girth of bars 
-            .attr("width", d => xScaleFemale(d.FemalePop) - margin) //=> shorthand for function - must return a value
+            .attr("width", d => xScaleFemale(d.F_Pop15andUp) - margin) //=> shorthand for function - must return a value
             .attr("x", d => margin) //bars will start at the margin
             .attr("y", d => yScaleFemale(d.Statistics))
-            .attr("fill", d => colorScaleFemale(d.FemalePop))
+            .attr("fill", d => colorScaleFemale(d.F_Pop15andUp))
             .on('mouseover', function () {
                 d3.select(this)
-                    .attr("fill", d => colorScaleFemale(d.FemalePop))
+                    .attr("fill", d => colorScaleFemale(d.F_Pop15andUp))
             })
             .on('mouseout', function () {
                 d3.select(this)
@@ -340,8 +319,8 @@ d3.csv('../data/census.csv', d3.autoType)
                     .attr("fill", "darkred") //bars will turn color when mouse leaves
             })
             .append("title") //adds tooltip (text) too all "rect" elements on mouseover
-            .text(d => (d.Statistics + " female population is " + d.FemalePop.toLocaleString()))
-        //d => (d.Statistics + " female population is " + d.FemalePop.toLocaleString())  replaces (function(d) { return (d.Statistics + " female population is " + d.FemalePop.toLocaleString()) })
+            .text(d => (d.Statistics + " female population is " + d.F_Pop15andUp.toLocaleString()))
+        //d => (d.Statistics + " female population is " + d.F_Pop15andUp.toLocaleString())  replaces (function(d) { return (d.Statistics + " female population is " + d.F_Pop15andUp.toLocaleString()) })
 
 
 
