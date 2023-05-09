@@ -6,7 +6,7 @@ margin = 100;
 
 
 /* LOAD DATA */
-d3.csv('../data/census.csv', d3.autoType)
+d3.csv('../data/census_three.csv', d3.autoType)
     .then(data => {
         console.log("data", data)
 
@@ -23,7 +23,7 @@ d3.csv('../data/census.csv', d3.autoType)
         /* SCALES */
         // xScale
         const xScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.TotalPop15andUp)])
+            .domain([0, d3.max(data, d => d.TotalEmpSec_EmployedCivilianPop16YearsandOver)])
             .range([margin, width - margin])
 
 
@@ -74,8 +74,8 @@ d3.csv('../data/census.csv', d3.autoType)
             .enter()
             .append("text")
             .attr("class", "labels")
-            .text(d => d.TotalPop15andUp.toLocaleString())
-            .attr("x", d => xScale(d.TotalPop15andUp))
+            .text(d => d.TotalEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString())
+            .attr("x", d => xScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver))
             .attr("y", d => yScale(d.Statistics) + yScale.bandwidth() / 1)
             .style("font-size", "10px")
 
@@ -87,13 +87,13 @@ d3.csv('../data/census.csv', d3.autoType)
             //.join("rect")
             .attr("class", "bar")
             .attr("height", yScale.bandwidth())
-            .attr("width", d => xScale(d.TotalPop15andUp) - margin)
+            .attr("width", d => xScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver) - margin)
             .attr("x", d => margin)
             .attr("y", d => yScale(d.Statistics))
-            .attr("fill", d => colorScale(d.TotalPop15andUp))
+            .attr("fill", d => colorScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver))
             .on('mouseover', function () {
                 d3.select(this)
-                    .attr("fill", d => colorScale(d.TotalPop15andUp))
+                    .attr("fill", d => colorScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver))
             })
             .on('mouseout', function () {
                 d3.select(this)
@@ -102,14 +102,14 @@ d3.csv('../data/census.csv', d3.autoType)
                     .attr("fill", "darkgoldenrod")
             })
             .append("title")
-            .text(d => (d.Statistics + " population is " + d.TotalPop15andUp.toLocaleString()))
+            .text(d => (d.Statistics + " population is " + d.TotalEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString()))
 
 
 
         //Sort by clicking button
         d3.select(".value-sort").on("click", function () {
             data.sort(function (a, b) {
-                return d3.descending(a.TotalPop15andUp, b.TotalPop15andUp)
+                return d3.descending(a.TotalEmpSec_EmployedCivilianPop16YearsandOver, b.TotalEmpSec_EmployedCivilianPop16YearsandOver)
             })
             yScale.domain(data.map(function (d) {
                 return d.Statistics;
@@ -120,11 +120,15 @@ d3.csv('../data/census.csv', d3.autoType)
             // // console.log(pressButton);
             // if (pressButton == "Ascendingly") {
             //     data.sort((a, b) => {
-            //         return d3.ascending(a.TotalPop15andUp, b.TotalPop15andUp)
+            //         return d3.ascending(a.TotalEmpSec_EmployedCivilianPop16YearsandOver
+// , b.TotalEmpSec_EmployedCivilianPop16YearsandOver
+// )
             //     })
             // } else if (pressButton == "Descendingly") {
             //     data.sort((a, b) => {
-            //         return d3.descending(a.TotalPop15andUp, b.TotalPop15andUp)
+            //         return d3.descending(a.TotalEmpSec_EmployedCivilianPop16YearsandOver
+// , b.TotalEmpSec_EmployedCivilianPop16YearsandOver
+// )
             //     })
             // } else if (pressButton == "Alphabetically") {
             //     data.sort((a, b) => {
