@@ -4,43 +4,46 @@ height = 450
 margin = 40
 
 
+/* LOAD DATA */
+d3.json("../data/census_states_all_totals.json", d3.autoType)
+    .then(data => {
+        console.log("data", data)
 
-// The radius of the pieplot is half the width or half the height (smallest one). 
-//I subtract a bit of margin.
-var radius = Math.min(width, height) / 2 - margin
+    })
 
-// append the svg object to the div called 'container'
-var svg = d3.select("#container")
-    .append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .append("g")
-    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+// // The radius of the pieplot is half the width or half the height (smallest one). 
+// //I subtract a bit of margin.
+// var radius = Math.min(width, height) / 2 - margin
 
-// Create dummy data
-var data = { a: 19, b: 80, c: 30, d: 7, e: 12 }
+// // append the svg object to the div called 'container'
+// var svg = d3.select("#container")
+//     .append("svg")
+//     .attr("width", width)
+//     .attr("height", height)
+//     .append("g")
+//     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-// set the color scale
-var color = d3.scaleOrdinal()
-    .domain(data)
-    .range(["#ff4949", "#38ff84", "#ff8ceb", "#ffe900", "#6fbcad"])
+// // set the color scale
+// var color = d3.scaleOrdinal()
+//     .domain(data)
+//     .range(["#ff4949", "#38ff84", "#ff8ceb", "#ffe900", "#6fbcad"])
 
-// Compute the position of each group on the pie:
-var pie = d3.pie()
-    .value(d => d.value) //replaces ({function (d) {return(d.value})}})
-var data_ready = pie(d3.entries(data))
+// // Compute the position of each group on the pie:
+// var pie = d3.pie()
+//     .value(d => d.value) //replaces ({function (d) {return(d.value})}})
+// var data_ready = pie(d3.entries(data))
 
-// Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
-svg
-    .selectAll("circle")
-    .data(data_ready)
-    .enter()
-    .append("path")
-    .attr('d', d3.arc()
-        .innerRadius(0)
-        .outerRadius(radius)
-    )
-    .attr("fill", d => (color(d.data.key))) //replaces function (d) {return (color(d.data.key))}
-    .attr("stroke", "black")
-    .style("stroke-width", "2px")
-    .style("opacity", 0.7)
+// // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
+// svg
+//     .selectAll("circle")
+//     .data(data_ready)
+//     .enter()
+//     .append("path")
+//     .attr('d', d3.arc()
+//         .innerRadius(0)
+//         .outerRadius(radius)
+//     )
+//     .attr("fill", d => (color(d.data.key))) //replaces function (d) {return (color(d.data.key))}
+//     .attr("stroke", "black")
+//     .style("stroke-width", "2px")
+//     .style("opacity", 0.7)
