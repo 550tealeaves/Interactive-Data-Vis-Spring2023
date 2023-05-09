@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Census-pop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg text-bg-success bg-opacity-50">
+        <div class="container-fluid">
+            <img src="jobs.jpg" alt="Logo" width="120" height="70" class="d-inline-block align-text-top">
+            <div class="d-flex justify-content-end fs-4" id="navbarNav">
+                <ul class="nav nav-pills">
+                    <li class="nav-item">
+                        <a class="text-light nav-link" aria-current="page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="text-light nav-link" href="data.html">Data</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="text-light nav-link active" href="#">Population</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="text-light nav-link" href="occupation.html">Occupation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="text-light nav-link" href="thanks.html">Acknowledgments</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <h3 class="text-bg-success bg-opacity-50 text-center">How many people are theoretically able to work?</h3>
+
+    <p>In full disclosure, the census determines occupation for individuals 16 and up. However, their age categories
+        include 15-17; therefore, this bar chart includes teenagers to young to work. Furthermore, this is just the
+        total number of people who ideally could have an occupation and does not include things like those unemployed,
+        or unable to work. I kept the population 85 and up because according to the <cite><a
+                href="https://www.bls.gov/opub/ted/2021/number-of-people-75-and-older-in-the-labor-force-is-expected-to-grow-96-5-percent-by-2030.htm"
+                target="_blank">Bureau of Labor Statistics</a></cite>, the labor force of workers over 75 is projected
+        to increase <b>96.5%</b> from 2020-2030.
+    </p>
+    <small class="mb-3">Note about the data - although sex is collected as binary data in the Census, it may not
+        accurately represent how
+        many individuals feel about their gender.</small>
+
+    <div class="d-flex">
+        <button class="value-sort"> Sort by Value</button>
+    </div>
+
+    <div id="selectMe"></div>
+    <div id="container">
+
+    </div>
+
+    <div class="d-flex">
+        <button class="value-sort-male"> Sort by Value</button>
+    </div>
+
+    <div id="second-container">
+
+    </div>
+
+    <div class="d-flex">
+        <button class="value-sort-female"> Sort by Value</button>
+    </div>
+
+    <div id="third-container">
+
+    </div>
+    <script src="../lib/d3.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+    <script src="population.js"></script>
+</body>
+
+</html>
