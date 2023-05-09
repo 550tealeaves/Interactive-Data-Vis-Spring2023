@@ -5,7 +5,7 @@ margin = 40
 
 
 /* LOAD DATA */
-d3.json("../data/census_states_all_totals.json", d3.autoType)
+d3.csv("../data/census_pct.csv", d3.autoType)
     .then(data => {
         console.log("data", data)
 

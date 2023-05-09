@@ -155,7 +155,7 @@ Promise.all([
 
     //LABEL THE LEGEND
     legend.append("text")
-        .attr("x", width - 13)
+        .attr("x", width - 10)
         .attr("y", 7) //moves M/F up down
         .attr("dy", ".35em")
         .style("text-anchor", "end")

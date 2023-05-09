@@ -153,7 +153,7 @@ d3.csv('../data/census_occ_pct.csv', d3.autoType)
             .attr("x", width - 10) //separates letters from legend box
             .attr("width", 15)
             .attr("height", 15) //increase the length of the legend box
-            .attr("fill", d => colorScale.range())
+            .attr("fill", d => colorScale.domain())
 
         //LABEL THE LEGEND
         legend.append("text")
@@ -161,5 +161,6 @@ d3.csv('../data/census_occ_pct.csv', d3.autoType)
             .attr("y", 7) //moves M/F up down
             .attr("dy", ".35em")
             .style("text-anchor", "end")
+            .attr("fill", d => colorScale.range())
             .text(d => d)
     });
