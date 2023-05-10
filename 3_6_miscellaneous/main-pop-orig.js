@@ -90,7 +90,7 @@ d3.csv('../data/census.csv', d3.autoType)
             .enter()
             .append("text")
             .attr("class", "labels")
-            .text(d => d.TotalPop15andUp.toLocaleString())//returns formatted string - if # then adds commas
+            .text(d => d.TotalPop15andUp.toLocaleString()) //returns formatted string - if # then adds commas
             .attr("x", d => xScale(d.TotalPop15andUp))
             .attr("y", d => yScale(d.Statistics) + yScale.bandwidth() / 1) //dividing by 2 puts the count the middle of the bar
             .style("font-size", "10px")
