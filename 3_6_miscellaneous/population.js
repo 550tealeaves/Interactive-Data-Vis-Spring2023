@@ -85,7 +85,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .enter()
             .append("rect")
             //.join("rect")
-            .attr("class", "bar")
+            .attr("class", "bar") //4th J bro is important
             .attr("height", yScale.bandwidth())
             .attr("width", d => xScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver) - margin)
             .attr("x", d => margin)
@@ -116,7 +116,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
             }));  
 
 
-            svg.selectAll(".bar")
+            svg.selectAll(".bar") //this originally wasn't selecting anything b/c no class name in .append("rect")
                 .transition()
                 .duration(700)
                 .attr("y", function (d, i) {
@@ -205,7 +205,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
         svgMale.selectAll("rect")
             .data(data)
             .join("rect")
-            .attr("class", "bar-two")
+            .attr("class", "bar-two") //4th J - give distinct class
             .attr("height", yScaleMale.bandwidth())
             .attr("width", d => xScaleMale(d.MaleEmpSec_EmployedCivilianPop16YearsandOver) - margin)
             .attr("x", d => margin)
@@ -232,7 +232,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
             })
             yScaleMale.domain(data.map(d => d.Statistics))
 
-            svgMale.selectAll(".bar-two")
+            svgMale.selectAll(".bar-two") //select the bars in the 2nd chart
                 .transition()
                 .duration(700)
                 .attr("y", function (d, i) {
@@ -322,7 +322,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
         svgFemale.selectAll("rect")
             .data(data)
             .join("rect")
-            .attr("class", "bar-three")
+            .attr("class", "bar-three") //4th J bro - give distinct class name
             .attr("height", yScaleFemale.bandwidth())
             .attr("width", d => xScaleFemale(d.FemEmpSec_EmployedCivilianPop16YearsandOver) - margin)
             .attr("x", d => margin)
@@ -348,7 +348,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
             })
             yScaleFemale.domain(data.map(d => d.Statistics))
 
-            svgFemale.selectAll(".bar-three")
+            svgFemale.selectAll(".bar-three") //target these bars in 3rd chart
                 .transition()
                 .duration(700) 
                 .attr("y", function (d, i) {
