@@ -1,0 +1,79 @@
+body{
+    background-color: rgb(245, 232, 228);
+    margin: 20px;
+}
+
+h1, h2{
+    font-style: italic;
+}
+
+.h1-topic{
+    font-weight: bold;
+    color: darkmagenta;
+}
+
+.h2-topic{
+    font-style: normal;
+    
+}
+
+li{
+    list-style-position: inside;
+}
+
+.quote{
+    font-weight: bold;
+    text-decoration: underline;
+}
+table{
+    text-align: center;
+    margin: auto;
+}
+
+table,
+td {
+    border: 1px solid #4c154e;
+}
+
+thead,
+tfoot {
+    background-color: #4c154e;
+    color: #fff;
+}
+
+footer{
+    font-size: 12px;
+}
+button {
+    background-color: darkmagenta;
+    color: white;
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 0 0 1px rgb(209, 16, 16);
+}
+
+button:hover{
+    background-color: white;
+    color: darkmagenta;
+    transition: 0.3s;
+}
+
+/*button:focus is for keyboard users who press tab and button can highlight*/
+button:focus{
+    outline-color: transparent;
+    box-shadow: 0 0 0 2px #380367;
+}
+
+button:active{
+    background-color: palegoldenrod;
+}
+
+blockquote {
+    list-style: square;
+}
+
+.thank-you{
+    height: 650px;
+    border: 3px solid #4c154e;
+}
