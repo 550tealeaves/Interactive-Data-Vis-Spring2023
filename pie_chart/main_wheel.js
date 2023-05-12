@@ -1,13 +1,11 @@
-chart = PieChart(data, {
-    name: d => d.name,
-    value: d => d.value,
-    width,
-    height: 500
-})
+
+
 
 
 d3.csv("../data/population-by-age.csv", d3.autoType).then(data => {
-    console.log(data)
+    console.log("data", data)
+
+    
 
 // Copyright 2021 Observable, Inc.
 // Released under the ISC license.
@@ -98,7 +96,16 @@ function PieChart(data, {
         .text(d => d);
 
     return Object.assign(svg.node(), { scales: { color } });
-}}
 
 
+}})
 
+import { PieChart } from "@d3/pie-chart"
+
+chart = PieChart(data, {
+    name: d => d.name,
+    value: d => d.value,
+    width,
+    height: 500
+
+})
