@@ -19,7 +19,7 @@ var pie = d3.layout.pie()
     .sort(null)
     .value(function (d) {
         return d.value;
-    });
+    }); //d=> d.value
 
 var arc = d3.svg.arc()
     .outerRadius(radius * 0.8)
@@ -31,7 +31,7 @@ var outerArc = d3.svg.arc()
 
 svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-var key = function (d) { return d.data.label; };
+var key = function (d) { return d.data.label; }; //d => d.data.label
 
 var color = d3.scale.category20()
     .domain(["kiwi", "pineapple", "dragonfruit", "peach", "grapefruit", "blackberry", "lime", "honeydew", "strawberry", "tangerine", "pomegranate", "blueberry"])
