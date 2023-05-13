@@ -21,7 +21,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
 
     const colorScale = d3.scaleOrdinal()
         .domain(["D", "C"]) //"d" & "c" = values in column Dogs_or_Cats
-        .range(["brown", "orange"])
+        .range(["brown", "turquoise"])
 
 
 
@@ -73,6 +73,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
             //d3.select(this)
             d3.select("#dot-labels")
                 .text(d.Dog_Owning_Households_1000s + ", " + d.Cat_Owning_Households) //labels dots
+                // .text(d.Dog_Owning_Households_1000s + " dogs" + ", " + d.Cat_Owning_Households + " cats") //says x # of dogs, y # of cats
                 .attr("x", xScale(d.Dog_Owning_Households_1000s) - margin.left / 6)
                 .attr("y", yScale(d.Cat_Owning_Households) + margin.top + 8)
                 
@@ -106,7 +107,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .style("font-size", "18px")
         .style("font-weight", "bold")
         .style("text-decoration", "underline")
-        .attr("fill", "darkblue")
+        .attr("fill", "darkviolet")
 
     //LABEL THE X-AXIS
     svg
@@ -122,7 +123,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
     svg
         .append("text")
         .attr("class", "axis-label")
-        .attr("fill", "orange")
+        .attr("fill", "turquoise")
         .style("font-weight", "bold")
         .style("font-size", "14px")
         .attr("transform", `translate(15, ${height - margin.bottom - 200})` + 'rotate (270)')
