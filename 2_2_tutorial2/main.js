@@ -84,22 +84,22 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
     //LABEL THE X-AXIS
     svg
         .append("text")
-        .attr("class", "axis")
+        .attr("class", "axis-label")
         .attr("transform", `translate(500,${height - margin.bottom + 50})`)
         .attr("fill", "brown")
         .style("font-weight", "bold")
         .style("font-size", "14px")
-        .text("Dogs")
+        .text("Dog owning households")
 
     //LABEL THE Y-AXIS 
     svg
         .append("text")
-        .attr("class", "axis")
+        .attr("class", "axis-label")
         .attr("fill", "orange")
         .style("font-weight", "bold")
         .style("font-size", "14px")
         .attr("transform", `translate(${margin.left - 60},200)`)
-        .text("Cats")
+        .text("Cat owning households")
 
 
     //ALTERNATIVE WAY TO WRITE .attr("cx")
