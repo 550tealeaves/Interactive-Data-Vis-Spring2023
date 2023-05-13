@@ -50,21 +50,31 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
 
     //CREATE SCATTERPLOT
     const dot = svg
-        .selectAll("circle")
+        .selectAll("dot")
         .data(data, d => d.Location)
-        .join("circle")
+        .join(
+            enter => enter.append("circle")
+                .attr("r", 0)
+                .call(selection => selection
+                    .transition()
+                    .duration(1100) //slows the transition
+                    .delay((d, i) => i * 40) //higher # = slower transition
+                    .attr("r", radius),
+                    update => update,
+                    exit => exit.remove()
+                ) //transition allows the dots to grow from radius 0 to their radius value
+        )
         .attr("class", "dot")
         .attr("cx", d => xScale(d.Dog_Owning_Households_1000s)) 
         .attr("cy", d => yScale(d.Cat_Owning_Households)) 
-        .attr("r", radius)
         .attr("fill", d => colorScale(d.Dogs_or_Cats)) //will color the circles based on this scale
         .on('mouseover', function (e, d) {
             console.log(e, d);
             //d3.select(this)
             d3.select("#dot-labels")
-                .text(data, d => d.Dog_Owning_Households_1000s + ", " + d.Cat_Owning_Households) //labels dots
-                .attr("x", d => xScale(d.Dog_Owning_Households_1000s) - margin.left / 6)
-                .attr("y", d => yScale(d.Cat_Owning_Households))
+                .text(d.Dog_Owning_Households_1000s + ", " + d.Cat_Owning_Households) //labels dots
+                .attr("x", xScale(d.Dog_Owning_Households_1000s) - margin.left / 6)
+                .attr("y", yScale(d.Cat_Owning_Households) + margin.top + 8)
                 
         })
 
@@ -74,6 +84,9 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .append("text")
         .attr("id", "dot-labels")
         .attr("font-size", 11)
+        .attr("font-weight", "bold")
+        
+        
         // .text(d => d.Dog_Owning_Households_1000s + ", " + d.Cat_Owning_Households) //labels dots
         // .attr("x", d => xScale(d.Dog_Owning_Households_1000s) - margin.left / 6)
         // .attr("y", d => yScale(d.Cat_Owning_Households))
