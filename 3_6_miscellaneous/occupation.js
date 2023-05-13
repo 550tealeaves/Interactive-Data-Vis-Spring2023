@@ -58,13 +58,23 @@ Promise.all([
 
     //CREATE SCATTERPLOT
     const dot = svg
-        .selectAll("circle")
+        .selectAll("dot")
         .data(data, d => d.Statistics)
-        .join("circle")
-        .attr("class", "circle")
+        .join(
+            enter => enter.append("circle")
+            .attr("r", 0)
+            .call(selection => selection
+                .transition()
+                .duration(800)
+                .delay((d, i) => i * 20)
+                .attr("r", radius),
+                update => update,
+                exit => exit.remove()
+            ) //transition allows the dots to grow from radius 0 to their radius value
+        )
+        .attr("class", "dot")
         .attr("cx", d => xScale(d.Male_ManagementBusinessandFinancialOperations))
         .attr("cy", d => yScale(d.Fem_ManagementBusinessandFinancialOperations))
-        .attr("r", radius)
         .attr("fill", d => colorScale(d.M_F_ManagementBusinessandFinancialOperations)) 
         .on('mouseover', function (e, d) {
             console.log(e, d);
@@ -73,9 +83,10 @@ Promise.all([
                d3.select("#dot-labels") 
                 .text(d.Statistics + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations + ", F: " + d.Fem_ManagementBusinessandFinancialOperations)   
                 .attr("x", xScale(d.Male_ManagementBusinessandFinancialOperations) - margin.left / 7)
-                .attr("y", yScale(d.Fem_ManagementBusinessandFinancialOperations))
-                
-            }) 
+                .attr("y", yScale(d.Fem_ManagementBusinessandFinancialOperations))   
+            })
+        
+        
 
     svg
         .append("text")
@@ -126,7 +137,9 @@ Promise.all([
 
     //CREATE A LEGEND
     //https://stackoverflow.com/questions/55219862/updating-stacked-bar-chart-d3-with-multiple-datasets
-    legend.append("rect")
+    const legend = d3.select("legend")
+        .data(d => d.M_F_ManagementBusinessandFinancialOperations)
+        .join("rect")
         .attr("x", width - 10) //separates letters from legend box
         .attr("width", 10)
         .attr("height", 15) //increase the length of the legend box
