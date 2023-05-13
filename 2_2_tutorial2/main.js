@@ -53,21 +53,35 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .selectAll("circle")
         .data(data, d => d.Location)
         .join("circle")
-        .attr("cx", d => xScale(d.Dog_Owning_Households_1000s)) //alternative below
-        .attr("cy", d => yScale(d.Cat_Owning_Households)) //alternative below
+        .attr("class", "dot")
+        .attr("cx", d => xScale(d.Dog_Owning_Households_1000s)) 
+        .attr("cy", d => yScale(d.Cat_Owning_Households)) 
         .attr("r", radius)
         .attr("fill", d => colorScale(d.Dogs_or_Cats)) //will color the circles based on this scale
+        .on('mouseover', function (e, d) {
+            console.log(e, d);
+            //d3.select(this)
+            d3.select("#dot-labels")
+                .text(data, d => d.Dog_Owning_Households_1000s + ", " + d.Cat_Owning_Households) //labels dots
+                .attr("x", d => xScale(d.Dog_Owning_Households_1000s) - margin.left / 6)
+                .attr("y", d => yScale(d.Cat_Owning_Households))
+                
+        })
 
+        
     //LABEL THE DOTS
-    svg.selectAll("labels")
-        .data(data)
-        .enter()
+    svg
         .append("text")
-        .text(d => d.Dog_Owning_Households_1000s + ", " + d.Cat_Owning_Households) //labels dots
-        .attr("x", d => xScale(d.Dog_Owning_Households_1000s) - margin.left / 6)
-        .attr("y", d => yScale(d.Cat_Owning_Households))
+        .attr("id", "dot-labels")
         .attr("font-size", 11)
+        // .text(d => d.Dog_Owning_Households_1000s + ", " + d.Cat_Owning_Households) //labels dots
+        // .attr("x", d => xScale(d.Dog_Owning_Households_1000s) - margin.left / 6)
+        // .attr("y", d => yScale(d.Cat_Owning_Households))
+        // .attr("font-size", 11)
+        
 
+    
+    
     //LABEL THE SCATTERPLOT
     svg
         .append("text")

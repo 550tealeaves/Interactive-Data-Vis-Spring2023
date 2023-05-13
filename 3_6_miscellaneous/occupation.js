@@ -79,7 +79,6 @@ Promise.all([
         .on('mouseover', function (e, d) {
             console.log(e, d);
             
-            //d3.select(this)
                d3.select("#dot-labels") 
                 .text(d.Statistics + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations + ", F: " + d.Fem_ManagementBusinessandFinancialOperations)   
                 .attr("x", xScale(d.Male_ManagementBusinessandFinancialOperations) - margin.left / 7)
