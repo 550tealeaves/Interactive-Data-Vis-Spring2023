@@ -125,7 +125,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .attr("fill", "orange")
         .style("font-weight", "bold")
         .style("font-size", "14px")
-        .attr("transform", `translate(${margin.left - 60},200)`)
+        .attr("transform", `translate(15, ${height - margin.bottom - 200})` + 'rotate (270)')
         .text("Cat owning households")
 
 
