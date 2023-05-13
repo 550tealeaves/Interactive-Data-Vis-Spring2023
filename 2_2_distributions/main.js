@@ -32,6 +32,10 @@ d3.csv("../data/squirrelActivities.csv", d3.autoType)
       .domain([0, Math.max(...data.map(d => d.count))]) // d3 also has a max function
       // .range([height, 0])
       .range([height - margin, margin])
+    
+      const colorScale = d3.scaleOrdinal()
+        .domain(xScale.domain())
+        .range(["#bb3ded", "#26bce1", "#95fb51", "#ff821d", "#900c00"])
 
     /* HTML ELEMENTS */
 
@@ -55,6 +59,7 @@ d3.csv("../data/squirrelActivities.csv", d3.autoType)
 
       // SCALE
       .attr("height", d => (height - margin) - yScale(d.count))
+      .attr("fill", d => colorScale(d.activity))
       // when working with bar charts, you want the min to be zero. otherwise the lowest number will not show up
 
       // WIDTH
@@ -64,18 +69,15 @@ d3.csv("../data/squirrelActivities.csv", d3.autoType)
 
     /* AXES */
     const xAxis = d3.axisBottom(xScale)
-    console.log(xAxis) // just a function return, we haven't appended anything yet
     const yAxis = d3.axisLeft(yScale)
 
     svg
       .append("g")
       .style("transform", `translate(0px, ${height - margin}px)`) // translate axis to bottom
-      // off screen now
-      .call(xAxis)
+      .call(xAxis)// off screen now
     svg
       .append("g")
       .style("transform", `translate(${margin}px, 0px)`) // translate axis to bottom
-
       .call(yAxis)
 
   });
