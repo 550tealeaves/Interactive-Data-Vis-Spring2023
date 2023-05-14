@@ -44,7 +44,7 @@ Promise.all([
     const gradCenterPoint = { Lat: 40.7423, Long: -73.9833 };
     svg.selectAll("circle.point") //selects all circle elements in DOM w/ class point
         .data([gradCenterPoint]) //use the const gradCenterPoint as data
-        .join("circle") //join cricle to the selected element
+        .join("circle") //join circle to the selected element
         .attr("class", "circle-point")
         .attr("r", 10)
         .attr("fill", "orange")
@@ -78,5 +78,53 @@ Promise.all([
             const [x, y] = projection([d.Long, d.Lat])
             return `translate(${x}, ${y})`
         }) //projection converts lat/long from the heatextremes dataset into x/y coordinates
+
+
+    let zoom = d3.zoom()
+        .on('zoom', handleZoom);
+
+    function handleZoom(e) {
+        d3.select('svg path')
+            .attr('transform', e.transform);
+    }
+
+    function initZoom() {
+        d3.select('svg')
+            .call(zoom);
+    }
+
+    function updateData() {
+        data = [];
+        for (let i = 0; i < gradCenterPoint; i++) {
+            data.push({
+                id: i,
+                x: Math.random() * width,
+                y: Math.random() * height
+            });
+        }
+    }
+
+    function update() {
+        d3.select('svg path')
+            .selectAll('circle')
+            .data(data)
+            .join('circle')
+            .attr('cx', function (d) { return d.x; })
+            .attr('cy', function (d) { return d.y; })
+            .attr('r', 3);
+    }
+
+    initZoom();
+    updateData();
+    update();
+
+
+
+
+
+
+
+
+
 
 });
