@@ -108,7 +108,7 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
 
         yAxisGroup = svg.append("g")
             .attr("class", "yAxis")
-            .attr("transform", `translate(${margin.right}, ${0})`)
+            .attr("transform", `translate(${margin.left},0)`)
             .call(yAxis)
 
         yAxisGroup.append("text")
@@ -130,8 +130,13 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
     const filteredData = state.data.filter(d => d.country === state.selection) // shows data for Germany 
         console.log('filtered', filteredData)
 
+
+    // //GROUP DATA
+    const groupedData = d3.groups(state.data, d => d.country) //want to group data by country - d3.groups takes an accessor function
+    console.log('grouped', groupedData)
+
     // + UPDATE SCALE(S), if needed
-    yScale.domain(d3.extent(filteredData, d => d.gdp))
+        yScale.domain(d3.extent(state.data, d => d.gdp))
     // + UPDATE AXIS/AXES, if needed
     yAxisGroup
         .transition()
@@ -158,7 +163,7 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
     const area = d3.area() //area function requires x (accessor), .y0(baseline), .y1(topline)
         .x(d => xScale(d.year)) //set to the year scale
         .y0(d => yScale.range()[0]) //baseline set to range
-        .y1(d => yScale(d.gdp)) //topline set to population
+        .y1(d => yScale(d.gdp)) //topline set to gdp
 
     // APPEND PATH ELEMENT TO AREA
     svg.append("path")
