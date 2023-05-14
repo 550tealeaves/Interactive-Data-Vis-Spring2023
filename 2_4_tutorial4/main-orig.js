@@ -18,7 +18,7 @@ Promise.all([
         .attr("width", width)
         .attr("height", height);
 
-
+    
     // SPECIFY PROJECTION
 
     // A projection maps from lat/long -> x/y values - works like a scale
@@ -46,7 +46,7 @@ Promise.all([
         .data([gradCenterPoint]) //use the const gradCenterPoint as data
         .join("circle") //join cricle to the selected element
         .attr("class", "circle-point")
-        .attr("r", 10)
+        .attr("r", 10) 
         .attr("fill", "orange")
         .attr("transform", d => {
             const [x, y] = projection([d.Long, d.Lat])
@@ -64,8 +64,8 @@ Promise.all([
         .attr("transform", d => {
             const [x, y] = projection([d.Long, d.Lat])
             return `translate(${x + 15}, ${y + 8})` //adding #s to x/y moves translates the label 15 to the right and 7 down
-        })
-
+        })    
+        
 
     // DRAW POINT FOR ALL US HEAT EXTREMES
     svg.selectAll("circle.heatextreme") //select all circle elements in DOM w/ class heatextreme
