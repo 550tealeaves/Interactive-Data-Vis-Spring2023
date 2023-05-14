@@ -127,7 +127,7 @@ function draw() {
   yAxisGroup
     .transition()
     .duration(1000)
-    .call(yAxis.scale(yScale))// need to udpate the scale
+    .call(yAxis.scale(yScale))// need to update the scale
 
   // specify line generator function
   const lineGen = d3.line()

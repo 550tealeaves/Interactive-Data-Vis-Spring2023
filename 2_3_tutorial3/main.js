@@ -4,6 +4,25 @@ const width = window.innerWidth * 0.7,
     margin = { top: 20, left: 120, bottom: 60, right: 20 };
 
 
+
+// these variables allow us to access anything we manipulate in init() but need access to in draw().
+// All these variables are empty before we assign something to them.
+let svg;
+let xScale;
+let yScale;
+let yAxis;
+let xAxisGroup;
+let yAxisGroup;
+
+/* APPLICATION STATE */
+let state = {
+    data: [],
+    selection: "All", // + YOUR FILTER SELECTION
+};
+
+
+
+
 /* LOAD DATA */
 
 
@@ -14,60 +33,116 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
         country: d.Country //had to return country 
     }
 }).then(data => {
-    console.log('data :>> ', data);
-
-    // SCALES
-
-    //X scale
-    const xScale = d3.scaleTime() //using time scale
-        .domain(d3.extent(data, d => d.year)) //d3.extent looks w/in data & finds min/max years
-        .range([margin.left, width - margin.right])
-
-    //Y scale
-    const yScale = d3.scaleLinear()
-        .domain(d3.extent(data, d => d.gdp)) //d3.extent looks w/in data & finds min/max gdp
-        .range([height - margin.bottom, margin.top])
+    console.log('loaded data :>> ', data);
+    state.data = data;
+    init();
+});
 
 
-    // CREATE SVG ELEMENT
-    const svg = d3.select("#container")
-        .append("svg")
-        .attr("width", width)
-        .attr("height", height)
+    function init() {
+        //X scale
+        const xScale = d3.scaleTime() //using time scale
+            .domain(d3.extent(state.data, d => d.year)) //d3.extent looks w/in data & finds min/max years
+            .range([margin.left, width - margin.right])
 
-    // BUILD AND CALL AXES
-    // X Axis
-    const xAxis = d3.axisBottom(xScale)
-    svg.append("g")
-        .attr("class", "axis")
-        .attr("transform", `translate(0,${height - margin.bottom})`)
-        .call(xAxis)
-
-    // Y Axis
-    const yAxis = d3.axisLeft(yScale) //shows the vertical axis
-    svg.append("g")
-        .attr("class", "axis")
-        .attr("transform", `translate(${margin.left},0)`)
-        .call(yAxis)
+        //Y scale
+        const yScale = d3.scaleLinear()
+            .domain(d3.extent(state.data, d => d.gdp)) //d3.extent looks w/in data & finds min/max gdp
+            .range([height - margin.bottom, margin.top])
 
 
+        // CREATE SVG ELEMENT
+        const svg = d3.select("#container")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+
+        // BUILD AND CALL AXES
+        // X Axis
+        const xAxis = d3.axisBottom(xScale)
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", `translate(0,${height - margin.bottom})`)
+            .call(xAxis)
+        
+
+        // Y Axis
+        const yAxis = d3.axisLeft(yScale) //shows the vertical axis
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", `translate(${margin.left},0)`)
+            .call(yAxis)
+
+        // + UI ELEMENT SETUP
+        const selectElement = d3.select("#dropdown")
+
+        // add in dropdown options from the unique values in the data
+        selectElement.selectAll("option")
+            .data([
+                // manually add the first value
+                "Select a country",
+                // add in all the unique values from the dataset
+                ...new Set(state.data.map(d => d.country))])
+            .join("option")
+            .attr("attr", d => d)
+            .text(d => d)
+
+        // + SET SELECT ELEMENT'S DEFAULT VALUE (optional)
+        selectElement.on("change", event => {
+            state.selection = event.target.value
+            console.log('state has been updated to: ', state)
+            draw(); // re-draw the graph based on this new selection
+        });
+
+
+        //CALL AXES
+        xAxisGroup = svg.append("g")
+            .attr("class", "xAxis")
+            .attr("transform", `translate(${0}, ${height - margin.bottom})`)
+            .call(xAxis)
+
+        xAxisGroup.append("text")
+            .attr("class", 'xLabel')
+            .attr("transform", `translate(${width / 2}, ${35})`)
+            .text("Year")
+
+        yAxisGroup = svg.append("g")
+            .attr("class", "yAxis")
+            .attr("transform", `translate(${margin.right}, ${0})`)
+            .call(yAxis)
+
+        yAxisGroup.append("text")
+            .attr("class", 'yLabel')
+            .attr("transform", `translate(${-45}, ${height / 2})`)
+            .attr("writing-mode", 'vertical-rl')
+            .text("GDP")
+
+        draw();
+
+    }
+
+
+    /* DRAW FUNCTION */
+    // we call this every time there is an update to the data/state
+    function draw() {
 
     //FILTER DATA
-    const filteredData = data.filter(d => d.country === "Germany") // shows data for Germany 
-    console.log('filtered', filteredData)
+    const filteredData = state.data.filter(d => d.country === state.selection) // shows data for Germany 
+        console.log('filtered', filteredData)
 
-
-    //GROUP DATA
-    const groupedData = d3.groups(data, d => d.country) //want to group data by country - d3.groups takes an accessor function
-    console.log('grouped', groupedData)
-
+    // + UPDATE SCALE(S), if needed
+    yScale.domain(d3.extent(filteredData, d => d.gdp))
+    // + UPDATE AXIS/AXES, if needed
+    yAxisGroup
+        .transition()
+        .duration(1000)
+        .call(yAxis.scale(yScale))// need to update the scale
 
 
     // LINE GENERATOR FUNCTION
     const lineGen = d3.line() //line generator function
         .x(d => xScale(d.year)) //define x accessor - pass through data, take year & pass it to xScale
         .y(d => yScale(d.gdp)) //define y accessor - pass through data, take gross & pass it to yScale
-
 
     // DRAW LINE
     const line = svg.selectAll(".line")
@@ -127,4 +202,27 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
 
 
 
-});
+    }
+
+    // SCALES
+
+    
+
+
+
+    
+
+
+    // //GROUP DATA
+    // const groupedData = d3.groups(data, d => d.country) //want to group data by country - d3.groups takes an accessor function
+    // console.log('grouped', groupedData)
+
+
+
+
+
+    
+
+
+
+// });
