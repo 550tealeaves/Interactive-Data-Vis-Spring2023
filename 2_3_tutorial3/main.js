@@ -120,7 +120,7 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
     svg
         .append("text")
         .attr("class", "axis")
-        .attr("transform", `translate(${margin.left - 120},150)`)
+        .attr("transform", `translate(15, ${height - margin.bottom - 200})` + 'rotate (270)')
         .style("font-weight", "bold")
         .style("font-size", "14px")
         .text("GDP")
