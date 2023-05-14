@@ -29,7 +29,7 @@ Promise.all([
         .on("click", reset)
     
         
-    //CREATE G
+    //CREATE G - NEEDED FOR ZOOM
     const g = svg.append("g")
 
     
