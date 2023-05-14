@@ -13,11 +13,21 @@ Promise.all([
 ]).then(([geojson, heat]) => {
 
     // CREATE SVG 
+    const zoom = d3.zoom()
+        .scaleExtent([1, 8])
+        .on("zoom", zoomed);
+    
     const svg = d3.select("#container")
         .append("svg")
         .attr("width", width)
-        .attr("height", height);
-
+        .attr("height", height)
+        .call(d3.zoom().on("zoom", function () {
+            svg.attr("transform", d3.event.transform)
+        }))
+        .append("g")
+        .on("click", reset)
+        
+    const g = svg.append("g")
 
     // SPECIFY PROJECTION
 
@@ -32,7 +42,8 @@ Promise.all([
     const path = d3.geoPath(projection)
 
     // DRAW BASE LAYER PATH (1 PATH PER STATE)
-    const states = svg.selectAll("path.states")
+    const states = g.selectAll("path.states")
+        .append("g")
         .data(geojson.features) //use features b/c geojson alone is not iterable array
         .join("path") //join path to elements w/ class states
         .attr("class", 'states') //give joined elements a class "states"
@@ -77,46 +88,79 @@ Promise.all([
         .attr("transform", d => {
             const [x, y] = projection([d.Long, d.Lat])
             return `translate(${x}, ${y})`
-        }) //projection converts lat/long from the heatextremes dataset into x/y coordinates
+        }) //projection converts lat/long from the heat extremes dataset into x/y coordinates
 
+    svg.call(zoom);
 
-    let zoom = d3.zoom()
-        .on('zoom', handleZoom);
-
-    function handleZoom(e) {
-        d3.select('svg path')
-            .attr('transform', e.transform);
+    function reset() {
+        states.transition().style("fill", null);
+        svg.transition().duration(750).call(
+            zoom.transform,
+            d3.zoomIdentity,
+            d3.zoomTransform(svg).invert([width / 2, height / 2])
+        );
     }
 
-    function initZoom() {
-        d3.select('svg')
-            .call(zoom);
+    function clicked(event, d) {
+        const [[x0, y0], [x1, y1]] = path.bounds(d);
+        event.stopPropagation();
+        states.transition().style("fill", null);
+        d3.select(this).transition().style("fill", "red");
+        svg.transition().duration(750).call(
+            zoom.transform,
+            d3.zoomIdentity
+                .translate(width / 2, height / 2)
+                .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height)))
+                .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
+            d3.pointer(event, svg.node())
+        );
     }
 
-    function updateData() {
-        data = [];
-        for (let i = 0; i < gradCenterPoint; i++) {
-            data.push({
-                id: i,
-                x: Math.random() * width,
-                y: Math.random() * height
-            });
-        }
+    function zoomed(event) {
+        const { transform } = event;
+        g.attr("transform", transform);
+        g.attr("stroke-width", 1 / transform.k);
     }
 
-    function update() {
-        d3.select('svg path')
-            .selectAll('circle')
-            .data(data)
-            .join('circle')
-            .attr('cx', function (d) { return d.x; })
-            .attr('cy', function (d) { return d.y; })
-            .attr('r', 3);
-    }
 
-    initZoom();
-    updateData();
-    update();
+
+    // let zoom = d3.zoom()
+    //     .on('zoom', handleZoom);
+
+    // function handleZoom(e) {
+    //     d3.select('svg path')
+    //         .attr('transform', e.transform);
+    // }
+
+    // function initZoom() {
+    //     d3.select('svg')
+    //         .call(zoom);
+    // }
+
+    // function updateData() {
+    //     data = [];
+    //     for (let i = 0; i < projection; i++) {
+    //         data.push({
+    //             id: i,
+    //             x: Math.random() * width,
+    //             y: Math.random() * height
+    //         });
+    //     }
+    // }
+
+    // function update() {
+    //     d3.select('svg path')
+    //         .selectAll('circle')
+    //         .data(data)
+    //         .join('circle')
+    //         .attr('cx', function (d) { return d.x; })
+    //         .attr('cy', function (d) { return d.y; })
+    //         .attr('r', 3);
+    // }
+
+    // initZoom();
+    // updateData();
+    // update();
 
 
 
