@@ -12,11 +12,12 @@ Promise.all([
     d3.csv("../data/usHeatExtremes.csv", d3.autoType),
 ]).then(([geojson, heat]) => {
 
-    // CREATE SVG 
+    // CREATE ZOOM 
     const zoom = d3.zoom()
-        .scaleExtent([1, 8])
+        .scaleExtent([1, 8]) //extent to which you can zoom
         .on("zoom", zoomed);
     
+    // CREATE SVG
     const svg = d3.select("#container")
         .append("svg")
         .attr("width", width)
@@ -26,9 +27,12 @@ Promise.all([
         }))
         .append("g")
         .on("click", reset)
+    
         
+    //CREATE G
     const g = svg.append("g")
 
+    
     // SPECIFY PROJECTION
 
     // A projection maps from lat/long -> x/y values - works like a scale
@@ -90,8 +94,10 @@ Promise.all([
             return `translate(${x}, ${y})`
         }) //projection converts lat/long from the heat extremes dataset into x/y coordinates
 
+    //CALL ZOOM
     svg.call(zoom);
 
+    //DEFINE RESET FUNCTION 
     function reset() {
         states.transition().style("fill", null);
         svg.transition().duration(750).call(
@@ -101,11 +107,12 @@ Promise.all([
         );
     }
 
+
+    //DEFINE CLICKED FUNCTION - HAPPENS WHEN CLICK AFTER ZOOMING
     function clicked(event, d) {
         const [[x0, y0], [x1, y1]] = path.bounds(d);
         event.stopPropagation();
         states.transition().style("fill", null);
-        d3.select(this).transition().style("fill", "red");
         svg.transition().duration(750).call(
             zoom.transform,
             d3.zoomIdentity
@@ -116,14 +123,17 @@ Promise.all([
         );
     }
 
+    //DEFINE FUNCTION ZOOMED ON AN EVENT
     function zoomed(event) {
         const { transform } = event;
         g.attr("transform", transform);
         g.attr("stroke-width", 1 / transform.k);
     }
 
+});
 
 
+//this does not work
     // let zoom = d3.zoom()
     //     .on('zoom', handleZoom);
 
@@ -161,14 +171,3 @@ Promise.all([
     // initZoom();
     // updateData();
     // update();
-
-
-
-
-
-
-
-
-
-
-});
