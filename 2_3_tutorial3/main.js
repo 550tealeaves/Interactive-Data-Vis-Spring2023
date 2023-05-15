@@ -68,10 +68,10 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
 
         // Y Axis
         yAxis = d3.axisLeft(yScale) //shows the vertical axis
-        // svg.append("g")
-        //     .attr("class", "axis")
-        //     .attr("transform", `translate(${margin.left},0)`)
-        //     .call(yAxis)
+        //svg.append("g")
+            // .attr("class", "axis")
+            // .attr("transform", `translate(${margin.left},0)`)
+            // .call(yAxis)
 
         // + UI ELEMENT SETUP
         const selectElement = d3.select("#dropdown")
@@ -113,7 +113,7 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
 
         yAxisGroup.append("text")
             .attr("class", 'yLabel')
-            .attr("transform", `translate(${margin.left},0)`)
+            .attr("transform", `translate(${-45}, ${height / 2})`)
             .attr("writing-mode", 'vertical-rl')
             .text("GDP")
 
@@ -136,7 +136,7 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
     console.log('grouped', groupedData)
 
     // + UPDATE SCALE(S), if needed
-    let yScale = d3.scaleLinear()
+    yScale = d3.scaleLinear()
         .domain([0, d3.max(filteredData, d => d.gdp)])
     // + UPDATE AXIS/AXES, if needed
     yAxisGroup
