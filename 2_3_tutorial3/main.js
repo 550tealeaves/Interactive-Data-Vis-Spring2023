@@ -145,35 +145,6 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
         .call(yAxis.scale(yScale))// need to update the scale
 
 
-    // LINE GENERATOR FUNCTION
-    const lineGen = d3.line() //line generator function
-        .x(d => xScale(d.year)) //define x accessor - pass through data, take year & pass it to xScale
-        .y(d => yScale(d.gdp)) //define y accessor - pass through data, take gross & pass it to yScale
-
-    // DRAW LINE
-    const line = svg.selectAll(".line")
-        .data([filteredData])
-        .join("path")
-        .attr("class", "line")
-        .attr("d", d => lineGen(d))
-        .attr("stroke", "black")
-        .attr("fill", "none")
-
-
-    // AREA GENERATOR FUNCTION
-    const area = d3.area() //area function requires x (accessor), .y0(baseline), .y1(topline)
-        .x(d => xScale(d.year)) //set to the year scale
-        .y0(d => yScale.range()[0]) //baseline set to range
-        .y1(d => yScale(d.gdp)) //topline set to gdp
-
-    // APPEND PATH ELEMENT TO AREA
-    svg.append("path")
-        .data([filteredData])
-        .attr("class", "area")
-        .attr("d", area)
-        .attr("fill", "gold")
-
-
     // ADD CHART TITLE
     svg
         .append("text")
@@ -205,6 +176,39 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
         .style("font-weight", "bold")
         .style("font-size", "14px")
         .text("GDP")
+
+
+
+    // LINE GENERATOR FUNCTION
+    const lineGen = d3.line() //line generator function
+        .x(d => xScale(d.year)) //define x accessor - pass through data, take year & pass it to xScale
+        .y(d => yScale(d.gdp)) //define y accessor - pass through data, take gross & pass it to yScale
+
+    // DRAW LINE
+    const line = svg.selectAll(".line")
+        .data([filteredData])
+        .join("path")
+        .attr("class", "line")
+        .attr("d", d => lineGen(d))
+        .attr("stroke", "black")
+        .attr("fill", "none")
+
+
+    // AREA GENERATOR FUNCTION
+    const area = d3.area() //area function requires x (accessor), .y0(baseline), .y1(topline)
+        .x(d => xScale(d.year)) //set to the year scale
+        .y0(d => yScale.range()[0]) //baseline set to range
+        .y1(d => yScale(d.gdp)) //topline set to gdp
+
+    // APPEND PATH ELEMENT TO AREA
+    svg.append("path")
+        .data([filteredData])
+        .attr("class", "area")
+        .attr("d", area)
+        .attr("fill", "gold")
+
+
+    
 
 
 
