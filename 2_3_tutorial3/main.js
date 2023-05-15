@@ -136,7 +136,8 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
     console.log('grouped', groupedData)
 
     // + UPDATE SCALE(S), if needed
-        yScale.domain([0, d3.max(filteredData, d => d.gdp)])
+    let yScale = d3.scaleLinear()
+        .domain([0, d3.max(filteredData, d => d.gdp)])
     // + UPDATE AXIS/AXES, if needed
     yAxisGroup
         .transition()
