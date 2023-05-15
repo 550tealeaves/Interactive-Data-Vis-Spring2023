@@ -60,18 +60,18 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
         // BUILD AND CALL AXES
         // X Axis
         const xAxis = d3.axisBottom(xScale)
-        svg.append("g")
-            .attr("class", "axis")
-            .attr("transform", `translate(0,${height - margin.bottom})`)
-            .call(xAxis)
+        // svg.append("g")
+        //     .attr("class", "axis")
+        //     .attr("transform", `translate(0,${height - margin.bottom})`)
+        //     .call(xAxis)
         
 
         // Y Axis
-        const yAxis = d3.axisLeft(yScale) //shows the vertical axis
-        svg.append("g")
-            .attr("class", "axis")
-            .attr("transform", `translate(${margin.left},0)`)
-            .call(yAxis)
+        yAxis = d3.axisLeft(yScale) //shows the vertical axis
+        // svg.append("g")
+        //     .attr("class", "axis")
+        //     .attr("transform", `translate(${margin.left},0)`)
+        //     .call(yAxis)
 
         // + UI ELEMENT SETUP
         const selectElement = d3.select("#dropdown")
@@ -113,7 +113,7 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
 
         yAxisGroup.append("text")
             .attr("class", 'yLabel')
-            .attr("transform", `translate(${-45}, ${height / 2})`)
+            .attr("transform", `translate(${margin.left},0)`)
             .attr("writing-mode", 'vertical-rl')
             .text("GDP")
 
