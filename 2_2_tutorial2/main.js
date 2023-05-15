@@ -108,7 +108,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .attr("transform", `translate(500,${height - margin.bottom + 50})`)
         .attr("fill", "brown")
         .style("font-weight", "bold")
-        .style("font-size", "14px")
+        .style("font-size", "16px")
         .text("Dog owning households (per 1,000)")
 
     //LABEL THE Y-AXIS 
@@ -117,7 +117,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .attr("class", "axis-label")
         .attr("fill", "turquoise")
         .style("font-weight", "bold")
-        .style("font-size", "14px")
+        .style("font-size", "16px")
         .attr("transform", `translate(15, ${height - margin.bottom - 150})` + 'rotate (270)')
         .text("Cat owning households (per 1,000)")
 
