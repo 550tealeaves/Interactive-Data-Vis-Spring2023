@@ -50,7 +50,7 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
             .domain(d3.extent(state.data, d => d.gdp)) //d3.extent looks w/in data & finds min/max gdp
             .range([height - margin.bottom, margin.top])
 
-
+            
         // CREATE SVG ELEMENT
         const svg = d3.select("#container")
             .append("svg")
@@ -136,7 +136,7 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
     console.log('grouped', groupedData)
 
     // + UPDATE SCALE(S), if needed
-        yScale.domain(d3.extent(state.data, d => d.gdp))
+        yScale.domain([0, d3.max(filteredData, d => d.gdp)])
     // + UPDATE AXIS/AXES, if needed
     yAxisGroup
         .transition()
@@ -210,24 +210,6 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
     }
 
     // SCALES
-
-    
-
-
-
-    
-
-
-    // //GROUP DATA
-    // const groupedData = d3.groups(data, d => d.country) //want to group data by country - d3.groups takes an accessor function
-    // console.log('grouped', groupedData)
-
-
-
-
-
-    
-
 
 
 // });
