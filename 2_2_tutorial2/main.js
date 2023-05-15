@@ -87,14 +87,6 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .attr("font-size", 11)
         .attr("font-weight", "bold")
         
-        
-        // .text(d => d.Dog_Owning_Households_1000s + ", " + d.Cat_Owning_Households) //labels dots
-        // .attr("x", d => xScale(d.Dog_Owning_Households_1000s) - margin.left / 6)
-        // .attr("y", d => yScale(d.Cat_Owning_Households))
-        // .attr("font-size", 11)
-        
-
-    
     
     //LABEL THE SCATTERPLOT
     svg
@@ -129,19 +121,5 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .attr("transform", `translate(15, ${height - margin.bottom - 150})` + 'rotate (270)')
         .text("Cat owning households (per 1,000)")
 
-
-    //ALTERNATIVE WAY TO WRITE .attr("cx")
-    // .attr("cx", function(d) {
-    //     return d.Dog_Owning_Households_1000s;
-    // })
-
-
-    //ALTERNATIVE WAY TO WRITE .attr("cy")
-    // .attr("cy", function(d) {
-    //     return d.Cat_Owning_Households;
-    // })
-
-    //ALTERNATIVE WAY TO FIND THE AREA FOR CIRCLE SIZES
-    //.attr("r", d=> Math.sqrt(height - radius)) - this makes the circles very big
 
 })
