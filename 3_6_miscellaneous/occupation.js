@@ -159,7 +159,7 @@ Promise.all([
         .attr("y", 10)
         .attr("dy", ".35em")
         .style("text-anchor", "end")
-        .text(["M", "F"])
+        .text(d => d)
     
 
 

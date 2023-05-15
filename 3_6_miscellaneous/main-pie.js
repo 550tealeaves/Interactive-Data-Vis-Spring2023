@@ -36,7 +36,7 @@ d3.json("../data/census_states_all_totals.json", d3.autoType)
             .innerRadius(0)
             .outerRadius(radius)
         )
-        .attr("fill", "red") //replaces function (d) {return (color(d.data.key))}
+        .attr("fill", d => color(d.data)) //replaces function (d) {return (color(d.data.key))}
         .attr("stroke", "black")
         .style("stroke-width", "2px")
         .style("opacity", 0.7)
