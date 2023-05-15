@@ -141,6 +141,10 @@ d3.json("../data/census_occ_total_subset.json", d3.autoType).then(raw_data => {
     
     //EVENT LISTENER
     const selectElement = d3.select("#dropdown")
+        // .data(["Select an occupation", ...new Set(state.data.map(d => d.Male_ProfessionalandRelated))])
+        // .join("option")
+        // .attr("attr", d =>d)
+        // .text(d => d)
         .on("change", event => {
             console.log('selected', event.target.value);
             state.selectedJobs = event.target.value

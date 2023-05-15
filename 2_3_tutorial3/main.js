@@ -5,6 +5,10 @@ const width = window.innerWidth * 0.7,
 
 
 
+const formatBillions = (num) => d3.format(".2s")(num).replace(/G/, 'B')
+const formatDate = d3.timeFormat("%Y")
+
+
 // these variables allow us to access anything we manipulate in init() but need access to in draw().
 // All these variables are empty before we assign something to them.
 let svg;
@@ -33,7 +37,7 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
         country: d.Country //had to return country 
     }
 }).then(data => {
-    console.log('loaded data :>> ', data);
+    console.log('loaded data: ', data);
     state.data = data;
     init();
 });
@@ -41,21 +45,16 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
 
     function init() {
         //X scale
-        const xScale = d3.scaleTime() //using time scale
+        xScale = d3.scaleTime() //using time scale
             .domain(d3.extent(state.data, d => d.year)) //d3.extent looks w/in data & finds min/max years
             .range([margin.left, width - margin.right])
 
         //Y scale
-        const yScale = d3.scaleLinear()
+        yScale = d3.scaleLinear()
             .domain(d3.extent(state.data, d => d.gdp)) //d3.extent looks w/in data & finds min/max gdp
             .range([height - margin.bottom, margin.top])
 
-            
-        // CREATE SVG ELEMENT
-        const svg = d3.select("#container")
-            .append("svg")
-            .attr("width", width)
-            .attr("height", height)
+
 
         // BUILD AND CALL AXES
         // X Axis
@@ -67,7 +66,9 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
         
 
         // Y Axis
-        yAxis = d3.axisLeft(yScale) //shows the vertical axis
+        yAxis = d3.axisLeft(yScale)
+        //.tickFormat(formatBillions)
+        //shows the vertical axis
         //svg.append("g")
             // .attr("class", "axis")
             // .attr("transform", `translate(${margin.left},0)`)
@@ -81,7 +82,6 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
             .data([
                 // manually add the first value
                 "Select a country",
-                // add in all the unique values from the dataset
                 ...new Set(state.data.map(d => d.country))])
             .join("option")
             .attr("attr", d => d)
@@ -94,6 +94,11 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
             draw(); // re-draw the graph based on this new selection
         });
 
+        // CREATE SVG ELEMENT
+        svg = d3.select("#container")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
 
         //CALL AXES
         xAxisGroup = svg.append("g")
@@ -131,13 +136,12 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
         console.log('filtered', filteredData)
 
 
-    // //GROUP DATA
-    const groupedData = d3.groups(state.data, d => d.country) //want to group data by country - d3.groups takes an accessor function
-    console.log('grouped', groupedData)
+    // // //GROUP DATA
+    // const groupedData = d3.groups(state.data, d => d.country) //want to group data by country - d3.groups takes an accessor function
+    // console.log('grouped', groupedData)
 
     // + UPDATE SCALE(S), if needed
-    yScale = d3.scaleLinear()
-        .domain([0, d3.max(filteredData, d => d.gdp)])
+    yScale.domain([0, d3.max(filteredData, d => d.gdp)])
     // + UPDATE AXIS/AXES, if needed
     yAxisGroup
         .transition()
@@ -158,25 +162,9 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
         .style("font-weight", "bold")
         .attr("fill", "red")
 
-
-    //LABEL THE X-AXIS
-    svg
-        .append("text")
-        .attr("class", "axis")
-        .attr("transform", `translate(450,${height - margin.bottom + 50})`)
-        .style("font-weight", "bold")
-        .style("font-size", "14px")
-        .text("Years")
-
-    //LABEL THE Y-AXIS 
-    svg
-        .append("text")
-        .attr("class", "axis")
-        .attr("transform", `translate(15, ${height - margin.bottom - 200})` + 'rotate (270)')
-        .style("font-weight", "bold")
-        .style("font-size", "14px")
-        .text("GDP")
-
+        //GROUP DATA
+        const groupedData = d3.groups(state.data, d => d.country) //want to group data by country - d3.groups takes an accessor function
+        console.log('grouped', groupedData)
 
 
     // LINE GENERATOR FUNCTION
@@ -208,7 +196,24 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
         .attr("fill", "gold")
 
 
-    
+
+    //LABEL THE X-AXIS
+    svg
+        .append("text")
+        .attr("class", "axis")
+        .attr("transform", `translate(450,${height - margin.bottom + 50})`)
+        .style("font-weight", "bold")
+        .style("font-size", "14px")
+        .text("Years")
+
+    //LABEL THE Y-AXIS 
+    svg
+        .append("text")
+        .attr("class", "axis")
+        .attr("transform", `translate(15, ${height - margin.bottom - 200})` + 'rotate (270)')
+        .style("font-weight", "bold")
+        .style("font-size", "14px")
+        .text("GDP")
 
 
 
