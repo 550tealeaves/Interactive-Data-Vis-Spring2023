@@ -8,9 +8,9 @@ const width = window.innerWidth * 0.9,
  * Promise.all([]) - loads multiple datasets at once
  * */
 Promise.all([
-    d3.json("../data/usState.json"),
+    d3.json("../data/usState.json"), d3.csv("../data/stateCapitals.csv"),
     d3.csv("../data/usHeatExtremes.csv", d3.autoType),
-]).then(([geojson, heat]) => {
+]).then(([geojson, capitals, heat]) => {
 
     // CREATE ZOOM 
     const zoom = d3.zoom()
@@ -93,6 +93,21 @@ Promise.all([
             const [x, y] = projection([d.Long, d.Lat])
             return `translate(${x}, ${y})`
         }) //projection converts lat/long from the heat extremes dataset into x/y coordinates
+
+
+    // draw point for all state capitals
+    g.selectAll("circle.capital")
+        .data(capitals)
+        .join("circle")
+        .attr("r", 5)
+        .attr("fill", "red")
+        .attr("transform", d => {
+            // use our projection to go from lat/long => x/y
+            // ref: https://github.com/d3/d3-geo#_projection
+            const [x, y] = projection([d.longitude, d.latitude])
+            return `translate(${x}, ${y})`
+        })
+
 
     //CALL ZOOM
     svg.call(zoom);
