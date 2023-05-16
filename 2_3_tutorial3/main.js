@@ -51,7 +51,7 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
 
         //Y scale
         yScale = d3.scaleLinear()
-            .domain(d3.extent(state.data, d => d.gdp)) //d3.extent looks w/in data & finds min/max gdp
+            .domain([0, d3.max(state.data, d => d.gdp)]) //d3.extent looks w/in data & finds min/max gdp
             .range([height - margin.bottom, margin.top])
 
 
@@ -128,17 +128,17 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
 
 
     /* DRAW FUNCTION */
-    // we call this every time there is an update to the data/state
+    // Call this when there is an update to the state
     function draw() {
 
     //FILTER DATA
-    const filteredData = state.data.filter(d => d.country === state.selection) // shows data for Germany 
+    const filteredData = state.data.filter(d => d.country === state.selection) // shows data for the selected state 
         console.log('filtered', filteredData)
 
 
-    // // //GROUP DATA
-    // const groupedData = d3.groups(state.data, d => d.country) //want to group data by country - d3.groups takes an accessor function
-    // console.log('grouped', groupedData)
+    // GROUP DATA
+    const groupedData = d3.groups(state.data, d => d.country) //want to group data by country - d3.groups takes an accessor function
+    console.log('grouped', groupedData)
 
     // + UPDATE SCALE(S), if needed
     yScale.domain([0, d3.max(filteredData, d => d.gdp)])
@@ -156,15 +156,15 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
         .attr("x", width / 1.9)
         .attr("y", height / 20) //higher the denominator, higher the text moves up pg
         .attr("text-anchor", "middle")
-        .text(`${filteredData[0].country} GDP`) //interpolates so that name updates to match country change
+        //.text(`${filteredData[0].country} GDP`) //interpolates so that name updates to match country change
         .attr("font-family", "Cursive")
         .style("font-size", "18px")
         .style("font-weight", "bold")
         .attr("fill", "red")
 
-        //GROUP DATA
-        const groupedData = d3.groups(state.data, d => d.country) //want to group data by country - d3.groups takes an accessor function
-        console.log('grouped', groupedData)
+        // //GROUP DATA
+        // const groupedData = d3.groups(state.data, d => d.country) //want to group data by country - d3.groups takes an accessor function
+        // console.log('grouped', groupedData)
 
 
     // LINE GENERATOR FUNCTION
@@ -218,8 +218,3 @@ d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
 
 
     }
-
-    // SCALES
-
-
-// });
