@@ -1,5 +1,5 @@
 /* CONSTANTS AND GLOBALS */
-const width = window.innerWidth * 0.7,
+const width = window.innerWidth * 0.8,
     height = window.innerHeight * 0.7,
     margin = { top: 20, left: 120, bottom: 60, right: 20 };
 
@@ -147,9 +147,9 @@ d3.csv("../data/World_Indicators_sort.csv", d => {  //parse the csv
         .append("text")
         .attr("class", "title")
         .attr("x", width / 1.9)
-        .attr("y", height / 20) //higher the denominator, higher the text moves up pg
+        .attr("y", height / 30) //higher the denominator, higher the text moves up pg
         .attr("text-anchor", "middle")
-        .text(`${filteredData[0].country} GDP`) //interpolates so that name updates to match country change
+        .text("National GDP") //interpolates so that name updates to match country change
         .attr("font-family", "Cursive")
         .style("font-size", "18px")
         .style("font-weight", "bold")
@@ -171,7 +171,7 @@ d3.csv("../data/World_Indicators_sort.csv", d => {  //parse the csv
         .join("path")
         .attr("class", "line")
         .attr("d", d => lineGen(d))
-        .attr("stroke", "black")
+        .attr("stroke", "blue")
         .attr("fill", "none")
 
 
