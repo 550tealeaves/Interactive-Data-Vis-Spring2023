@@ -105,7 +105,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
     svg
         .append("text")
         .attr("class", "axis-label")
-        .attr("transform", `translate(500,${height - margin.bottom + 50})`)
+        .attr("transform", `translate(350,${height - margin.bottom + 50})`)
         .attr("fill", "brown")
         .style("font-weight", "bold")
         .style("font-size", "16px")
@@ -118,7 +118,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .attr("fill", "turquoise")
         .style("font-weight", "bold")
         .style("font-size", "16px")
-        .attr("transform", `translate(15, ${height - margin.bottom - 150})` + 'rotate (270)')
+        .attr("transform", `translate(15, ${height - margin.bottom - 110})` + 'rotate (270)')
         .text("Cat owning households (per 1,000)")
 
 
