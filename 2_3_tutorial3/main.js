@@ -155,9 +155,6 @@ d3.csv("../data/World_Indicators_sort.csv", d => {  //parse the csv
         .style("font-weight", "bold")
         .attr("fill", "red")
 
-        // //GROUP DATA
-        // const groupedData = d3.groups(state.data, d => d.country) //want to group data by country - d3.groups takes an accessor function
-        // console.log('grouped', groupedData)
 
 
     // LINE GENERATOR FUNCTION

@@ -160,67 +160,6 @@ Promise.all([
         .attr("dy", ".35em")
         .style("text-anchor", "end")
         .text(d => d)
-    
-
-
-
-    
-
-    //CREATE A LEGEND
-    //https://stackoverflow.com/questions/55219862/updating-stacked-bar-chart-d3-with-multiple-datasets
-    // const legendSize = 12
-    // const legendSpacing = 4
-    // const xOffset = 150
-    // const yOffset = 100
-    
-    // const legend = svg.select("#legend")
-    //     .data(data)
-    
-    // legend
-    //     .enter()
-    //     .append('dot')
-    //     .attr("class", ".legendItem")
-    //     .attr("width", legendSize)
-    //     .attr("height", legendSize)
-    //     .style("fill", d => d.colorScale)
-    //     // .attr('transform', 
-        //     (d, i) => {
-        //         const x = xOffset
-        //         const y = yOffset + (legendSize + legendSpacing) * i
-        //         return `translate(${x}, ${y})`
-        //     })
-
-    // legend
-    //     .enter()
-    //     .append('legend-text')
-    //     .attr("cx", d => xScale(d.Male_ManagementBusinessandFinancialOperations))
-    //     .attr("cy", d => yScale(d.Fem_ManagementBusinessandFinancialOperations))
-    //     .text(d => d.M_F_ManagementBusinessandFinancialOperations)
-    
-    // const legend = d3.select("#legend")
-    //     svg.append("rect")
-    //     .data(data)
-    //     .join("rect")
-    //     .attr("class", "legend-box")
-    //     .attr("x", width - 12) //separates letters from legend box
-    //     .attr("width", 19)
-    //     .attr("height", 13) //increase the length of the legend box
-    //     .attr("fill", "purple")
-    //     //only 1 box shows up
-
-
-    // //LABEL THE LEGEND
-    // svg.select("legend-box")
-    //     .append("text")
-    //     .attr("x", width - 7)
-    //     .attr("y", 7) //moves M/F up down
-    //     .attr("dy", ".35em")
-    //     .style("text-anchor", "end")
-    //     // .attr("fill", d => colorScale.domain())
-    //     .text(["M", "F"])
-    //     //text does not show up 
-
-
    
 
 });
