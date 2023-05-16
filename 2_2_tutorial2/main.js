@@ -105,7 +105,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
     svg
         .append("text")
         .attr("class", "axis-label")
-        .attr("transform", `translate(350,${height - margin.bottom + 50})`)
+        .attr("transform", `translate(400,${height - margin.bottom + 50})`)
         .attr("fill", "brown")
         .style("font-weight", "bold")
         .style("font-size", "16px")
