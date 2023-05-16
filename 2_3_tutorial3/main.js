@@ -30,7 +30,7 @@ let state = {
 /* LOAD DATA */
 
 
-d3.csv("../data/World_Indicators.csv", d => {  //parse the csv
+d3.csv("../data/World_Indicators_sort.csv", d => {  //parse the csv
     return {
         year: new Date(+d.Year, 0, 1), //way to convert the year (string) into a date 
         gdp: +d.gdp, //will convert gdp (written as string) into # - +d = converts it
