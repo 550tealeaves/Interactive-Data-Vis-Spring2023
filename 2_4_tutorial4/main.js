@@ -73,7 +73,7 @@ Promise.all([
         .enter()
         .append("text")
         .attr("class", "label")
-        .text("CUNY GC") //labels dot
+        .text("The GC") //labels dot
         .attr("fill", "#d602b9")
         .attr("font-size", 20)
         .attr("transform", d => {
