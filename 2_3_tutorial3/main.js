@@ -59,20 +59,13 @@ d3.csv("../data/World_Indicators_sort.csv", d => {  //parse the csv
         // BUILD AND CALL AXES
         // X Axis
         const xAxis = d3.axisBottom(xScale)
-        // svg.append("g")
-        //     .attr("class", "axis")
-        //     .attr("transform", `translate(0,${height - margin.bottom})`)
-        //     .call(xAxis)
+        
         
 
         // Y Axis
         yAxis = d3.axisLeft(yScale)
-        //.tickFormat(formatBillions)
-        //shows the vertical axis
-        //svg.append("g")
-            // .attr("class", "axis")
-            // .attr("transform", `translate(${margin.left},0)`)
-            // .call(yAxis)
+        .tickFormat(formatBillions)
+        
 
         // + UI ELEMENT SETUP
         const selectElement = d3.select("#dropdown")
@@ -156,7 +149,7 @@ d3.csv("../data/World_Indicators_sort.csv", d => {  //parse the csv
         .attr("x", width / 1.9)
         .attr("y", height / 20) //higher the denominator, higher the text moves up pg
         .attr("text-anchor", "middle")
-        //.text(`${filteredData[0].country} GDP`) //interpolates so that name updates to match country change
+        .text(`${filteredData[0].country} GDP`) //interpolates so that name updates to match country change
         .attr("font-family", "Cursive")
         .style("font-size", "18px")
         .style("font-weight", "bold")
