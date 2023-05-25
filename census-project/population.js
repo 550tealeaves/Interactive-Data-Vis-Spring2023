@@ -73,7 +73,8 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .enter()
             .append("text") //.enter().append("text") = .join("text")
             .attr("class", "labels") //class name
-            .text(d => d.TotalEmpStat_Employed.toLocaleString()) //toLocaleString() will convert #s to easily readable #s (w/ commas)
+            .text(d => d.TotalEmpStat_Employed.toLocaleString(undefined, {
+                style: "percent"})) //toLocaleString() will convert #s to easily readable #s (w/ commas) - style percent will convert it - https://observablehq.com/@mbostock/number-formatting
             .attr("x", d => xScale(d.TotalEmpStat_Employed)) //produce the value of total emp civ pop
             .attr("y", d => yScale(d.Statistics) + yScale.bandwidth() / 1) //positions value by the bar - need the bandwidth()
             .style("font-size", "10px")
@@ -101,7 +102,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
                     .attr("fill", "darkgoldenrod")
             }) //when mouse out, it will fad out to this color
             .append("title") //adding the tooltip
-            .text(d => (d.TotalEmpStat_Employed + " of " + d.Statistics + " pop is employed ")) //tooltip displays this statement - CA employed pop is value (readable value)
+            .text(d => (d.TotalEmpStat_Employed.toLocaleString(undefined, {style: "percent"}) + " of " + d.Statistics + " pop is employed ")) //tooltip displays this statement - CA employed pop is value (readable value)
             //.text(d => (d.Statistics + " employed population = " + d.TotalEmpStat_Employed.toLocaleString())) //tooltip displays this statement - CA employed pop is value (readable value)
 
 
@@ -194,7 +195,8 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .data(data)
             .enter()
             .append("text")
-            .text(d => d.MaleEmpStat_Employed.toLocaleString())
+            .text(d => d.MaleEmpStat_Employed.toLocaleString(undefined, {
+                style: "percent"}))
             .attr("x", d => xScaleMale(d.MaleEmpStat_Employed))
             .attr("y", d => yScaleMale(d.Statistics) + yScaleMale.bandwidth() / 1)
             .attr("class", "labels")
@@ -222,7 +224,8 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
                     .attr("fill", "darkblue")
             })
             .append("title")
-            .text(d => (d.MaleEmpStat_Employed + " " + d.Statistics + " males employed ")) //decimal stateName males employed 
+            .text(d => (d.MaleEmpStat_Employed.toLocaleString(undefined, {
+                style: "percent"}) + " of " + d.Statistics + " males employed ")) //decimal stateName males employed 
 
 
         //Sort by clicking button
@@ -310,7 +313,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .data(data)
             .enter()
             .append("text")
-            .text(d => d.FemEmpStat_Employed.toLocaleString())
+            .text(d => d.FemEmpStat_Employed.toLocaleString(undefined, {style: "percent"}))
             .attr("x", d => xScaleFemale(d.FemEmpStat_Employed))
             .attr("y", d => yScaleFemale(d.Statistics) + yScaleFemale.bandwidth() / 1)
             .attr("class", "labels")
@@ -338,7 +341,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
                     .attr("fill", "darkred")
             })
             .append("title")
-            .text(d => (d.FemEmpStat_Employed + " " + d.Statistics + " females employed "))
+            .text(d => (d.FemEmpStat_Employed.toLocaleString(undefined, {style: "percent"}) + " of " + d.Statistics + " females employed "))
 
         //Sort by clicking button
         d3.select(".value-sort-female").on("click", function () {
