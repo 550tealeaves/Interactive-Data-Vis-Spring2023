@@ -6,7 +6,7 @@ margin = 100;
 
 
 /* LOAD DATA */
-d3.csv('../data/census_four.csv', d3.autoType)
+d3.csv('../data/census_states_pcts.csv', d3.autoType)
     .then(data => {
         console.log("data", data) //"data" is name that will be shown in console log - could be anything
 
@@ -23,7 +23,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
         /* SCALES */
         // xScale
         const xScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.TotalEmpSec_EmployedCivilianPop16YearsandOver)]) //0 - what ever max value of this variable is 
+            .domain([0, d3.max(data, d => d.TotalEmpStat_Employed)]) //0 - what ever max value of this variable is 
             .range([margin, width - margin]) //starts from 0 to max width - margin
 
 
@@ -64,7 +64,6 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .attr("text-anchor", "middle") //text in middle
             .text("Total Employed Civilian Population 16 and Up")
             .style("font-size", "24px")
-            .style("text-decoration", "underline")
             .attr("fill", "darkcyan")
 
 
@@ -74,8 +73,8 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .enter()
             .append("text") //.enter().append("text") = .join("text")
             .attr("class", "labels") //class name
-            .text(d => d.TotalEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString()) //toLocaleString() will convert #s to easily readable #s (w/ commas)
-            .attr("x", d => xScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver)) //produce the value of total emp civ pop
+            .text(d => d.TotalEmpStat_Employed.toLocaleString()) //toLocaleString() will convert #s to easily readable #s (w/ commas)
+            .attr("x", d => xScale(d.TotalEmpStat_Employed)) //produce the value of total emp civ pop
             .attr("y", d => yScale(d.Statistics) + yScale.bandwidth() / 1) //positions value by the bar - need the bandwidth()
             .style("font-size", "10px")
 
@@ -87,13 +86,13 @@ d3.csv('../data/census_four.csv', d3.autoType)
             //.join("rect")
             .attr("class", "bar") //4th J bro is important
             .attr("height", yScale.bandwidth()) //how height the bar is
-            .attr("width", d => xScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver) - margin) //extends as long as the value is on the scale
+            .attr("width", d => xScale(d.TotalEmpStat_Employed) - margin) //extends as long as the value is on the scale
             .attr("x", d => margin) //starts at margin
             .attr("y", d => yScale(d.Statistics)) //matches the states
-            .attr("fill", d => colorScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver)) //assigns color palette to the bar
+            .attr("fill", d => colorScale(d.TotalEmpStat_Employed)) //assigns color palette to the bar
             .on('mouseover', function () {
                 d3.select(this)
-                    .attr("fill", d => colorScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver))
+                    .attr("fill", d => colorScale(d.TotalEmpStat_Employed))
             }) //when mouseover the bars, it will show this color
             .on('mouseout', function () {
                 d3.select(this)
@@ -102,14 +101,15 @@ d3.csv('../data/census_four.csv', d3.autoType)
                     .attr("fill", "darkgoldenrod")
             }) //when mouse out, it will fad out to this color
             .append("title") //adding the tooltip
-            .text(d => (d.Statistics + " employed population is " + d.TotalEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString())) //tooltip displays this statement - CA employed pop is value (readable value)
+            .text(d => (d.TotalEmpStat_Employed + " of " + d.Statistics + " pop is employed ")) //tooltip displays this statement - CA employed pop is value (readable value)
+            //.text(d => (d.Statistics + " employed population = " + d.TotalEmpStat_Employed.toLocaleString())) //tooltip displays this statement - CA employed pop is value (readable value)
 
 
 
         //Sort by clicking button
         d3.select(".value-sort").on("click", function () {
             data.sort(function (a, b) {
-                return d3.descending(a.TotalEmpSec_EmployedCivilianPop16YearsandOver, b.TotalEmpSec_EmployedCivilianPop16YearsandOver)
+                return d3.descending(a.TotalEmpStat_Employed, b.TotalEmpStat_Employed)
             }) //select the element (button) w/ class .value-sort and when it's clicked, sort the total emp sec values 
             yScale.domain(data.map(function (d) {
                 return d.Statistics;
@@ -146,7 +146,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
         /* SCALES */
         // xScale
         const xScaleMale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.MaleEmpSec_EmployedCivilianPop16YearsandOver)])
+            .domain([0, d3.max(data, d => d.MaleEmpStat_Employed)])
             .range([margin, width - margin])
 
 
@@ -187,7 +187,6 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .attr("text-anchor", "middle")
             .text("Male Employed Civilian Population Ages 16 and Up")
             .style("font-size", "24px")
-            .style("text-decoration", "underline")
             .attr("fill", "darkcyan")
 
         // AXIS LABELS
@@ -195,8 +194,8 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .data(data)
             .enter()
             .append("text")
-            .text(d => d.MaleEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString())
-            .attr("x", d => xScaleMale(d.MaleEmpSec_EmployedCivilianPop16YearsandOver))
+            .text(d => d.MaleEmpStat_Employed.toLocaleString())
+            .attr("x", d => xScaleMale(d.MaleEmpStat_Employed))
             .attr("y", d => yScaleMale(d.Statistics) + yScaleMale.bandwidth() / 1)
             .attr("class", "labels")
             .style("font-size", "10px")
@@ -208,13 +207,13 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .join("rect")
             .attr("class", "bar-two") //4th J - give distinct class
             .attr("height", yScaleMale.bandwidth())
-            .attr("width", d => xScaleMale(d.MaleEmpSec_EmployedCivilianPop16YearsandOver) - margin)
+            .attr("width", d => xScaleMale(d.MaleEmpStat_Employed) - margin)
             .attr("x", d => margin)
             .attr("y", d => yScaleMale(d.Statistics))
-            .attr("fill", d => colorScaleMale(d.MaleEmpSec_EmployedCivilianPop16YearsandOver))
+            .attr("fill", d => colorScaleMale(d.MaleEmpStat_Employed))
             .on('mouseover', function () {
                 d3.select(this)
-                    .attr("fill", d => colorScaleMale(d.MaleEmpSec_EmployedCivilianPop16YearsandOver))
+                    .attr("fill", d => colorScaleMale(d.MaleEmpStat_Employed))
             })
             .on('mouseout', function () {
                 d3.select(this)
@@ -223,13 +222,13 @@ d3.csv('../data/census_four.csv', d3.autoType)
                     .attr("fill", "darkblue")
             })
             .append("title")
-            .text(d => (d.Statistics + " employed male pop is " + d.MaleEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString()))
+            .text(d => (d.MaleEmpStat_Employed + " " + d.Statistics + " males employed "))
 
 
         //Sort by clicking button
         d3.select(".value-sort-male").on("click", function () {
             data.sort(function (a, b) {
-                return d3.descending(a.MaleEmpSec_EmployedCivilianPop16YearsandOver, b.MaleEmpSec_EmployedCivilianPop16YearsandOver);
+                return d3.descending(a.MaleEmpStat_Employed, b.MaleEmpStat_Employed);
             })
             yScaleMale.domain(data.map(d => d.Statistics))
 
@@ -263,7 +262,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
         /* SCALES */
         // xScale
         const xScaleFemale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.FemEmpSec_EmployedCivilianPop16YearsandOver)])
+            .domain([0, d3.max(data, d => d.FemEmpStat_Employed)])
             .range([margin, width - margin])
 
 
@@ -304,7 +303,6 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .attr("text-anchor", "middle")
             .text("Female Employed Civilian Population Ages 16 and Up")
             .style("font-size", "24px")
-            .style("text-decoration", "underline")
             .attr("fill", "darkcyan")
 
         // AXIS LABELS
@@ -312,8 +310,8 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .data(data)
             .enter()
             .append("text")
-            .text(d => d.FemEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString())
-            .attr("x", d => xScaleFemale(d.FemEmpSec_EmployedCivilianPop16YearsandOver))
+            .text(d => d.FemEmpStat_Employed.toLocaleString())
+            .attr("x", d => xScaleFemale(d.FemEmpStat_Employed))
             .attr("y", d => yScaleFemale(d.Statistics) + yScaleFemale.bandwidth() / 1)
             .attr("class", "labels")
             .style("font-size", "10px")
@@ -325,13 +323,13 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .join("rect")
             .attr("class", "bar-three") //4th J bro - give distinct class name
             .attr("height", yScaleFemale.bandwidth())
-            .attr("width", d => xScaleFemale(d.FemEmpSec_EmployedCivilianPop16YearsandOver) - margin)
+            .attr("width", d => xScaleFemale(d.FemEmpStat_Employed) - margin)
             .attr("x", d => margin)
             .attr("y", d => yScaleFemale(d.Statistics))
-            .attr("fill", d => colorScaleFemale(d.FemEmpSec_EmployedCivilianPop16YearsandOver))
+            .attr("fill", d => colorScaleFemale(d.FemEmpStat_Employed))
             .on('mouseover', function () {
                 d3.select(this)
-                    .attr("fill", d => colorScaleFemale(d.FemEmpSec_EmployedCivilianPop16YearsandOver))
+                    .attr("fill", d => colorScaleFemale(d.FemEmpStat_Employed))
             })
             .on('mouseout', function () {
                 d3.select(this)
@@ -340,12 +338,12 @@ d3.csv('../data/census_four.csv', d3.autoType)
                     .attr("fill", "darkred")
             })
             .append("title")
-            .text(d => (d.Statistics + " employed female pop is " + d.FemEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString()))
+            .text(d => (d.FemEmpStat_Employed + " " + d.Statistics + " females employed "))
 
         //Sort by clicking button
         d3.select(".value-sort-female").on("click", function () {
             data.sort(function (a, b) {
-                return d3.descending(a.FemEmpSec_EmployedCivilianPop16YearsandOver, b.FemEmpSec_EmployedCivilianPop16YearsandOver);
+                return d3.descending(a.FemEmpStat_Employed, b.FemEmpStat_Employed);
             })
             yScaleFemale.domain(data.map(d => d.Statistics))
 
