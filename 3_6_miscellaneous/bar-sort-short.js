@@ -18,7 +18,7 @@ const data = [
 ];
 
 
-//SET YORU DIMENSIONS
+//SET YOUR DIMENSIONS  
 const w = 700;
 const h = 500;
 const margin = { top: 50, bottom: 100, left: 30, right: 20 };

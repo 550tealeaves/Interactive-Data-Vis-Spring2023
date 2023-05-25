@@ -1,2 +1,5 @@
 {
+    "evenbettercomments.allowFullBlockHighlights": true,
+    "evenbettercomments.highlightTagOnly": true,
+    "evenbettercomments.highlightPlainText": true
 }
