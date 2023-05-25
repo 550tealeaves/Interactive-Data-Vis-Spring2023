@@ -9,6 +9,7 @@ margin = 100;
 d3.csv('../data/census_states_pcts.csv', d3.autoType)
     .then(data => {
         console.log("data", data) //"data" is name that will be shown in console log - could be anything
+        
 
 
         /* HTML ELEMENTS */
