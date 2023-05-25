@@ -8,11 +8,11 @@ margin = 100;
 /* LOAD DATA */
 d3.csv('../data/census_four.csv', d3.autoType)
     .then(data => {
-        console.log("data", data)
+        console.log("data", data) //"data" is name that will be shown in console log - could be anything
 
 
         /* HTML ELEMENTS */
-        // APPEND SVG
+        // APPEND SVG - requires width & height
         const svg = d3.select("#container")
             .append("svg")
             .attr("width", width)
@@ -23,45 +23,45 @@ d3.csv('../data/census_four.csv', d3.autoType)
         /* SCALES */
         // xScale
         const xScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.TotalEmpSec_EmployedCivilianPop16YearsandOver)])
-            .range([margin, width - margin])
+            .domain([0, d3.max(data, d => d.TotalEmpSec_EmployedCivilianPop16YearsandOver)]) //0 - what ever max value of this variable is 
+            .range([margin, width - margin]) //starts from 0 to max width - margin
 
 
         // yScale
         const yScale = d3.scaleBand()
-            .domain(data.map(d => d.Statistics))
-            .range([margin, height - margin])
-            .paddingInner(.5)
+            .domain(data.map(d => d.Statistics)) //domain is all the states
+            .range([margin, height - margin]) //flipped this so ordered alphabetically - SVG height starts at top left and goes down
+            .paddingInner(.5) //width of bar
 
         // colorScale
         const colorScale = d3.scaleOrdinal()
-            .domain(xScale.domain())
+            .domain(xScale.domain()) //use xScale domain - color by the emp pop amt
             .range(["#23171b", "#271a28", "#2b1c33", "#2f1e3f", "#32204a", "#362354", "#39255f", "#3b2768", "#3e2a72", "#402c7b", "#422f83", "#44318b", "#453493", "#46369b", "#4839a2", "#493ca8", "#493eaf", "#4a41b5", "#4a44bb", "#4b46c0", "#4b49c5", "#4b4cca", "#4b4ecf", "#4b51d3", "#4a54d7", "#4a56db", "#4959de", "#495ce2", "#485fe5", "#4761e7", "#4664ea", "#4567ec", "#446aee", "#446df0", "#426ff2", "#4172f3", "#4075f5", "#3f78f6", "#3e7af7", "#3d7df7", "#3c80f8", "#3a83f9", "#3985f9", "#3888f9", "#378bf9", "#368df9", "#3590f8", "#3393f8", "#3295f7", "#3198f7", "#309bf6", "#2f9df5", "#2ea0f4", "#2da2f3", "#2ca5f1", "#2ba7f0", "#2aaaef", "#2aaced", "#29afec", "#28b1ea", "#28b4e8", "#27b6e6", "#27b8e5", "#26bbe3", "#26bde1", "#26bfdf", "#25c1dc", "#25c3da", "#25c6d8", "#25c8d6", "#25cad3", "#25ccd1", "#25cecf", "#26d0cc", "#26d2ca", "#26d4c8", "#27d6c5", "#27d8c3", "#28d9c0", "#29dbbe", "#29ddbb", "#2adfb8", "#2be0b6", "#2ce2b3", "#2de3b1", "#2ee5ae", "#30e6ac", "#31e8a9", "#32e9a6", "#34eba4", "#35eca1", "#37ed9f", "#39ef9c", "#3af09a", "#3cf197", "#3ef295", "#40f392", "#42f490", "#44f58d", "#46f68b", "#48f788", "#4af786", "#4df884", "#4ff981", "#51fa7f", "#54fa7d", "#56fb7a", "#59fb78", "#5cfc76", "#5efc74", "#61fd71", "#64fd6f", "#66fd6d", "#69fd6b", "#6cfd69", "#6ffe67", "#72fe65", "#75fe63", "#78fe61", "#7bfe5f", "#7efd5d", "#81fd5c", "#84fd5a", "#87fd58", "#8afc56", "#8dfc55", "#90fb53", "#93fb51", "#96fa50", "#99fa4e", "#9cf94d", "#9ff84b", "#a2f84a", "#a6f748", "#a9f647", "#acf546", "#aff444", "#b2f343", "#b5f242", "#b8f141", "#bbf03f", "#beef3e", "#c1ed3d", "#c3ec3c", "#c6eb3b", "#c9e93a", "#cce839", "#cfe738", "#d1e537", "#d4e336", "#d7e235", "#d9e034", "#dcdf33", "#dedd32", "#e0db32", "#e3d931", "#e5d730", "#e7d52f", "#e9d42f", "#ecd22e", "#eed02d", "#f0ce2c", "#f1cb2c", "#f3c92b", "#f5c72b", "#f7c52a", "#f8c329", "#fac029", "#fbbe28", "#fdbc28", "#feb927", "#ffb727", "#ffb526", "#ffb226", "#ffb025", "#ffad25", "#ffab24", "#ffa824", "#ffa623", "#ffa323", "#ffa022", "#ff9e22", "#ff9b21", "#ff9921", "#ff9621", "#ff9320", "#ff9020", "#ff8e1f", "#ff8b1f", "#ff881e", "#ff851e", "#ff831d", "#ff801d", "#ff7d1d", "#ff7a1c", "#ff781c", "#ff751b", "#ff721b", "#ff6f1a", "#fd6c1a", "#fc6a19", "#fa6719", "#f96418", "#f76118", "#f65f18", "#f45c17", "#f25916", "#f05716", "#ee5415", "#ec5115", "#ea4f14", "#e84c14", "#e64913", "#e44713", "#e24412", "#df4212", "#dd3f11", "#da3d10", "#d83a10", "#d5380f", "#d3360f", "#d0330e", "#ce310d", "#cb2f0d", "#c92d0c", "#c62a0b", "#c3280b", "#c1260a", "#be2409", "#bb2309", "#b92108", "#b61f07", "#b41d07", "#b11b06", "#af1a05", "#ac1805", "#aa1704", "#a81604", "#a51403", "#a31302", "#a11202", "#9f1101", "#9d1000", "#9b0f00", "#9a0e00", "#980e00", "#960d00", "#950c00", "#940c00", "#930c00", "#920c00", "#910b00", "#910c00", "#900c00", "#900c00", "#900c00"])
 
 
         /* AXES */
-        // xAxis
-        const xAxis = d3.axisBottom(xScale)
-        svg.append("g")
+        // xAxis - requires appending "g", class = axis & positioning
+        const xAxis = d3.axisBottom(xScale) //xScale appears on bottom using xScale values 
+        svg.append("g") //g needed for axis
             .attr("class", "axis")
-            .attr("transform", `translate(0,${height - margin})`)
-            .call(xAxis)
+            .attr("transform", `translate(0,${height - margin})`) //moves it to the bottom
+            .call(xAxis) //must always call the axis for it to display 
 
         // yAxis
-        const yAxis = d3.axisLeft(yScale)
-        svg.append("g")
-            .attr("class", "axis")
-            .attr("transform", `translate(${margin},0)`)
-            .call(yAxis)
+        const yAxis = d3.axisLeft(yScale) //axis will be on the left using yScale
+        svg.append("g") //must have .append("g")
+            .attr("class", "axis") //need class axis
+            .attr("transform", `translate(${margin},0)`) //move it to the left
+            .call(yAxis) //must always call the axis for it to display
 
 
         //ADD CHART TITLE    
         svg
             .append("text")
-            .attr("class", "title")
-            .attr("x", width / 2)
-            .attr("y", height / 16)
-            .attr("text-anchor", "middle")
+            .attr("class", "title") //4th J bro
+            .attr("x", width / 2) //how far it stretches out
+            .attr("y", height / 16) //how high is it above the chart
+            .attr("text-anchor", "middle") //text in middle
             .text("Total Employed Civilian Population 16 and Up")
             .style("font-size", "24px")
             .style("text-decoration", "underline")
@@ -69,40 +69,40 @@ d3.csv('../data/census_four.csv', d3.autoType)
 
 
         // AXIS LABELS
-        svg.selectAll("labels")
-            .data(data)
+        svg.selectAll("labels") //select all Labels
+            .data(data) //join the data
             .enter()
-            .append("text")
-            .attr("class", "labels")
-            .text(d => d.TotalEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString())
-            .attr("x", d => xScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver))
-            .attr("y", d => yScale(d.Statistics) + yScale.bandwidth() / 1)
+            .append("text") //.enter().append("text") = .join("text")
+            .attr("class", "labels") //class name
+            .text(d => d.TotalEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString()) //toLocaleString() will convert #s to easily readable #s (w/ commas)
+            .attr("x", d => xScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver)) //produce the value of total emp civ pop
+            .attr("y", d => yScale(d.Statistics) + yScale.bandwidth() / 1) //positions value by the bar - need the bandwidth()
             .style("font-size", "10px")
 
         // BARS
         svg.selectAll("rect")
-            .data(data)
+            .data(data) //add the data
             .enter()
-            .append("rect")
+            .append("rect") //.enter().append('rect') = .join("rect")
             //.join("rect")
-            .attr("class", "bar")
-            .attr("height", yScale.bandwidth())
-            .attr("width", d => xScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver) - margin)
-            .attr("x", d => margin)
-            .attr("y", d => yScale(d.Statistics))
-            .attr("fill", d => colorScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver))
+            .attr("class", "bar") //4th J bro is important
+            .attr("height", yScale.bandwidth()) //how height the bar is
+            .attr("width", d => xScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver) - margin) //extends as long as the value is on the scale
+            .attr("x", d => margin) //starts at margin
+            .attr("y", d => yScale(d.Statistics)) //matches the states
+            .attr("fill", d => colorScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver)) //assigns color palette to the bar
             .on('mouseover', function () {
                 d3.select(this)
                     .attr("fill", d => colorScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver))
-            })
+            }) //when mouseover the bars, it will show this color
             .on('mouseout', function () {
                 d3.select(this)
-                    .transition("colorfade")
-                    .delay(100)
+                    .transition("colorfade") //this is the transition
+                    .delay(100) //how fast the transition happens
                     .attr("fill", "darkgoldenrod")
-            })
-            .append("title")
-            .text(d => (d.Statistics + " employed population is " + d.TotalEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString()))
+            }) //when mouse out, it will fad out to this color
+            .append("title") //adding the tooltip
+            .text(d => (d.Statistics + " employed population is " + d.TotalEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString())) //tooltip displays this statement - CA employed pop is value (readable value)
 
 
 
@@ -110,31 +110,32 @@ d3.csv('../data/census_four.csv', d3.autoType)
         d3.select(".value-sort").on("click", function () {
             data.sort(function (a, b) {
                 return d3.descending(a.TotalEmpSec_EmployedCivilianPop16YearsandOver, b.TotalEmpSec_EmployedCivilianPop16YearsandOver)
-            })
+            }) //select the element (button) w/ class .value-sort and when it's clicked, sort the total emp sec values 
             yScale.domain(data.map(function (d) {
                 return d.Statistics;
-            }));  
+            }));  //need this for the sort to work
 
 
-            svg.selectAll(".bar")
+            svg.selectAll(".bar") //this originally wasn't selecting anything b/c no class name in .append("rect")
                 .transition()
-                .duration(700)
+                .duration(700) //how fast the bars will sort descending
                 .attr("y", function (d, i) {
                     return yScale(d.Statistics);
-                })
+                }) //don't add the yScale.bandwidth() b/c then labels & bars don't move together
 
 
             svg.selectAll(".labels")
                 .transition()
-                .duration(700)
+                .duration(700) //how fast labels will move
                 .attr("y", function (d, i) {
                     return yScale(d.Statistics) + yScale.bandwidth() / 1;
-                })
+                }) //helps the labels move in sync w/ the bars 
 
         })
 
 
         //SECOND SVG - MALE POPULATION BY STATE 
+        //Requires new variables - svgMale and new div container
         const svgMale = d3.select("#second-container")
             .append("svg")
             .attr("width", width)
@@ -205,6 +206,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
         svgMale.selectAll("rect")
             .data(data)
             .join("rect")
+            .attr("class", "bar-two") //4th J - give distinct class
             .attr("height", yScaleMale.bandwidth())
             .attr("width", d => xScaleMale(d.MaleEmpSec_EmployedCivilianPop16YearsandOver) - margin)
             .attr("x", d => margin)
@@ -231,7 +233,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
             })
             yScaleMale.domain(data.map(d => d.Statistics))
 
-            svgMale.selectAll(".bar")
+            svgMale.selectAll(".bar-two") //select the bars in the 2nd chart
                 .transition()
                 .duration(700)
                 .attr("y", function (d, i) {
@@ -321,6 +323,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
         svgFemale.selectAll("rect")
             .data(data)
             .join("rect")
+            .attr("class", "bar-three") //4th J bro - give distinct class name
             .attr("height", yScaleFemale.bandwidth())
             .attr("width", d => xScaleFemale(d.FemEmpSec_EmployedCivilianPop16YearsandOver) - margin)
             .attr("x", d => margin)
@@ -346,15 +349,15 @@ d3.csv('../data/census_four.csv', d3.autoType)
             })
             yScaleFemale.domain(data.map(d => d.Statistics))
 
-            svgFemale.selectAll(".bar")
+            svgFemale.selectAll(".bar-three") //target these bars in 3rd chart
                 .transition()
-                .duration(700) 
+                .duration(700)
                 .attr("y", function (d, i) {
                     return yScaleFemale(d.Statistics);
                 })
 
 
-            svgFemale.selectAll(".labels") 
+            svgFemale.selectAll(".labels")
                 .transition()
                 .duration(700)
                 .attr("y", function (d, i) {
