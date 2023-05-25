@@ -222,7 +222,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
                     .attr("fill", "darkblue")
             })
             .append("title")
-            .text(d => (d.MaleEmpStat_Employed + " " + d.Statistics + " males employed "))
+            .text(d => (d.MaleEmpStat_Employed + " " + d.Statistics + " males employed ")) //decimal stateName males employed 
 
 
         //Sort by clicking button
