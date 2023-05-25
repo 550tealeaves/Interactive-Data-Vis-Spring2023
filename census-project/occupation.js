@@ -80,7 +80,11 @@ Promise.all([
             console.log(e, d);
 
             d3.select("#dot-labels")
-                .text(d.Statistics + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations + ", F: " + d.Fem_ManagementBusinessandFinancialOperations)
+                .text(d.Statistics + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations.toLocaleString(undefined, {
+                    style: "percent"
+                }) + ", F: " + d.Fem_ManagementBusinessandFinancialOperations.toLocaleString(undefined, {
+                    style: "percent"
+                }))
                 .attr("x", xScale(d.Male_ManagementBusinessandFinancialOperations) - margin.left / 7)
                 .attr("y", yScale(d.Fem_ManagementBusinessandFinancialOperations))
         })

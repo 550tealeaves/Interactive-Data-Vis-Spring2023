@@ -102,7 +102,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
                     .attr("fill", "darkgoldenrod")
             }) //when mouse out, it will fad out to this color
             .append("title") //adding the tooltip
-            .text(d => (d.TotalEmpStat_Employed.toLocaleString(undefined, {style: "percent"}) + " of " + d.Statistics + " pop is employed ")) //tooltip displays this statement - CA employed pop is value (readable value)
+            .text(d => (d.TotalEmpStat_Employed.toLocaleString(undefined, {style: "percent"}) + " of " + d.Statistics + " total pop 16+ is employed ")) //tooltip displays this statement - CA employed pop is value (readable value)
             //.text(d => (d.Statistics + " employed population = " + d.TotalEmpStat_Employed.toLocaleString())) //tooltip displays this statement - CA employed pop is value (readable value)
 
 
