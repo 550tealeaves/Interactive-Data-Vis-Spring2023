@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body> 
+<body>
     <nav class="navbar navbar-expand-lg text-bg-success bg-opacity-50">
         <div class="container-fluid">
             <img src="jobs.jpg" alt="Logo" width="120" height="70" class="d-inline-block align-text-top">
@@ -36,28 +36,46 @@
             </div>
         </div>
     </nav>
-    
-    <h1 class="text-center mt-3">What do people do?</h1>
 
-    <p>Social Explorer consolidates the 23 occupational categories into 13. While I was not successful in creating a dynamic scatterplot. Here are some interesting results.</p>
+    <h1 class="text-center mt-3 h1-topic">What do people do?</h1>
+
+    <p>Social Explorer consolidates the 23 occupational categories into 13. While I was not successful in creating a
+        dynamic scatterplot. Here are some interesting results.</p>
     <ul>
         <li>
-            Women were employed more in <span style="font-weight: bold; color: orange">6 of 13</span>  occupational categories than men, with complete dominance in  4 categories: Professional and related; Healthcare support; Personal care services; and Office and administrative support. 
+            Women were employed more in <span style="font-weight: bold; color: orange">6 of 13</span> occupational
+            categories than men, with complete dominance in 4 categories: Professional and related; Healthcare support;
+            Personal care services; and Office and administrative support.
         </li>
         <li>
-            Similarly, men were employed more in <span style="font-weight: bold; color: purple;">7 of 13</span> categories than women, with complete dominance in 4 categories: Protective services; Construction, extraction, and maintenance; production; and transportation and material moving. 
+            Similarly, men were employed more in <span style="font-weight: bold; color: purple;">7 of 13</span>
+            categories than women, with complete dominance in 4 categories: Protective services; Construction,
+            extraction, and maintenance; production; and transportation and material moving.
         </li>
         <li>
-            DC (District of Columbia) skewed the data more than imaginable. DC ranked highest and lowest per sex for several categories. 
+            DC (District of Columbia) skewed the data more than imaginable. DC ranked highest and lowest per sex for
+            several categories.
             <br>
-            <blockquote class="mt-2"> <span style="font-weight: bold; color: purple;">Lowest (men)</span> - building and grounds; construction & extraction; farming/fishing/forestry; production; sales and related; transportation & moving.
-            <span style="font-weight: bold; color: purple;">Highest (men)</span>  - management, business & finance; professional & related.</blockquote>
-            <blockquote> <span style="font-weight: bold; color: orange;">Lowest (women)</span>  - Construction & extraction; farming/fishing/forestry (12-way tie for last); food prep & serving; healthcare support; office & admin support; personal care & service; production; sales & related; transportation & moving.
-            <span style="font-weight: bold; color: orange;">Highest (women)</span>  - Management, business & finance; professional & related; and protective service</blockquote>  
+            <blockquote class="mt-2"> <span style="font-weight: bold; color: purple;">Lowest (men)</span> - building and
+                grounds; construction & extraction; farming/fishing/forestry; production; sales and related;
+                transportation & moving.
+                <span style="font-weight: bold; color: purple;">Highest (men)</span> - management, business & finance;
+                professional & related.
+            </blockquote>
+            <blockquote> <span style="font-weight: bold; color: orange;">Lowest (women)</span> - Construction &
+                extraction; farming/fishing/forestry (12-way tie for last); food prep & serving; healthcare support;
+                office & admin support; personal care & service; production; sales & related; transportation & moving.
+                <span style="font-weight: bold; color: orange;">Highest (women)</span> - Management, business & finance;
+                professional & related; and protective service
+            </blockquote>
         </li>
     </ul>
-    <p class="mb-5">Conclusion - While there has been more inclusion for women in traditionally male dominated fields, overall several occupational categories remain largely segregated. Women occupy most positions in the service or support industry, and men occupy most positions in labor and trade.</p>
-    <small class="mb-5">Note about the data - it excludes military persons and individuals with multiple jobs. Also, it could be potentially misleading because missing data are assigned occupational categories based on "similar" persons.</small>
+    <p class="mb-5">Conclusion - While there has been more inclusion for women in traditionally male dominated fields,
+        overall several occupational categories remain largely segregated. Women occupy most positions in the service or
+        support industry, and men occupy most positions in labor and trade.</p>
+    <small class="mb-5">Note about the data - it excludes military persons and individuals with multiple jobs. Also, it
+        could be potentially misleading because missing data are assigned occupational categories based on "similar"
+        persons.</small>
 
     <div class="mb-5 mt-5">
         <a href="index-plot-st.html" target="_blank">Scatterplot with state management</a>
@@ -86,10 +104,10 @@
     <div id="container">
 
     </div>
-    <div id="second-container">
 
-    </div>
-    <div id="third-container">
+    <div id="legend"></div>
+
+
 
     </div>
     <script src="../lib/d3.js"></script>
