@@ -2,10 +2,10 @@
 const width = window.innerWidth * 0.9,
     height = window.innerHeight * 0.8,
     margin = { top: 20, bottom: 60, left: 60, right: 40 },
-    radius = 6;
+    radius = 5;
 
 
-    
+
 Promise.all([
     d3.csv("../data/census_occ_cat_subset.csv"),
     d3.csv("../data/census_occ_pct.csv", d3.autoType),
@@ -28,7 +28,7 @@ Promise.all([
         .range([height - margin.bottom, margin.top])
 
     const colorScale = d3.scaleOrdinal()
-        .domain(["M", "F"]) 
+        .domain(["M", "F"])
         .range(["purple", "orange"])
 
 
@@ -43,8 +43,8 @@ Promise.all([
     //X AXIS 
     const xAxis = d3.axisBottom(xScale)
     svg.append("g")
-        .attr("class", "axis") 
-        .attr("transform", `translate(0,${height - margin.bottom})`) 
+        .attr("class", "axis")
+        .attr("transform", `translate(0,${height - margin.bottom})`)
         .call(xAxis)
 
 
@@ -52,30 +52,40 @@ Promise.all([
     const yAxis = d3.axisLeft(yScale)
     svg.append("g")
         .attr("class", "axis")
-        .attr("transform", `translate(${margin.left},0)`) 
+        .attr("transform", `translate(${margin.left},0)`)
         .call(yAxis)
 
 
     //CREATE SCATTERPLOT
     const dot = svg
-        .selectAll("circle")
+        .selectAll("dot")
         .data(data, d => d.Statistics)
-        .join("circle")
-        .attr("class", "circle")
+        .join(
+            enter => enter.append("circle")
+                .attr("r", 0)
+                .call(selection => selection
+                    .transition()
+                    .duration(800)
+                    .delay((d, i) => i * 20)
+                    .attr("r", radius),
+                    update => update,
+                    exit => exit.remove()
+                ) //transition allows the dots to grow from radius 0 to their radius value
+        )
+        .attr("class", "dot")
         .attr("cx", d => xScale(d.Male_ManagementBusinessandFinancialOperations))
         .attr("cy", d => yScale(d.Fem_ManagementBusinessandFinancialOperations))
-        .attr("r", radius)
-        .attr("fill", d => colorScale(d.M_F_ManagementBusinessandFinancialOperations)) 
+        .attr("fill", d => colorScale(d.M_F_ManagementBusinessandFinancialOperations))
         .on('mouseover', function (e, d) {
             console.log(e, d);
-            
-            //d3.select(this)
-               d3.select("#dot-labels") 
-                .text(d.Statistics + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations + ", F: " + d.Fem_ManagementBusinessandFinancialOperations)   
+
+            d3.select("#dot-labels")
+                .text(d.Statistics + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations + ", F: " + d.Fem_ManagementBusinessandFinancialOperations)
                 .attr("x", xScale(d.Male_ManagementBusinessandFinancialOperations) - margin.left / 7)
                 .attr("y", yScale(d.Fem_ManagementBusinessandFinancialOperations))
-                
-            }) 
+        })
+
+
 
     svg
         .append("text")
@@ -90,7 +100,7 @@ Promise.all([
         .append("text")
         .attr("class", "title")
         .attr("x", width / 2)
-        .attr("y", height / 20) 
+        .attr("y", height / 20)
         .attr("text-anchor", "middle")
         .text("Management, Business, and Financial Operations")
         .style("font-size", "20px")
@@ -112,33 +122,44 @@ Promise.all([
     svg //use margin to arrange y-axis - Mia
         .append("text")
         .attr("class", "axis-label")
-        .attr("transform", `translate(25, ${height- margin.bottom - 200})` + 'rotate (270)')
+        .attr("transform", `translate(25, ${height - margin.bottom - 200})` + 'rotate (270)')
         .attr("fill", "orange")
         .style("font-weight", "bold")
         .style("font-size", "18px")
         .text("Females")
-        // .attr('transform', (d, i) => {
-        //     return 'translate( ' + yScale(i) + ' , ' + 350 + '),' + 'rotate(270)';
-        // })  
-        // .attr('y', -970) 
-        
-
+    // .attr('transform', (d, i) => {
+    //     return 'translate( ' + yScale(i) + ' , ' + 350 + '),' + 'rotate(270)';
+    // })  
+    // .attr('y', -970) 
 
     //CREATE A LEGEND
-    //https://stackoverflow.com/questions/55219862/updating-stacked-bar-chart-d3-with-multiple-datasets
-    legend.append("rect")
-        .attr("x", width - 10) //separates letters from legend box
-        .attr("width", 10)
-        .attr("height", 15) //increase the length of the legend box
-        .attr("fill", d => colorScale.range())
+    //https://stackoverflow.com/questions/35243433/styling-a-legend-in-d3
 
-    //LABEL THE LEGEND
+    const legend = svg.selectAll("#legend")
+        .data(colorScale.domain())
+        .enter()
+        .append("g") //have to connect the legend to the axes
+        .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
+
+    //To flip the color order, add .slice().reverse() to the .data = .data(colorScale.domain().slice().reverse())     
+
+    legend.append("rect")
+        .attr("x", width - 18)
+        .attr("width", 18)
+        .attr("height", 18)
+        .style("fill", colorScale) //this adds the purple/orange to the boxes
+    // .attr("id", function (d, i) {
+    //     return "id" + d.replace(/\s/g, '');
+    // }) //unsure what it does
+
+
+    //CREATE THE LEGEND TEXT
     legend.append("text")
-        .attr("x", width - 13)
-        .attr("y", 7) //moves M/F up down
+        .attr("x", width - 24)
+        .attr("y", 10)
         .attr("dy", ".35em")
         .style("text-anchor", "end")
-        .attr("fill", d => colorScale.domain())
         .text(d => d)
+
 
 });
