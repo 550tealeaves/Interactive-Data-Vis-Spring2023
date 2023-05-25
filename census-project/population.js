@@ -62,7 +62,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .attr("x", width / 2) //how far it stretches out
             .attr("y", height / 16) //how high is it above the chart
             .attr("text-anchor", "middle") //text in middle
-            .text("Total Employed Civilian Population 16 and Up")
+            .text("Total Employed Civilian Population % Ages 16 and Up")
             .style("font-size", "24px")
             .attr("fill", "darkcyan")
 
@@ -185,7 +185,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .attr("x", width / 2)
             .attr("y", height / 16)
             .attr("text-anchor", "middle")
-            .text("Male Employed Civilian Population Ages 16 and Up")
+            .text("Male Employed Civilian Population % Ages 16 and Up")
             .style("font-size", "24px")
             .attr("fill", "darkcyan")
 
@@ -301,7 +301,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .attr("x", width / 2)
             .attr("y", height / 16)
             .attr("text-anchor", "middle")
-            .text("Female Employed Civilian Population Ages 16 and Up")
+            .text("Female Employed Civilian Population % Ages 16 and Up")
             .style("font-size", "24px")
             .attr("fill", "darkcyan")
 
