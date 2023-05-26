@@ -1,6 +1,6 @@
 /* CONSTANTS AND GLOBALS */
 const width = window.innerWidth * 0.9,
-    height = window.innerHeight * 0.8,
+    height = window.innerHeight * 0.9,
     margin = { top: 20, bottom: 60, left: 60, right: 40 },
     radius = 5;
 
@@ -85,7 +85,7 @@ Promise.all([
                 }) + ", F: " + d.Fem_ManagementBusinessandFinancialOperations.toLocaleString(undefined, {
                     style: "percent"
                 }))
-                .attr("x", xScale(d.Male_ManagementBusinessandFinancialOperations) - margin.left / 7)
+                .attr("x", xScale(d.Male_ManagementBusinessandFinancialOperations) - (margin.left / 7) - (margin.left + 3))
                 .attr("y", yScale(d.Fem_ManagementBusinessandFinancialOperations) + (margin.top + 8) - (margin.right + 1))
         })
 
@@ -94,7 +94,7 @@ Promise.all([
     svg
         .append("text")
         .attr("font-size", 13)
-        .attr("fill", "forestgreen")
+        .attr("fill", "limegreen")
         .attr("font-weight", "bold")
         .attr("id", "dot-labels")
 
