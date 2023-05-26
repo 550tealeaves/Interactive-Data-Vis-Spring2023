@@ -86,7 +86,7 @@ Promise.all([
                     style: "percent"
                 }))
                 .attr("x", xScale(d.Male_ManagementBusinessandFinancialOperations) - margin.left / 7)
-                .attr("y", yScale(d.Fem_ManagementBusinessandFinancialOperations))
+                .attr("y", yScale(d.Fem_ManagementBusinessandFinancialOperations) + (margin.top + 8) - (margin.right + 1))
         })
 
 
