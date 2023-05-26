@@ -68,6 +68,26 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .attr("fill", "darkcyan")
 
 
+        //LABEL THE X-AXIS - not working x-axis label shows at the top corner
+        svg
+            .append("text")
+            .attr("class", "axis-label")
+            .attr("transform", `translate(550,${height - margin.bottom + 50})`)
+            .attr("fill", "purple")
+            .style("font-weight", "bold")
+            .style("font-size", "18px")
+            .text("Percentage employed")
+
+        //LABEL THE Y-AXIS 
+        svg //use margin to arrange y-axis - Mia
+            .append("text")
+            .attr("class", "axis-label")
+            .attr("transform", `translate(25, ${height - margin.bottom - 200})` + 'rotate (270)')
+            .attr("fill", "orange")
+            .style("font-weight", "bold")
+            .style("font-size", "18px")
+            .text("States")
+
         // AXIS LABELS
         svg.selectAll("labels") //select all Labels
             .data(data) //join the data
