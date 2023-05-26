@@ -73,7 +73,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
             //d3.select(this)
             d3.select("#dot-labels")
                 .text(d.Dog_Owning_Households_1000s + ", " + d.Cat_Owning_Households) //labels dots
-                // .text(d.Dog_Owning_Households_1000s + " dogs" + ", " + d.Cat_Owning_Households + " cats") //says x # of dogs, y # of cats
+                //.text("D: " + d.Dog_Owning_Households_1000s + ", " + "C: " + d.Cat_Owning_Households) //says x # of dogs, y # of cats
                 .attr("x", xScale(d.Dog_Owning_Households_1000s) - margin.left / 6)
                 .attr("y", yScale(d.Cat_Owning_Households) + margin.top + 8)
                 
