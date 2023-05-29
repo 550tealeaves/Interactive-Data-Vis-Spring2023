@@ -88,7 +88,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
         //     .style("font-size", "18px")
         //     .text("States")
 
-        // AXIS LABELS
+        // BAR LABELS
         svg.selectAll("labels") //select all Labels
             .data(data) //join the data
             .enter()
@@ -96,8 +96,8 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .attr("class", "labels") //class name
             .text(d => d.TotalEmpStat_Employed.toLocaleString(undefined, {
                 style: "percent"})) //toLocaleString() will convert #s to easily readable #s (w/ commas) - style percent will convert it - https://observablehq.com/@mbostock/number-formatting
-            .attr("x", d => xScale(d.TotalEmpStat_Employed)) //produce the value of total emp civ pop
-            .attr("y", d => yScale(d.Statistics) + yScale.bandwidth() / 1) //positions value by the bar - need the bandwidth()
+            .attr("x", d => xScale(d.TotalEmpStat_Employed) + 4) //produce the value of total emp civ pop, + 4 spaces out the label and bar
+            .attr("y", d => yScale(d.Statistics) + yScale.bandwidth()) //positions value by the bar - need the bandwidth()
             .style("font-size", "10px")
 
         // BARS
@@ -211,15 +211,15 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .style("font-size", "24px")
             .attr("fill", "darkcyan")
 
-        // AXIS LABELS
+        // BAR LABELS
         svgMale.selectAll("labels")
             .data(data)
             .enter()
             .append("text")
             .text(d => d.MaleEmpStat_Employed.toLocaleString(undefined, {
                 style: "percent"}))
-            .attr("x", d => xScaleMale(d.MaleEmpStat_Employed))
-            .attr("y", d => yScaleMale(d.Statistics) + yScaleMale.bandwidth() / 1)
+            .attr("x", d => xScaleMale(d.MaleEmpStat_Employed) + 4)
+            .attr("y", d => yScaleMale(d.Statistics) + yScaleMale.bandwidth())
             .attr("class", "labels")
             .style("font-size", "10px")
 
@@ -329,14 +329,14 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .style("font-size", "24px")
             .attr("fill", "darkcyan")
 
-        // AXIS LABELS
+        // BAR LABELS
         svgFemale.selectAll("labels")
             .data(data)
             .enter()
             .append("text")
             .text(d => d.FemEmpStat_Employed.toLocaleString(undefined, {style: "percent"}))
-            .attr("x", d => xScaleFemale(d.FemEmpStat_Employed))
-            .attr("y", d => yScaleFemale(d.Statistics) + yScaleFemale.bandwidth() / 1)
+            .attr("x", d => xScaleFemale(d.FemEmpStat_Employed) + 4)
+            .attr("y", d => yScaleFemale(d.Statistics) + yScaleFemale.bandwidth())
             .attr("class", "labels")
             .style("font-size", "10px")
 
