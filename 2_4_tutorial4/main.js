@@ -115,7 +115,7 @@ Promise.all([
     //DEFINE RESET FUNCTION 
     function reset() {
         states.transition().style("fill", null);
-        svg.transition().duration(750).call(
+        svg.transition().duration(850).call( //.duration affects the speed of the reset (smaller # = faster)
             zoom.transform,
             d3.zoomIdentity,
             d3.zoomTransform(svg).invert([width / 2, height / 2])
