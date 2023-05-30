@@ -25,12 +25,11 @@ Promise.all([
         .call(d3.zoom().on("zoom", function () {
             svg.attr("transform", d3.event.transform)
         }))
-        .append("g") //must append g to svg so the zoom function works
         .on("click", reset)
     
         
     //CREATE G - NEEDED FOR ZOOM
-    const g = svg.append("g")
+    const g = svg.append("g") //must append g to svg so the zoom function works
 
     
     // SPECIFY PROJECTION
