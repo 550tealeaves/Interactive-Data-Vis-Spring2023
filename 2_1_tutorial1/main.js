@@ -63,8 +63,8 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             .attr("text-anchor", "middle")
             .text("Squirrel Activities")
             .style("font-size", "28px")
-            .style("text-decoration", "underline")
-            .attr("fill", "red")
+            .attr("font-weight", "bold")
+            .attr("fill", "darkred")
 
 
         // BARS
@@ -76,16 +76,31 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             .attr("x", d => margin) //bars will start at the margin
             .attr("y", d => yScale(d.activity))
             .attr("fill", d => colorScale(d.activity))
+            .on('mouseover', function () {
+                d3.select(this)
+                    .attr("fill", "yellow")
+            }) //when mouseover the bars, it will show this color
+            .on('mouseout', function () {
+                d3.select(this)
+                    .transition("colorfade") //this is the transition
+                    .delay(500) //how fast the transition happens
+                    .attr("fill", d => colorScale(d.activity))
+            }) //when mouse out, it will fade back to the colorScale range
+            .append("title") //adding the tooltip
+            .text(d => (d.count + " squirrels are " + d.activity)) //tooltip displays this statement - # count of squirrels are "activity"
 
-        // AXIS LABELS
+
+        // BAR LABELS
         svg.selectAll("labels")
             .data(data)
             .enter()
             .append("text")
             .text(d => d.count)
-            .attr("x", d => xScale(d.count))
+            .attr("x", d => xScale(d.count) + 10) //spaced out the labels from the bar
             .attr("y", d => yScale(d.activity) + yScale.bandwidth() / 2) //dividing by 2 puts the count the middle of the bar
             .attr("class", "labels")
+            .attr("fill", "darkorange")
+
 
 
 
@@ -95,13 +110,13 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
 
         //ORIGINAL CODE FOR VERTICAL BARS
 
-        // // xscale - categorical, activity
+        // // xScale - categorical, activity
         // const xScale = d3.scaleBand()
         //     .domain(data.map(d => d.activity))
         //     .range([0, width]) // visual variable
         //     .paddingInner(.2)
 
-        // // yscale - linear, count
+        // // yScale - linear, count
         // const yScale = d3.scaleLinear()
         //     .domain([0, d3.max(data, d => d.count)])
         //     .range([height, 0])
