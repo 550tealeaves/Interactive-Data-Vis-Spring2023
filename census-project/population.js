@@ -242,7 +242,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
                 d3.select(this)
                     .transition("colorfade")
                     .delay(100)
-                    .attr("fill", "darkblue")
+                    .attr("fill", "seagreen")
             })
             .append("title")
             .text(d => (d.MaleEmpStat_Employed.toLocaleString(undefined, {
