@@ -1,6 +1,5 @@
 body {
     font-family: 'Source Sans Pro';
-    font-size: 16px;
     padding: 1em;
 }
 
@@ -10,8 +9,9 @@ h1 {
 }
 
 h3 {
-    font-size: 2em;
+    font-size: 16px;
     margin: 0.25em 0;
+
 }
 
 p {
@@ -27,13 +27,13 @@ button {
     box-shadow: 0 0 0 1px rgb(209, 16, 16);
 }
 
-button:hover{
+button:hover {
     color: black;
     background-color: gold;
     font-weight: bold;
 }
 
-button:focus{
+button:focus {
     outline-color: transparent;
     box-shadow: 0 0 0 2px #066703;
 }
