@@ -67,6 +67,7 @@ Promise.all([
             return `translate(${x}, ${y})`
         }) //projection changes the lat/long of gradCenterPoint into x/y coordinates for map
 
+    // CREATE LABEL FOR GRAD CENTER POINT
     g.selectAll("label")
         .data([gradCenterPoint])
         .enter()
@@ -94,7 +95,7 @@ Promise.all([
         }) //projection converts lat/long from the heat extremes dataset into x/y coordinates
 
 
-    // draw point for all state capitals
+    // DRAW POINT FOR ALL STATE CAPITALS
     g.selectAll("circle.capital")
         .data(capitals)
         .join("circle")
