@@ -35,7 +35,7 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
         // colorScale
         const colorScale = d3.scaleOrdinal()
             .domain(['running', 'chasing', 'climbing', 'eating', 'foraging'])
-            .range(["red", "lightblue", "green", "pink", "purple"])
+            .range(["crimson", "skyblue", "green", "pink", "purple"])
 
 
         /* AXES */
@@ -64,7 +64,7 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             .text("Squirrel Activities")
             .style("font-size", "28px")
             .attr("font-weight", "bold")
-            .attr("fill", "darkred")
+            .attr("fill", "palevioletred")
 
 
         // BARS
@@ -99,7 +99,7 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             .attr("x", d => xScale(d.count) + 10) //spaced out the labels from the bar
             .attr("y", d => yScale(d.activity) + yScale.bandwidth() / 2) //dividing by 2 puts the count the middle of the bar
             .attr("class", "labels")
-            .attr("fill", "darkorange")
+            .attr("fill", "deeppink")
 
 
 
