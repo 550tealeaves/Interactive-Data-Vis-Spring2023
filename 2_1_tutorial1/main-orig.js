@@ -8,8 +8,8 @@ margin = 60;
 d3.csv('../data/squirrelActivities.csv', d3.autoType)
     .then(data => {
         console.log("data", data)
-
-
+  
+        
         /* HTML ELEMENTS */
         // APPEND SVG
         const svg = d3.select("#container")
@@ -17,26 +17,26 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             .attr("width", width)
             .attr("height", height)
 
-
+        
 
         /* SCALES */
         // xScale
         const xScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.count)]) //d3 max = function expecting an array - can pass in an accessor function
+            .domain([0, d3.max(data, d=> d.count)]) //d3 max = function expecting an array - can pass in an accessor function
             .range([margin, width - margin])
-
+        
 
         // yScale
         const yScale = d3.scaleBand()
-            .domain(data.map(d => d.activity))
-            .range([height - margin, margin])
-            .paddingInner(.5)
-
+        .domain(data.map(d => d.activity))
+        .range([height - margin, margin])
+        .paddingInner(.5)
+           
         // colorScale
         const colorScale = d3.scaleOrdinal()
-            .domain(['running', 'chasing', 'climbing', 'eating', 'foraging'])
+            .domain(['running', 'chasing', 'climbing', 'eating', 'foraging'])   
             .range(["red", "lightblue", "green", "pink", "purple"])
-
+            
 
         /* AXES */
         // xAxis
@@ -66,13 +66,13 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             .style("text-decoration", "underline")
             .attr("fill", "red")
 
-
+            
         // BARS
         svg.selectAll("rect")
             .data(data)
             .join("rect")
             .attr("height", yScale.bandwidth()) //girth of bars 
-            .attr("width", d => xScale(d.count) - margin) //=> shorthand for function - must return a value
+            .attr("width", d => xScale(d.count)- margin) //=> shorthand for function - must return a value
             .attr("x", d => margin) //bars will start at the margin
             .attr("y", d => yScale(d.activity))
             .attr("fill", d => colorScale(d.activity))
@@ -84,10 +84,10 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             .append("text")
             .text(d => d.count)
             .attr("x", d => xScale(d.count))
-            .attr("y", d => yScale(d.activity) + yScale.bandwidth() / 2) //dividing by 2 puts the count the middle of the bar
+            .attr("y", d => yScale(d.activity) + yScale.bandwidth()/2) //dividing by 2 puts the count the middle of the bar
             .attr("class", "labels")
-
-
+            
+            
 
 
         //Remember height (#0) starts from the top but we want to start from the bottom - so have to start from the top and move down
