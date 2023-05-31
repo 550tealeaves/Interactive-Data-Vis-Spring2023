@@ -1,9 +1,9 @@
 /* CONSTANTS AND GLOBALS */
-const w = 900;
-const h = 600;
+const width = 700;
+const height = 500;
 const margin = { top: 50, bottom: 150, left: 50, right: 20 };
-const width = w - margin.left - margin.right;
-const height = h - margin.top - margin.bottom;
+// const width = w - margin.left - margin.right;
+// const height = h - margin.top - margin.bottom;
 
 
 /* LOAD DATA */
@@ -15,13 +15,13 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
     const x = d3.scaleBand()
         .domain(data.map(d => d.activity)) //d=> d.activity replaces function (d) {return d.activity}
         .range([margin.left, width])
-        .padding(0.1);
+        .padding(0.3);
 
 
     //Y-SCALE
     const y = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.count)]) //d => d.count replaces function (d) {return d.count;}
-        .range([height, margin.top])
+        .range([height, margin.bottom])
 
 
     //Y-AXIS
@@ -38,7 +38,8 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
     //APPEND AXES
     svg.append("g")
         .attr("class", "axis")
-        .attr("transform", "translate(" + margin.left + ",0)")
+        .attr("transform", "translate(" + margin.left + ",-4)") //temp fix that lets 0 show 
+        //.attr("transform", "translate(" + margin.left + ",0)") - original code but would cut off the 0 on y-axis
         .call(yAxis);
 
 
@@ -48,31 +49,27 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
         .enter()
         .append("rect")
         .attr("class", "bar")
-        .on("mouseover", function () {
+        .attr("fill", "mediumseagreen") //default color
+        .on("mouseover", function () { //transition during mouseover
             d3.select(this)
-                .attr("fill", "green")
+                .attr("fill", "orangered") //mouseover and it changes to this color
         })
         .on("mouseout", function () {  //WHEN MOUSE NOT ON BAR, IT WILL COLORFADE
             d3.select(this)
                 .transition("colorfade")
                 .duration(250)
-                .attr("fill", "pink")
+                .attr("fill", "indigo") //when cursor is off, changes to 3rd color
         })
-
-        .attr("fill", "mediumseagreen")
-
         .attr("x", function (d, i) {
             return x(d.activity);
         })
         .attr("width", x.bandwidth())
         .attr("y", height)
-
         .transition("bars")
         .delay(function (d, i) {
             return i * 50;
         })
         .duration(1000)
-
         .attr("y", function (d, i) {
             return y(d.count);
         })
@@ -80,10 +77,11 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             return height - y(d.count);
         })
 
-
+    //TOOLTIP LABEL
     svg.selectAll("rect")
         .append("title")
         .text(d => d.activity + ": " + d.count) //d=> d.activity replaces function(d){return d.activity...;}
+
 
 
     //LABELS THE VALUE OF THE BARS
@@ -92,18 +90,17 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
         .enter()
         .append("text")
         .classed("val-label", true)
-
+        .attr("fill", "mediumvioletred")
+        .attr("font-weight", "bold")
         .attr("x", function (d, i) {
             return x(d.activity) + x.bandwidth() / 2;
         })
         .attr("y", height)
-
         .transition("label")
         .delay(function (d, i) {
             return i * 50;  // gives it a smoother effect
         })
         .duration(1000)
-
         .attr("y", function (d, i) {
             return y(d.count) - 4;
         })
@@ -117,12 +114,10 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
         .enter()
         .append("text")
         .classed("bar-label", true)
-
         .attr("transform", function (d, i) {
             return "translate(" + (x(d.activity) + x.bandwidth() / 2 - 8) + "," + (height + 15) + ")"
-                + " rotate(45)"
+                + " rotate(270)"
         })
-
         .attr("text-anchor", "left")
         .text(d => d.activity) //(d => d.activity) replaces (function(d) {return d.activity;});
 
