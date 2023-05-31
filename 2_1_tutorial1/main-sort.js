@@ -23,6 +23,10 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
         .domain([0, d3.max(data, d => d.count)]) //d => d.count replaces function (d) {return d.count;}
         .range([height, margin.bottom])
 
+        // colorScale
+        const colorScale = d3.scaleOrdinal()
+            .domain(y.domain()) //use xScale domain - color by the emp pop amt
+            .range(["#e41a1c", "#4daf4a", "#984ea3", "#a65628", "#999999"])
 
     //Y-AXIS
     const yAxis = d3.axisLeft().scale(y)
@@ -49,7 +53,7 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
         .enter()
         .append("rect")
         .attr("class", "bar")
-        .attr("fill", "mediumseagreen") //default color
+        .attr("fill", d => colorScale(d.count)) //default color
         .on("mouseover", function () { //transition during mouseover
             d3.select(this)
                 .attr("fill", "orangered") //mouseover and it changes to this color
@@ -58,7 +62,7 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             d3.select(this)
                 .transition("colorfade")
                 .duration(250)
-                .attr("fill", "indigo") //when cursor is off, changes to 3rd color
+                .attr("fill", "skyblue") //when cursor is off, changes to 3rd color
         })
         .attr("x", function (d, i) {
             return x(d.activity);
