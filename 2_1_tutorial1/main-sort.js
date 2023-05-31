@@ -23,10 +23,20 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
         .domain([0, d3.max(data, d => d.count)]) //d => d.count replaces function (d) {return d.count;}
         .range([height, margin.bottom])
 
-        // colorScale
-        const colorScale = d3.scaleOrdinal()
-            .domain(y.domain()) //use xScale domain - color by the emp pop amt
-            .range(["#e41a1c", "#4daf4a", "#984ea3", "#a65628", "#999999"])
+    // colorScale - adding 3 (1) - default, (2) mouseover transition, (3) final color
+    const colorScale = d3.scaleOrdinal()
+        .domain(y.domain()) //use yScale domain - color by the count of activiites
+        .range(["#e41a1c", "#4daf4a", "#984ea3", "#a65628", "#999999"])
+
+    const colorScaleTwo = d3.scaleOrdinal() //added second color scale to be used for mouseover transition 
+                .domain(y.domain())
+                .range(["#feebe2","#fbb4b9","#f768a1","#c51b8a","#7a0177"])
+
+    const colorScaleThree = d3.scaleOrdinal() //added second color scale to be used after transition
+        .domain(y.domain())
+        .range(["#23171b","#26bce1","#95fb51","#ff821d","#900c00"])
+
+        
 
     //Y-AXIS
     const yAxis = d3.axisLeft().scale(y)
@@ -56,13 +66,13 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
         .attr("fill", d => colorScale(d.count)) //default color
         .on("mouseover", function () { //transition during mouseover
             d3.select(this)
-                .attr("fill", "orangered") //mouseover and it changes to this color
+                .attr("fill", d=> colorScaleTwo(d.count)) //mouseover and it changes to this color
         })
         .on("mouseout", function () {  //WHEN MOUSE NOT ON BAR, IT WILL COLORFADE
             d3.select(this)
                 .transition("colorfade")
-                .duration(250)
-                .attr("fill", "skyblue") //when cursor is off, changes to 3rd color
+                .duration(350)
+                .attr("fill", d => colorScaleThree(d.count)) //when cursor is off, changes to 3rd set of colors
         })
         .attr("x", function (d, i) {
             return x(d.activity);
