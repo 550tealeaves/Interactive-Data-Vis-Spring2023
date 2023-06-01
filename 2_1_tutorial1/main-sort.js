@@ -1,9 +1,9 @@
 /* CONSTANTS AND GLOBALS */
-const width = 700;
-const height = 500;
-const margin = { top: 50, bottom: 150, left: 50, right: 20 };
-// const width = w - margin.left - margin.right;
-// const height = h - margin.top - margin.bottom;
+const w = 700;
+const h = 500;
+const margin = { top: 50, bottom: 100, left: 50, right: 20 };
+const width = w - margin.left - margin.right;
+const height = h - margin.top - margin.bottom;
 
 
 /* LOAD DATA */
@@ -45,15 +45,14 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
     //CREATE SVG
     const svg = d3.select("body").append("svg")
         .attr("id", "chart")
-        .attr("width", width)
-        .attr("height", height);
+        .attr("width", w)
+        .attr("height", h);
 
 
     //APPEND AXES
     svg.append("g")
         .attr("class", "axis")
-        .attr("transform", "translate(" + margin.left + ",-4)") //temp fix that lets 0 show 
-        //.attr("transform", "translate(" + margin.left + ",0)") - original code but would cut off the 0 on y-axis
+        .attr("transform", "translate(" + margin.left + ",0)") 
         .call(yAxis);
 
 
@@ -91,10 +90,10 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
             return height - y(d.count);
         })
 
-    //TOOLTIP LABEL
+    //TOOLTIP LABEL ON BARS
     svg.selectAll("rect")
         .append("title")
-        .text(d => d.activity + ": " + d.count) //d=> d.activity replaces function(d){return d.activity...;}
+        .text(d => (d.count + " squirrels are " + d.activity)) //d=> d.activity replaces function(d){return d.activity...;}
 
 
 
@@ -130,7 +129,7 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
         .classed("bar-label", true)
         .attr("transform", function (d, i) {
             return "translate(" + (x(d.activity) + x.bandwidth() / 2 - 8) + "," + (height + 15) + ")"
-                + " rotate(270)"
+                + " rotate(45)"
         })
         .attr("text-anchor", "left")
         .text(d => d.activity) //(d => d.activity) replaces (function(d) {return d.activity;});
