@@ -46,14 +46,15 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
         svg.append("g") //g needed for axis
             .attr("class", "axis")
             .attr("transform", `translate(0,${height - margin})`) //moves it to the bottom
-            .call(xAxis) //must always call the axis for it to display 
+            .call(xAxis) //must always call the axis for it to display
 
+        //REMOVE Y-AXIS SO IT DOES NOT INTERFERE WITH THE SORTING 
         // yAxis
-        const yAxis = d3.axisLeft(yScale) //axis will be on the left using yScale
-        svg.append("g") //must have .append("g")
-            .attr("class", "axis") //need class axis
-            .attr("transform", `translate(${margin},0)`) //move it to the left
-            .call(yAxis) //must always call the axis for it to display
+        // const yAxis = d3.axisLeft(yScale) //axis will be on the left using yScale
+        // svg.append("g") //must have .append("g")
+        //     .attr("class", "axis") //need class axis
+        //     .attr("transform", `translate(${margin},0)`) //move it to the left
+        //     .call(yAxis) //must always call the axis for it to display
 
 
         //ADD CHART TITLE    
@@ -78,15 +79,6 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
         //     .style("font-size", "18px")
         //     .text("Percentage employed")
 
-        // //LABEL THE Y-AXIS 
-        // svg //use margin to arrange y-axis - Mia
-        //     .append("text")
-        //     .attr("class", "axis-label")
-        //     .attr("transform", `translate(25, ${height - margin.bottom - 200})` + 'rotate (270)')
-        //     .attr("fill", "orange")
-        //     .style("font-weight", "bold")
-        //     .style("font-size", "18px")
-        //     .text("States")
 
         // BAR LABELS
         svg.selectAll("labels") //select all Labels
@@ -96,7 +88,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .attr("class", "labels") //class name
             .text(d => d.TotalEmpStat_Employed.toLocaleString(undefined, {
                 style: "percent"})) //toLocaleString() will convert #s to easily readable #s (w/ commas) - style percent will convert it - https://observablehq.com/@mbostock/number-formatting
-            .attr("x", d => xScale(d.TotalEmpStat_Employed) + 4) //produce the value of total emp civ pop, + 4 spaces out the label and bar
+            .attr("x", d => xScale(d.TotalEmpStat_Employed) + 5) //produce the value of total emp civ pop, + 4 spaces out the label and bar
             .attr("y", d => yScale(d.Statistics) + yScale.bandwidth()) //positions value by the bar - need the bandwidth()
             .style("font-size", "10px")
 
@@ -126,6 +118,17 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .text(d => (d.TotalEmpStat_Employed.toLocaleString(undefined, {style: "percent"}) + " of " + d.Statistics + " total pop 16+ is employed ")) //tooltip displays this statement - CA employed pop is value (readable value)
             //.text(d => (d.Statistics + " employed population = " + d.TotalEmpStat_Employed.toLocaleString())) //tooltip displays this statement - CA employed pop is value (readable value)
 
+        //LABELS THE STATES ON THE LEFT BARS ON THE Y-AXIS
+        svg.selectAll(".state-label")
+            .data(data)
+            .enter()
+            .append("text")
+            .classed("state-label", true)
+            .attr("font-size", "11px")
+            .attr("transform", function (d, i) {
+                return "translate(" + (height - margin - 950) + "," + (yScale(d.Statistics) + yScale.bandwidth()) + ")" //had to flip the order of yScale + yScale.bandwidth & (height-margin) to move the labels - need the -950 to move bars from right to left
+            })
+            .text(d => d.Statistics)  
 
 
         //Sort by clicking button
@@ -137,21 +140,32 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
                 return d.Statistics;
             }));  //need this for the sort to work
 
+            
+        //SORT THE BARS
+        svg.selectAll(".bar") //this originally wasn't selecting anything b/c no class name in .append("rect")
+            .transition()
+            .duration(700) //how fast the bars will sort descending
+            .attr("y", function (d, i) {
+                return yScale(d.Statistics);
+            }) //don't add the yScale.bandwidth() b/c then labels & bars don't move together
 
-            svg.selectAll(".bar") //this originally wasn't selecting anything b/c no class name in .append("rect")
-                .transition()
-                .duration(700) //how fast the bars will sort descending
-                .attr("y", function (d, i) {
-                    return yScale(d.Statistics);
-                }) //don't add the yScale.bandwidth() b/c then labels & bars don't move together
-
-
-            svg.selectAll(".labels")
-                .transition()
-                .duration(700) //how fast labels will move
-                .attr("y", function (d, i) {
-                    return yScale(d.Statistics) + yScale.bandwidth() / 1;
-                }) //helps the labels move in sync w/ the bars 
+           
+        //SORT THE BAR LABELS
+        svg.selectAll(".labels")
+            .transition()
+            .duration(700) //how fast labels will move
+            .attr("y", function (d, i) {
+                return yScale(d.Statistics) + yScale.bandwidth() / 1;
+            }) //helps the labels move in sync w/ the bars 
+        
+        //SORT THE AXIS LABELS (STATES)
+        svg.selectAll(".state-label")
+            .transition()
+            .duration(700)
+            .attr("font-size", "11px")
+            .attr("transform", function (d, i) {
+                return "translate(" + (height - margin - 950) + "," + (yScale(d.Statistics) + yScale.bandwidth()) + ")" //had to flip the order of yScale + yScale.bandwidth & (height-margin) to move the labels 
+            }) //have to use the same .attr("transform", function) as the original bar label code for the bars to move 
 
         })
 
@@ -192,12 +206,13 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .attr("transform", `translate(0,${height - margin})`)
             .call(xAxisMale)
 
-        // yAxis
-        const yAxisMale = d3.axisLeft(yScaleMale)
-        svgMale.append("g")
-            .attr("class", "axis")
-            .attr("transform", `translate(${margin},0)`)
-            .call(yAxisMale)
+        //REMOVE Y-AXIS SO IT DOES NOT INTERFERE WITH SORTING
+        // // yAxis
+        // const yAxisMale = d3.axisLeft(yScaleMale)
+        // svgMale.append("g")
+        //     .attr("class", "axis")
+        //     .attr("transform", `translate(${margin},0)`)
+        //     .call(yAxisMale)
 
 
         //ADD CHART TITLE    
@@ -218,7 +233,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .append("text")
             .text(d => d.MaleEmpStat_Employed.toLocaleString(undefined, {
                 style: "percent"}))
-            .attr("x", d => xScaleMale(d.MaleEmpStat_Employed) + 4)
+            .attr("x", d => xScaleMale(d.MaleEmpStat_Employed) + 5)
             .attr("y", d => yScaleMale(d.Statistics) + yScaleMale.bandwidth())
             .attr("class", "labels")
             .style("font-size", "10px")
@@ -248,6 +263,17 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .text(d => (d.MaleEmpStat_Employed.toLocaleString(undefined, {
                 style: "percent"}) + " of " + d.Statistics + " males employed ")) //decimal stateName males employed 
 
+        //LABELS THE STATES ON THE LEFT BARS ON THE Y-AXIS
+        svgMale.selectAll(".state-label")
+            .data(data)
+            .enter()
+            .append("text")
+            .classed("state-label", true)
+            .attr("font-size", "11px")
+            .attr("transform", function (d, i) {
+                return "translate(" + (height - margin - 950) + "," + (yScaleMale(d.Statistics) + yScaleMale.bandwidth()) + ")" //had to flip the order of yScale + yScale.bandwidth & (height-margin) to move the labels - need the -950 to move bars from right to left
+            })
+            .text(d => d.Statistics) 
 
         //Sort by clicking button
         d3.select(".value-sort-male").on("click", function () {
@@ -256,20 +282,30 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             })
             yScaleMale.domain(data.map(d => d.Statistics))
 
-            svgMale.selectAll(".bar-two") //select the bars in the 2nd chart
-                .transition()
-                .duration(700)
-                .attr("y", function (d, i) {
-                    return yScaleMale(d.Statistics);
-                })
+        //SORT THE BARS
+        svgMale.selectAll(".bar-two") //select the bars in the 2nd chart
+            .transition()
+            .duration(700)
+            .attr("y", function (d, i) {
+                return yScaleMale(d.Statistics);
+            })
 
-
-            svgMale.selectAll(".labels")
-                .transition()
-                .duration(700)
-                .attr("y", function (d, i) {
-                    return yScaleMale(d.Statistics) + yScaleMale.bandwidth() / 1;
-                })
+        //SORT THE BAR LABELS 
+        svgMale.selectAll(".labels")
+            .transition()
+            .duration(700)
+            .attr("y", function (d, i) {
+                return yScaleMale(d.Statistics) + yScaleMale.bandwidth() / 1;
+            })
+        
+        //SORT THE AXIS LABELS (STATES)
+        svgMale.selectAll(".state-label")
+            .transition()
+            .duration(700)
+            .attr("font-size", "11px")
+            .attr("transform", function (d, i) {
+                return "translate(" + (height - margin - 950) + "," + (yScaleMale(d.Statistics) + yScaleMale.bandwidth()) + ")" //had to flip the order of yScale + yScale.bandwidth & (height-margin) to move the labels 
+            }) //have to use the same .attr("transform", function) as the original bar label code for the bars to move 
         })
 
 
@@ -310,12 +346,13 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .attr("transform", `translate(0,${height - margin})`)
             .call(xAxisFemale)
 
-        // yAxis
-        const yAxisFemale = d3.axisLeft(yScaleFemale)
-        svgFemale.append("g")
-            .attr("class", "axis")
-            .attr("transform", `translate(${margin},0)`)
-            .call(yAxisFemale)
+        //REMOVE Y-AXIS SO IT DOES NOT INTERFERE WITH SORTING
+        // // yAxis
+        // const yAxisFemale = d3.axisLeft(yScaleFemale)
+        // svgFemale.append("g")
+        //     .attr("class", "axis")
+        //     .attr("transform", `translate(${margin},0)`)
+        //     .call(yAxisFemale)
 
 
         //ADD CHART TITLE    
@@ -335,7 +372,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .enter()
             .append("text")
             .text(d => d.FemEmpStat_Employed.toLocaleString(undefined, {style: "percent"}))
-            .attr("x", d => xScaleFemale(d.FemEmpStat_Employed) + 4)
+            .attr("x", d => xScaleFemale(d.FemEmpStat_Employed) + 5)
             .attr("y", d => yScaleFemale(d.Statistics) + yScaleFemale.bandwidth())
             .attr("class", "labels")
             .style("font-size", "10px")
@@ -364,27 +401,51 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .append("title")
             .text(d => (d.FemEmpStat_Employed.toLocaleString(undefined, {style: "percent"}) + " of " + d.Statistics + " females employed "))
 
-        //Sort by clicking button
+        //LABELS THE STATES ON THE LEFT BARS ON THE Y-AXIS
+        svgFemale.selectAll(".state-label")
+            .data(data)
+            .enter()
+            .append("text")
+            .classed("state-label", true)
+            .attr("font-size", "11px")
+            .attr("transform", function (d, i) {
+                return "translate(" + (height - margin - 950) + "," + (yScaleFemale(d.Statistics) + yScaleFemale.bandwidth()) + ")" //had to flip the order of yScale + yScale.bandwidth & (height-margin) to move the labels - need the -950 to move bars from right to left
+            })
+            .text(d => d.Statistics) 
+        
+
+        //CREATE FUNCTION TO SORT BY CLICKING BUTTON
         d3.select(".value-sort-female").on("click", function () {
             data.sort(function (a, b) {
                 return d3.descending(a.FemEmpStat_Employed, b.FemEmpStat_Employed);
             })
             yScaleFemale.domain(data.map(d => d.Statistics))
+        
+        //SORT THE BARS 
+        svgFemale.selectAll(".bar-three") //target these bars in 3rd chart
+            .transition()
+            .duration(700)
+            .attr("y", function (d, i) {
+                return yScaleFemale(d.Statistics);
+            })
 
-            svgFemale.selectAll(".bar-three") //target these bars in 3rd chart
-                .transition()
-                .duration(700)
-                .attr("y", function (d, i) {
-                    return yScaleFemale(d.Statistics);
-                })
-
-
-            svgFemale.selectAll(".labels")
-                .transition()
-                .duration(700)
-                .attr("y", function (d, i) {
-                    return yScaleFemale(d.Statistics) + yScaleFemale.bandwidth() / 1;
-                })
+        //SORT THE BAR LABELS 
+        svgFemale.selectAll(".labels")
+            .transition()
+            .duration(700)
+            .attr("y", function (d, i) {
+                return yScaleFemale(d.Statistics) + yScaleFemale.bandwidth() / 1;
+            })
+            
+        //SORT THE AXIS LABELS (STATES)
+        svgFemale.selectAll(".state-label")
+            .transition()
+            .duration(700)
+            .attr("font-size", "11px")
+            .attr("transform", function (d, i) {
+                return "translate(" + (height - margin - 950) + "," + (yScaleFemale(d.Statistics) + yScaleFemale.bandwidth()) + ")" //had to flip the order of yScale + yScale.bandwidth & (height-margin) to move the labels 
+            }) //have to use the same .attr("transform", function) as the original bar label code for the bars to move 
+        
         })
 
     })
