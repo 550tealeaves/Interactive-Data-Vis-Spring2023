@@ -25,7 +25,7 @@ const yScale = d3.scaleLinear()
 /*create color scale*/
 const colorScale = d3.scaleOrdinal() //doing ordinal scale b/c discrete values 
 .domain(["R", "D"]) //domain value are either Repub or Dem
-.range(["red", "blue"]) //elements w/ party R map to red; elements w/ party D map to blue
+    .range(["#DE3163", "#1F618D"]) //elements w/ party R map to red; elements w/ party D map to blue
 
 
 /*HTML ELEMENTS*/
