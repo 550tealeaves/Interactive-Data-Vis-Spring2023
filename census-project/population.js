@@ -107,13 +107,13 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .on('mouseover', function () {
                 d3.select(this)
                     .attr("fill", d => colorScale(d.TotalEmpStat_Employed))
-            }) //when mouseover the bars, it will show this color
+            }) //when mouseover the bars, it will show this color - same as default
             .on('mouseout', function () {
                 d3.select(this)
                     .transition("colorfade") //this is the transition
                     .delay(100) //how fast the transition happens
                     .attr("fill", "darkgoldenrod")
-            }) //when mouse out, it will fad out to this color
+            }) //when mouse out, it will fade and turn this color
             .append("title") //adding the tooltip
             .text(d => (d.TotalEmpStat_Employed.toLocaleString(undefined, {style: "percent"}) + " of " + d.Statistics + " total pop 16+ is employed ")) //tooltip displays this statement - CA employed pop is value (readable value)
             //.text(d => (d.Statistics + " employed population = " + d.TotalEmpStat_Employed.toLocaleString())) //tooltip displays this statement - CA employed pop is value (readable value)
