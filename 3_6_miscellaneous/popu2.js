@@ -68,14 +68,14 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .attr("fill", "darkcyan")
 
 
-        // AXIS LABELS
+        // BAR LABELS
         svg.selectAll("labels")
             .data(data)
             .enter()
             .append("text")
             .attr("class", "labels")
             .text(d => d.TotalEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString())
-            .attr("x", d => xScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver))
+            .attr("x", d => xScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver) + 3)
             .attr("y", d => yScale(d.Statistics) + yScale.bandwidth() / 1)
             .style("font-size", "10px")
 
@@ -218,13 +218,13 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .style("text-decoration", "underline")
             .attr("fill", "darkcyan")
 
-        // AXIS LABELS
+        // BAR LABELS
         svgMale.selectAll("labels")
             .data(data)
             .enter()
             .append("text")
             .text(d => d.MaleEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString())
-            .attr("x", d => xScaleMale(d.MaleEmpSec_EmployedCivilianPop16YearsandOver))
+            .attr("x", d => xScaleMale(d.MaleEmpSec_EmployedCivilianPop16YearsandOver) + 3)
             .attr("y", d => yScaleMale(d.Statistics) + yScaleMale.bandwidth() / 1)
             .attr("class", "labels")
             .style("font-size", "10px")
@@ -234,6 +234,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
         svgMale.selectAll("rect")
             .data(data)
             .join("rect")
+            .attr("class", "bar-two")
             .attr("height", yScaleMale.bandwidth())
             .attr("width", d => xScaleMale(d.MaleEmpSec_EmployedCivilianPop16YearsandOver) - margin)
             .attr("x", d => margin)
@@ -260,7 +261,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
             })
             yScaleMale.domain(data.map(d => d.Statistics))
 
-            svgMale.selectAll(".bar")
+            svgMale.selectAll(".bar-two")
                 .transition()
                 .duration(700)
                 .attr("y", function (d, i) {
@@ -334,13 +335,13 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .style("text-decoration", "underline")
             .attr("fill", "darkcyan")
 
-        // AXIS LABELS
+        // BAR LABELS
         svgFemale.selectAll("labels")
             .data(data)
             .enter()
             .append("text")
             .text(d => d.FemEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString())
-            .attr("x", d => xScaleFemale(d.FemEmpSec_EmployedCivilianPop16YearsandOver))
+            .attr("x", d => xScaleFemale(d.FemEmpSec_EmployedCivilianPop16YearsandOver) + 3)
             .attr("y", d => yScaleFemale(d.Statistics) + yScaleFemale.bandwidth() / 1)
             .attr("class", "labels")
             .style("font-size", "10px")
@@ -350,6 +351,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
         svgFemale.selectAll("rect")
             .data(data)
             .join("rect")
+            .attr("class", "bar-three")
             .attr("height", yScaleFemale.bandwidth())
             .attr("width", d => xScaleFemale(d.FemEmpSec_EmployedCivilianPop16YearsandOver) - margin)
             .attr("x", d => margin)
@@ -375,7 +377,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
             })
             yScaleFemale.domain(data.map(d => d.Statistics))
 
-            svgFemale.selectAll(".bar")
+            svgFemale.selectAll(".bar-three")
                 .transition()
                 .duration(700) //changes how fast the bars shift
                 .attr("y", function (d, i) {
