@@ -56,6 +56,18 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
         .call(yAxis);
 
 
+        //ADD CHART TITLE    
+        svg
+            .append("text")
+            .attr("class", "title")
+            .attr("x", width / 2)
+            .attr("y", height / 10) //higher the denominator, higher the text moves up pg
+            .attr("text-anchor", "middle")
+            .text("Squirrel Activities")
+            .style("font-size", "28px")
+            .attr("font-weight", "bold")
+            .attr("fill", "skyblue")
+
     //CREATE BAR WITH MOUSEOVER EVENT
     svg.selectAll("rect")
         .data(data)
