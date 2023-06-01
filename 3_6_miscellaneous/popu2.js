@@ -47,12 +47,13 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .attr("transform", `translate(0,${height - margin})`)
             .call(xAxis)
 
+         //REMOVE THE Y-AXIS SO IT DOES NOT INTERFERE WITH THE SORTING
         // yAxis
-        const yAxis = d3.axisLeft(yScale)
-        svg.append("g")
-            .attr("class", "axis")
-            .attr("transform", `translate(${margin},0)`)
-            .call(yAxis)
+        // const yAxis = d3.axisLeft(yScale)
+        // svg.append("g")
+        //     .attr("class", "axis")
+        //     .attr("transform", `translate(${margin},0)`)
+        //     .call(yAxis)
 
 
         //ADD CHART TITLE    
@@ -75,7 +76,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .append("text")
             .attr("class", "labels")
             .text(d => d.TotalEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString())
-            .attr("x", d => xScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver) + 3)
+            .attr("x", d => xScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver) + 5)
             .attr("y", d => yScale(d.Statistics) + yScale.bandwidth() / 1)
             .style("font-size", "10px")
 
@@ -104,6 +105,17 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .append("title")
             .text(d => (d.Statistics + " population is " + d.TotalEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString()))
 
+        //LABELS THE STATES ON THE LEFT BARS ON THE Y-AXIS
+        svg.selectAll(".state-label")
+            .data(data)
+            .enter()
+            .append("text")
+            .classed("state-label", true)
+            .attr("font-size", "11px")
+            .attr("transform", function (d, i) {
+                return "translate(" + (height - margin - 950) + "," + (yScale(d.Statistics) + yScale.bandwidth()) + ")" //had to flip the order of yScale + yScale.bandwidth & (height-margin) to move the labels - need the -950 to move bars from right to left
+            })
+            .text(d => d.Statistics) 
 
 
         //Sort by clicking button
@@ -111,39 +123,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
             data.sort(function (a, b) {
                 return d3.descending(a.TotalEmpSec_EmployedCivilianPop16YearsandOver, b.TotalEmpSec_EmployedCivilianPop16YearsandOver)
             })
-            yScale.domain(data.map(function (d) {
-                return d.Statistics;
-            }));  //this does not change the y-axis
-
-
-            // const pressButton = d3.select(this).node().value;
-            // // console.log(pressButton);
-            // if (pressButton == "Ascendingly") {
-            //     data.sort((a, b) => {
-            //         return d3.ascending(a.TotalEmpSec_EmployedCivilianPop16YearsandOver
-// , b.TotalEmpSec_EmployedCivilianPop16YearsandOver
-// )
-            //     })
-            // } else if (pressButton == "Descendingly") {
-            //     data.sort((a, b) => {
-            //         return d3.descending(a.TotalEmpSec_EmployedCivilianPop16YearsandOver
-// , b.TotalEmpSec_EmployedCivilianPop16YearsandOver
-// )
-            //     })
-            // } else if (pressButton == "Alphabetically") {
-            //     data.sort((a, b) => {
-            //         return d3.ascending(a.Statistics, b.Statistics)
-            //     })
-            // }
-
-
-
-            //trying to make Y-axis disappear - not working
-            svg.select("axis")
-                .transition()
-                .duration(400)
-                .attr("fill", "transparent")
-
+            yScale.domain(data.map(d => d.Statistics))
 
             svg.selectAll(".bar")
                 .transition()
@@ -152,13 +132,22 @@ d3.csv('../data/census_four.csv', d3.autoType)
                     return yScale(d.Statistics);
                 })
 
-
+            //MOVES THE BAR LABELS 
             svg.selectAll(".labels")
                 .transition()
                 .duration(700)
                 .attr("y", function (d, i) {
                     return yScale(d.Statistics) + yScale.bandwidth() / 1;
                 })
+
+            //MOVES THE AXIS LABELS (STATES)
+            svg.selectAll(".state-label")
+                .transition()
+                .duration(700)
+                .attr("font-size", "11px")
+                .attr("transform", function (d, i) {
+                return "translate(" + (height - margin - 950) + "," + (yScale(d.Statistics) + yScale.bandwidth()) + ")" //had to flip the order of yScale + yScale.bandwidth & (height-margin) to move the labels 
+            }) //have to use the same .attr("transform", function) as the original bar label code for the bars to move 
 
         })
 
@@ -198,12 +187,13 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .attr("transform", `translate(0,${height - margin})`)
             .call(xAxisMale)
 
-        // yAxis
-        const yAxisMale = d3.axisLeft(yScaleMale)
-        svgMale.append("g")
-            .attr("class", "axis")
-            .attr("transform", `translate(${margin},0)`)
-            .call(yAxisMale)
+        //REMOVE THE Y-AXIS SO IT DOES NOT INTERFERE WITH THE SORTING
+        // // yAxis
+        // const yAxisMale = d3.axisLeft(yScaleMale)
+        // svgMale.append("g")
+        //     .attr("class", "axis")
+        //     .attr("transform", `translate(${margin},0)`)
+        //     .call(yAxisMale)
 
 
         //ADD CHART TITLE    
@@ -254,6 +244,18 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .text(d => (d.Statistics + " male population is " + d.MaleEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString()))
 
 
+        //LABELS THE STATES ON THE LEFT BARS ON THE Y-AXIS
+        svgMale.selectAll(".state-label")
+            .data(data)
+            .enter()
+            .append("text")
+            .classed("state-label", true)
+            .attr("font-size", "11px")
+            .attr("transform", function (d, i) {
+                return "translate(" + (height - margin - 950) + "," + (yScaleMale(d.Statistics) + yScaleMale.bandwidth()) + ")" //had to flip the order of yScale + yScale.bandwidth & (height-margin) to move the labels - need the -950 to move bars from right to left
+            })
+            .text(d => d.Statistics) 
+
         //Sort by clicking button
         d3.select(".value-sort-male").on("click", function () {
             data.sort(function (a, b) {
@@ -275,6 +277,15 @@ d3.csv('../data/census_four.csv', d3.autoType)
                 .attr("y", function (d, i) {
                     return yScaleMale(d.Statistics) + yScaleMale.bandwidth() / 1;
                 })
+
+            //MOVES THE AXIS LABELS (STATES)
+            svgMale.selectAll(".state-label")
+                .transition()
+                .duration(700)
+                .attr("font-size", "11px")
+                .attr("transform", function (d, i) {
+                    return "translate(" + (height - margin - 950) + "," + (yScaleMale(d.Statistics) + yScaleMale.bandwidth()) + ")" //had to flip the order of yScale + yScale.bandwidth & (height-margin) to move the labels 
+                }) //have to use the same .attr("transform", function) as the original bar label code for the bars to move 
         })
 
 
@@ -315,12 +326,13 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .attr("transform", `translate(0,${height - margin})`)
             .call(xAxisFemale)
 
-        // yAxis
-        const yAxisFemale = d3.axisLeft(yScaleFemale)
-        svgFemale.append("g")
-            .attr("class", "axis")
-            .attr("transform", `translate(${margin},0)`)
-            .call(yAxisFemale)
+        //REMOVE Y-AXIS SO IT DOES NOT INTERFERE WITH THE SORTING 
+        // // yAxis
+        // const yAxisFemale = d3.axisLeft(yScaleFemale)
+        // svgFemale.append("g")
+        //     .attr("class", "axis")
+        //     .attr("transform", `translate(${margin},0)`)
+        //     .call(yAxisFemale)
 
 
         //ADD CHART TITLE    
@@ -341,7 +353,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .enter()
             .append("text")
             .text(d => d.FemEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString())
-            .attr("x", d => xScaleFemale(d.FemEmpSec_EmployedCivilianPop16YearsandOver) + 3)
+            .attr("x", d => xScaleFemale(d.FemEmpSec_EmployedCivilianPop16YearsandOver) + 5)
             .attr("y", d => yScaleFemale(d.Statistics) + yScaleFemale.bandwidth() / 1)
             .attr("class", "labels")
             .style("font-size", "10px")
@@ -370,6 +382,19 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .append("title")
             .text(d => (d.Statistics + " female population is " + d.FemEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString()))
 
+        //LABELS THE STATES ON THE LEFT BARS ON THE Y-AXIS
+        svgFemale.selectAll(".state-label")
+            .data(data)
+            .enter()
+            .append("text")
+            .classed("state-label", true)
+            .attr("font-size", "11px")
+            .attr("transform", function (d, i) {
+                return "translate(" + (height - margin - 950) + "," + (yScaleFemale(d.Statistics) + yScaleFemale.bandwidth()) + ")" //had to flip the order of yScale + yScale.bandwidth & (height-margin) to move the labels - need the -950 to move bars from right to left
+            })
+            .text(d => d.Statistics) 
+
+
         //Sort by clicking button
         d3.select(".value-sort-female").on("click", function () {
             data.sort(function (a, b) {
@@ -391,6 +416,15 @@ d3.csv('../data/census_four.csv', d3.autoType)
                 .attr("y", function (d, i) {
                     return yScaleFemale(d.Statistics) + yScaleFemale.bandwidth() / 1;
                 })
+
+            //MOVES THE AXIS LABELS (STATES)
+            svgFemale.selectAll(".state-label")
+                .transition()
+                .duration(700)
+                .attr("font-size", "11px")
+                .attr("transform", function (d, i) {
+                    return "translate(" + (height - margin - 950) + "," + (yScaleFemale(d.Statistics) + yScaleFemale.bandwidth()) + ")" //had to flip the order of yScale + yScale.bandwidth & (height-margin) to move the labels 
+                }) //have to use the same .attr("transform", function) as the original bar label code for the bars to move 
         })
 
     })
