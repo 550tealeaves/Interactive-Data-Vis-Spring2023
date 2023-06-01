@@ -131,7 +131,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .text(d => d.Statistics)  
 
 
-        //Sort by clicking button
+        //CREATE FUNCTION TO SORT BY CLICKING BUTTON
         d3.select(".value-sort").on("click", function () {
             data.sort(function (a, b) {
                 return d3.descending(a.TotalEmpStat_Employed, b.TotalEmpStat_Employed)
@@ -275,7 +275,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             })
             .text(d => d.Statistics) 
 
-        //Sort by clicking button
+        //CREATE FUNCTION TO SORT BY CLICKING BUTTON
         d3.select(".value-sort-male").on("click", function () {
             data.sort(function (a, b) {
                 return d3.descending(a.MaleEmpStat_Employed, b.MaleEmpStat_Employed);
