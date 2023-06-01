@@ -128,8 +128,8 @@ d3.csv('../data/squirrelActivities.csv', d3.autoType)
         .append("text")
         .classed("bar-label", true)
         .attr("transform", function (d, i) {
-            return "translate(" + (x(d.activity) + x.bandwidth() / 2 - 8) + "," + (height + 15) + ")"
-                + " rotate(45)"
+            return "translate(" + (x(d.activity) + x.bandwidth() / 8) + "," + (height + 15) + ")"
+                + " rotate(0)"
         })
         .attr("text-anchor", "left")
         .text(d => d.activity) //(d => d.activity) replaces (function(d) {return d.activity;});
