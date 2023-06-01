@@ -5,7 +5,7 @@ const width = window.innerWidth * 0.7,
   radius = 10;
 
 // // since we use our scales in multiple functions, they need global scope
-let xScale, yScale; // let xScale is same as let xScale = undefined
+let xScale, yScale, colorScale; // let xScale is same as let xScale = undefined
 
 
 
@@ -33,11 +33,15 @@ function init() {
   xScale = d3.scaleBand()
     .domain(state.data.map(d => d.activity)) //access state.data and map to the activity
     .range([margin.left, width - margin.right]) //0 to the end but w/ space on sides
-    .paddingInner(0.2)
+    .paddingInner(0.7)
   
   yScale = d3.scaleLinear()
     .domain([0, d3.max(state.data, d => d.count)]) //bar charts domain always starts at 0
     .range([height - margin.bottom, margin.top])
+
+  colorScale = d3.scaleOrdinal()
+    .domain(xScale.domain())
+    .range(["#d7191c", "#fdae61", "#ffffbf", "#abdda4", "#2b83ba"])
 
   draw(); // calls the draw function
 }
@@ -62,8 +66,9 @@ function draw() {
       .attr("width", xScale.bandwidth()) //this makes the width adjustable
       .attr("x", d => xScale(d.activity))
       .attr("y", d => yScale(d.count))
+      .attr("fill", d=> colorScale(d.activity))
       .attr("height", d => height - yScale(d.count)) //position at certain point on y and draw down
 
     
-    console.log('svg', svg) //can log multiple things if you separate w/ comma - this shows initially as undefined b/c it was defined in the scope of the init function only  - this console.log is outside of that scope = had to move the const svg down
+    console.log('svg', svg) //can log multiple things if you separate w/ comma - this shows initially as undefined b/c it was defined in the scope of the init function only  - this console.log was outside of that scope = had to move the const svg down
 }
