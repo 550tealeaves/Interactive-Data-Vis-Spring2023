@@ -75,7 +75,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .append("text") //.enter().append("text") = .join("text")
             .attr("class", "labels") //class name
             .text(d => d.TotalEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString()) //toLocaleString() will convert #s to easily readable #s (w/ commas)
-            .attr("x", d => xScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver)) //produce the value of total emp civ pop
+            .attr("x", d => xScale(d.TotalEmpSec_EmployedCivilianPop16YearsandOver) + 5) //produce the value of total emp civ pop
             .attr("y", d => yScale(d.Statistics) + yScale.bandwidth() / 1) //positions value by the bar - need the bandwidth()
             .style("font-size", "10px")
 
@@ -98,7 +98,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .on('mouseout', function () {
                 d3.select(this)
                     .transition("colorfade") //this is the transition
-                    .delay(100) //how fast the transition happens
+                    .delay(150) //how fast the transition happens
                     .attr("fill", "darkgoldenrod")
             }) //when mouse out, it will fad out to this color
             .append("title") //adding the tooltip
@@ -196,7 +196,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .enter()
             .append("text")
             .text(d => d.MaleEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString())
-            .attr("x", d => xScaleMale(d.MaleEmpSec_EmployedCivilianPop16YearsandOver))
+            .attr("x", d => xScaleMale(d.MaleEmpSec_EmployedCivilianPop16YearsandOver) + 5)
             .attr("y", d => yScaleMale(d.Statistics) + yScaleMale.bandwidth() / 1)
             .attr("class", "labels")
             .style("font-size", "10px")
@@ -219,7 +219,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .on('mouseout', function () {
                 d3.select(this)
                     .transition("colorfade")
-                    .delay(100)
+                    .delay(150)
                     .attr("fill", "darkblue")
             })
             .append("title")
@@ -313,7 +313,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .enter()
             .append("text")
             .text(d => d.FemEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString())
-            .attr("x", d => xScaleFemale(d.FemEmpSec_EmployedCivilianPop16YearsandOver))
+            .attr("x", d => xScaleFemale(d.FemEmpSec_EmployedCivilianPop16YearsandOver) + 5)
             .attr("y", d => yScaleFemale(d.Statistics) + yScaleFemale.bandwidth() / 1)
             .attr("class", "labels")
             .style("font-size", "10px")
@@ -336,7 +336,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
             .on('mouseout', function () {
                 d3.select(this)
                     .transition("colorfade")
-                    .delay(100)
+                    .delay(150)
                     .attr("fill", "darkred")
             })
             .append("title")
