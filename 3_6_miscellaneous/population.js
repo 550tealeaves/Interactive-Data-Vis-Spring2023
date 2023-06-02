@@ -100,7 +100,7 @@ d3.csv('../data/census_four.csv', d3.autoType)
                     .transition("colorfade") //this is the transition
                     .delay(150) //how fast the transition happens
                     .attr("fill", "darkgoldenrod")
-            }) //when mouse out, it will fad out to this color
+            }) //when mouse out, it will fade out to this color
             .append("title") //adding the tooltip
             .text(d => (d.Statistics + " employed population is " + d.TotalEmpSec_EmployedCivilianPop16YearsandOver.toLocaleString())) //tooltip displays this statement - CA employed pop is value (readable value)
 
