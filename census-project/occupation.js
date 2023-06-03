@@ -42,6 +42,7 @@ Promise.all([
 
     //X AXIS 
     const xAxis = d3.axisBottom(xScale)
+        .tickFormat(d => Math.round(d * 100) + "%") //rounds the tick value, multiplies it by 100 and then adds % at the end
     svg.append("g")
         .attr("class", "axis")
         .attr("transform", `translate(0,${height - margin.bottom})`)
@@ -50,6 +51,7 @@ Promise.all([
 
     //Y AXIS
     const yAxis = d3.axisLeft(yScale)
+        .tickFormat(d => Math.round(d * 100) + "%") //rounds the tick value, multiplies it by 100 and then adds % at the end
     svg.append("g")
         .attr("class", "axis")
         .attr("transform", `translate(${margin.left},0)`)
@@ -81,10 +83,10 @@ Promise.all([
 
             d3.select("#dot-labels")
                 .text(d.Statistics + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations.toLocaleString(undefined, {
-                    style: "percent"
+                    style: "percent", minimumFractionDigits: 1
                 }) + ", F: " + d.Fem_ManagementBusinessandFinancialOperations.toLocaleString(undefined, {
-                    style: "percent"
-                }))
+                    style: "percent", minimumFractionDigits: 1
+                })) //minimumFractionDigits: 1 adds the tenth place (w/o it, just a whole %)
                 .attr("x", xScale(d.Male_ManagementBusinessandFinancialOperations) - (margin.left / 7) - (margin.left + 3))
                 .attr("y", yScale(d.Fem_ManagementBusinessandFinancialOperations) + (margin.top + 8) - (margin.right + 1))
         })
