@@ -19,13 +19,13 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             .attr("width", width)
             .attr("height", height)
 
-
-
+   
         /* SCALES */
         // xScale
         const xScale = d3.scaleLinear()
             .domain([0, d3.max(data, d => d.TotalEmpStat_Employed)]) //0 - what ever max value of this variable is 
             .range([margin, width - margin]) //starts from 0 to max width - margin
+        
 
 
         // yScale
@@ -49,6 +49,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
         svg.append("g") //g needed for axis
             .attr("class", "axis")
             .attr("transform", `translate(0,${height - margin})`) //moves it to the bottom
+            //.tickFormat(d => Math.round(d * 100 / d3.max(data)) + "%")
             .call(xAxis) //must always call the axis for it to display
 
         //REMOVE Y-AXIS SO IT DOES NOT INTERFERE WITH THE SORTING 
