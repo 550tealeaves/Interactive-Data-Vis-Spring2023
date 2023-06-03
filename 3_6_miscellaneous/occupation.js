@@ -112,7 +112,7 @@ Promise.all([
         .style("font-size", "20px")
         .style("font-weight", "bold")
         .style("text-decoration", "underline")
-        .attr("fill", "darkblue")
+        .attr("fill", "rebeccaPurple")
 
     //LABEL THE X-AXIS
     svg
