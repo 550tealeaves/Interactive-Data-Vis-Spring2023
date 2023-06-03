@@ -67,8 +67,8 @@ Promise.all([
                 .attr("r", 0)
                 .call(selection => selection
                     .transition()
-                    .duration(800)
-                    .delay((d, i) => i * 20)
+                    .duration(600)
+                    .delay((d, i) => i * 120)
                     .attr("r", radius),
                     update => update,
                     exit => exit.remove()

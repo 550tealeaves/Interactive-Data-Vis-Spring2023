@@ -47,7 +47,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
         // xAxis - requires appending "g", class = axis & positioning
         const xAxis = d3.axisBottom(xScale) //xScale appears on bottom 
             .tickFormat(d => Math.round (d * 100) + "%") // .tickFormat(d => d + "%") this would only work if the starting numbers were whole NOT decimals    
-        //.tickFormat(d => Math.round(d * 100 / d3.max(xScale.domain())) + "%")
+        //.tickFormat(d => Math.round(d * 100 / d3.max(xScale.domain())) + "%") does not work
         svg.append("g") //g needed for axis
             .attr("class", "axis")
             .attr("transform", `translate(0,${height - margin})`) //moves it to the bottom
@@ -359,7 +359,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
         // xAxis
         const xAxisFemale = d3.axisBottom(xScaleFemale)
             .tickFormat(d => Math.round(d * 100) + "%")
-            .tickFormat(x => `(${x.toFixed(2)})`)
+            //.tickFormat(x => `(${x.toFixed(2)})`)
             //.tickFormat(d => d * 100 + ".%") works except the 55 looks like an infinite #
         svgFemale.append("g")
             .attr("class", "axis")
