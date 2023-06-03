@@ -49,7 +49,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
         svg.append("g") //g needed for axis
             .attr("class", "axis")
             .attr("transform", `translate(0,${height - margin})`) //moves it to the bottom
-            //.tickFormat(d => Math.round(d * 100 / d3.max(data)) + "%")
+            //.tickFormat(d => Math.round(d * 100 / d3.max(data)) + "%") //trying to convert the values to percentage - not working says .tickForamt is not a function 
             .call(xAxis) //must always call the axis for it to display
 
         //REMOVE Y-AXIS SO IT DOES NOT INTERFERE WITH THE SORTING 
