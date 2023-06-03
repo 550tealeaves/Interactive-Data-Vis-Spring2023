@@ -46,6 +46,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
         /* AXES */
         // xAxis - requires appending "g", class = axis & positioning
         const xAxis = d3.axisBottom(xScale) //xScale appears on bottom using xScale values 
+            .tickFormat(d => Math.round(d * 100) + "%")
         svg.append("g") //g needed for axis
             .attr("class", "axis")
             .attr("transform", `translate(0,${height - margin})`) //moves it to the bottom
@@ -208,6 +209,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
         /* AXES */
         // xAxis
         const xAxisMale = d3.axisBottom(xScaleMale)
+            .tickFormat(d => Math.round(d * 100) + "%")
         svgMale.append("g")
             .attr("class", "axis")
             .attr("transform", `translate(0,${height - margin})`)
@@ -352,6 +354,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
         /* AXES */
         // xAxis
         const xAxisFemale = d3.axisBottom(xScaleFemale)
+            .tickFormat(d => Math.round(d * 100) + "%")
         svgFemale.append("g")
             .attr("class", "axis")
             .attr("transform", `translate(0,${height - margin})`)
