@@ -45,11 +45,12 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
 
         /* AXES */
         // xAxis - requires appending "g", class = axis & positioning
-        const xAxis = d3.axisBottom(xScale) //xScale appears on bottom using xScale values 
+        const xAxis = d3.axisBottom(xScale) //xScale appears on bottom 
+            .tickFormat(d => Math.round (d * 100) + "%") // .tickFormat(d => d + "%") this would only work if the starting numbers were whole NOT decimals    
+        //.tickFormat(d => Math.round(d * 100 / d3.max(xScale.domain())) + "%")
         svg.append("g") //g needed for axis
             .attr("class", "axis")
             .attr("transform", `translate(0,${height - margin})`) //moves it to the bottom
-            //.tickFormat(d => Math.round(d * 100 / d3.max(data)) + "%") //trying to convert the values to percentage - not working says .tickForamt is not a function 
             .call(xAxis) //must always call the axis for it to display
 
         //REMOVE Y-AXIS SO IT DOES NOT INTERFERE WITH THE SORTING 
@@ -210,6 +211,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
         /* AXES */
         // xAxis
         const xAxisMale = d3.axisBottom(xScaleMale)
+            .tickFormat(d => d * 100 + "%") //converts x-axis to % (d*100) = turns decimals to %
         svgMale.append("g")
             .attr("class", "axis")
             .attr("transform", `translate(0,${height - margin})`)
@@ -356,6 +358,9 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
         /* AXES */
         // xAxis
         const xAxisFemale = d3.axisBottom(xScaleFemale)
+            .tickFormat(d => Math.round(d * 100) + "%")
+            .tickFormat(x => `(${x.toFixed(2)})`)
+            //.tickFormat(d => d * 100 + ".%") works except the 55 looks like an infinite #
         svgFemale.append("g")
             .attr("class", "axis")
             .attr("transform", `translate(0,${height - margin})`)
