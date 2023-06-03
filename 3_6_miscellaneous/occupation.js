@@ -1,6 +1,6 @@
 /* CONSTANTS AND GLOBALS */
 const width = window.innerWidth * 0.9,
-    height = window.innerHeight * 0.8,
+    height = window.innerHeight * 0.9,
     margin = { top: 20, bottom: 60, left: 60, right: 40 },
     radius = 5;
 
@@ -29,7 +29,7 @@ Promise.all([
 
     const colorScale = d3.scaleOrdinal()
         .domain(["M", "F"]) 
-        .range(["purple", "orange"])
+        .range(["dodgerblue", "magenta"])
 
 
 
@@ -42,6 +42,7 @@ Promise.all([
 
     //X AXIS 
     const xAxis = d3.axisBottom(xScale)
+        .tickFormat(d => Math.round(d * 100) + "%") //rounds the tick value, multiplies it by 100 and then adds % at the end
     svg.append("g")
         .attr("class", "axis") 
         .attr("transform", `translate(0,${height - margin.bottom})`) 
@@ -50,6 +51,7 @@ Promise.all([
 
     //Y AXIS
     const yAxis = d3.axisLeft(yScale)
+        .tickFormat(d => Math.round(d * 100) + "%") //rounds the tick value, multiplies it by 100 and then adds % at the end
     svg.append("g")
         .attr("class", "axis")
         .attr("transform", `translate(${margin.left},0)`) 
@@ -71,26 +73,30 @@ Promise.all([
                 update => update,
                 exit => exit.remove()
             ) //transition allows the dots to grow from radius 0 to their radius value
-        )
+        ) 
         .attr("class", "dot")
         .attr("cx", d => xScale(d.Male_ManagementBusinessandFinancialOperations))
         .attr("cy", d => yScale(d.Fem_ManagementBusinessandFinancialOperations))
         .attr("fill", d => colorScale(d.M_F_ManagementBusinessandFinancialOperations)) 
         .on('mouseover', function (e, d) {
             console.log(e, d);
-            
+            //ADD THE DOT LABELS
                d3.select("#dot-labels") 
-                .text(d.Statistics + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations + ", F: " + d.Fem_ManagementBusinessandFinancialOperations)   
-                .attr("x", xScale(d.Male_ManagementBusinessandFinancialOperations) - margin.left / 7)
-                .attr("y", yScale(d.Fem_ManagementBusinessandFinancialOperations))   
+                   .text(d.Statistics + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations.toLocaleString(undefined, {
+                       style: "percent", minimumFractionDigits: 1
+                   }) + ", F: " + d.Fem_ManagementBusinessandFinancialOperations.toLocaleString(undefined, {
+                       style: "percent", minimumFractionDigits: 1
+                   })) //minimumFractionDigits: 1 adds the tenth place (w/o it, just a whole %)  
+                   .attr("x", xScale(d.Male_ManagementBusinessandFinancialOperations) - (margin.left / 7) - (margin.left + 3) )
+                   .attr("y", yScale(d.Fem_ManagementBusinessandFinancialOperations) + (margin.top + 8) - (margin.right + 1))   
             })
         
         
-
+    //STYLE THE DOTS LABELS
     svg
         .append("text")
         .attr("font-size", 13)
-        .attr("fill", "forestgreen")
+        .attr("fill", "maroon")
         .attr("font-weight", "bold")
         .attr("id", "dot-labels")
 
@@ -113,7 +119,7 @@ Promise.all([
         .append("text")
         .attr("class", "axis-label")
         .attr("transform", `translate(550,${height - margin.bottom + 50})`)
-        .attr("fill", "purple")
+        .attr("fill", "dodgerblue")
         .style("font-weight", "bold")
         .style("font-size", "18px")
         .text("Males")
@@ -123,7 +129,7 @@ Promise.all([
         .append("text")
         .attr("class", "axis-label")
         .attr("transform", `translate(25, ${height- margin.bottom - 200})` + 'rotate (270)')
-        .attr("fill", "orange")
+        .attr("fill", "magenta")
         .style("font-weight", "bold")
         .style("font-size", "18px")
         .text("Females")
@@ -147,7 +153,7 @@ Promise.all([
         .attr("x", width - 18)
         .attr("width", 18)
         .attr("height", 18)
-        .style("fill", colorScale) //this adds the purple/orange to the boxes
+        .style("fill", colorScale) //this adds the dodgerblue/magenta to the boxes
         // .attr("id", function (d, i) {
         //     return "id" + d.replace(/\s/g, '');
         // }) //unsure what it does
