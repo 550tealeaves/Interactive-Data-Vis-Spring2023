@@ -119,7 +119,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
                     .attr("fill", d => colorScaleTwo(d.TotalEmpSec_EmployedCivilianPop16YearsandOver))
             }) //when mouse out, it will fade and turn this color
             .append("title") //adding the tooltip
-            .text(d => (d.TotalEmpStat_Employed.toLocaleString(undefined, {style: "percent"}) + " of " + d.Statistics + " total pop 16+ is employed ")) //tooltip displays this statement - CA employed pop is value (readable value)
+            .text(d => (d.TotalEmpStat_Employed.toLocaleString(undefined, {style: "percent"}) + " of " + d.Statistics + " total pop 16+ are employed civilians ")) //tooltip displays this statement - CA employed pop is value (readable value)
             //.text(d => (d.Statistics + " employed population = " + d.TotalEmpStat_Employed.toLocaleString())) //tooltip displays this statement - CA employed pop is value (readable value)
 
         //LABELS THE STATES ON THE LEFT BARS ON THE Y-AXIS
@@ -270,7 +270,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
             })
             .append("title")
             .text(d => (d.MaleEmpStat_Employed.toLocaleString(undefined, {
-                style: "percent"}) + " of " + d.Statistics + " males employed ")) //decimal stateName males employed 
+                style: "percent"}) + " of " + d.Statistics + " male pop 16+ are employed civilians ")) //decimal stateName males employed 
 
         //LABELS THE STATES ON THE LEFT BARS ON THE Y-AXIS
         svgMale.selectAll(".state-label")
@@ -413,7 +413,7 @@ d3.csv('../data/census_states_pcts.csv', d3.autoType)
                     .attr("fill", d => colorScaleFemaleTwo(d.FemEmpStat_Employed))
             })
             .append("title")
-            .text(d => (d.FemEmpStat_Employed.toLocaleString(undefined, {style: "percent"}) + " of " + d.Statistics + " females employed "))
+            .text(d => (d.FemEmpStat_Employed.toLocaleString(undefined, {style: "percent"}) + " of " + d.Statistics + " female pop 16+ are employed civilians "))
 
         //LABELS THE STATES ON THE LEFT BARS ON THE Y-AXIS
         svgFemale.selectAll(".state-label")
