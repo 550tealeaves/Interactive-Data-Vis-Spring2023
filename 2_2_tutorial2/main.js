@@ -47,7 +47,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .attr("transform", `translate(${margin.left},0)`) //positions yAxis from default - moves it left by margin.left = ticks visible 
         .call(yAxis)
 
-    //trying to wrap the dot-labels - not working
+    //trying to wrap the dot-labels - not working - https://observablehq.com/@jtrim-ons/svg-text-wrapping
         function wrap(text, width) {
         text.each(function () {
             var text = d3.select(this),
