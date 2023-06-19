@@ -72,7 +72,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
             console.log(e, d);
             //d3.select(this)
             d3.select("#dot-labels")
-                .text(d.Dog_Owning_Households_1000s + ", " + d.Cat_Owning_Households) //labels dots
+                .text(d.Location + ": " + d.Dog_Owning_Households_1000s + ", " + d.Cat_Owning_Households) //labels dots
                 //.text("D: " + d.Dog_Owning_Households_1000s + ", " + "C: " + d.Cat_Owning_Households) //says x # of dogs, y # of cats
                 .attr("x", xScale(d.Dog_Owning_Households_1000s) - margin.left / 6)
                 .attr("y", yScale(d.Cat_Owning_Households) + (margin.top + 8) - (margin.right + 1)) //the margin.right + 1 helped move the label to right position
@@ -86,6 +86,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .attr("id", "dot-labels")
         .attr("font-size", 11)
         .attr("font-weight", "bold")
+        .attr("fill", "hotpink")
         
     
     //LABEL THE SCATTERPLOT
