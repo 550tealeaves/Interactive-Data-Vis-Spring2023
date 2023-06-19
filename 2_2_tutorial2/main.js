@@ -47,6 +47,30 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .attr("transform", `translate(${margin.left},0)`) //positions yAxis from default - moves it left by margin.left = ticks visible 
         .call(yAxis)
 
+    //trying to wrap the dot-labels - not working
+        function wrap(text, width) {
+        text.each(function () {
+            var text = d3.select(this),
+                words = text.text().split(/\s+/).reverse(),
+                word,
+                line = [],
+                lineNumber = 0,
+                lineHeight = 1.1, // ems
+                y = text.attr("y"),
+                dy = parseFloat(text.attr("dy")),
+                tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+            while (word = words.pop()) {
+                line.push(word);
+                tspan.text(line.join(" "));
+                if (tspan.node().getComputedTextLength() > width) {
+                    line.pop();
+                    tspan.text(line.join(" "));
+                    line = [word];
+                    tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                }
+            }
+        });
+    }   
 
     //CREATE SCATTERPLOT
     const dot = svg
@@ -85,6 +109,7 @@ d3.csv("..//data/catsvdogs.csv", d3.autoType).then(data => {
         .attr("id", "dot-labels")
         .attr("font-size", 11)
         .attr("font-weight", "bold")
+        .call(wrap, width)
         
     
     //LABEL THE SCATTERPLOT
