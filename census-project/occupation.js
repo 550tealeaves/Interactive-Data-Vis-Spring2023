@@ -61,7 +61,7 @@ Promise.all([
     //CREATE SCATTERPLOT
     const dot = svg
         .selectAll("dot")
-        .data(data, d => d.Statistics)
+        .data(data, d => d.State)
         .join(
             enter => enter.append("circle")
                 .attr("r", 0)
@@ -82,7 +82,7 @@ Promise.all([
             console.log(e, d);
 
             d3.select("#dot-labels")
-                .text(d.Statistics + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations.toLocaleString(undefined, {
+                .text(d.State + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations.toLocaleString(undefined, {
                     style: "percent", minimumFractionDigits: 1
                 }) + ", F: " + d.Fem_ManagementBusinessandFinancialOperations.toLocaleString(undefined, {
                     style: "percent", minimumFractionDigits: 1
