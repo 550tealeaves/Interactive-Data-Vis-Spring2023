@@ -62,6 +62,7 @@ function init() {
         .attr("class", "state") //w/o class state - it wouldn't find elements w/ path state when redrawing
         .attr("d", d => geoPath(d)) //d defines coordinates path follows
         .attr("fill", "transparent")
+        .attr("stroke", "black")
         .on("mouseover", (event, d) => {  //mouseover is for hovering over div & child elements - 
             console.log('event', event)
 
