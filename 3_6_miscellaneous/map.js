@@ -37,16 +37,28 @@ Promise.all([
 * this will be run *one time* when the data finishes loading in
 * */
 function init() {
+    // CREATE ZOOM 
+    const zoom = d3.zoom()
+        .scaleExtent([1, 8]) //extent to which you can zoom
+        .on("zoom", zoomed);
+
+    
     // REASSIGN SVG - just call svg to refer to global scope
     svg = d3.select("#container")
         .append("svg")
         .attr("width", width)
         .attr("height", height)
-    //.style("background-color", "aqua")
+        .call(d3.zoom().on("zoom", function () {
+            svg.attr("transform", d3.event.transform)
+        }))
+        .on("click", reset)
+    
+    //CREATE G - NEEDED FOR ZOOM
+    const g = svg.append("g") //must append g to svg so the zoom function works
 
 
 
-
+    
     // CREATE PROJECTION - stored object geojson into state b/c need to access it to create projection
     const projection = d3.geoAlbersUsa()
         .fitSize([width, height], state.geojson)
@@ -56,7 +68,7 @@ function init() {
 
 
     // DRAW THE MAP
-    svg.selectAll(".state") //select elements called state
+    g.selectAll(".state") //select elements called state
         .data(state.geojson.features) //have to use state b/c geojson defined in state
         .join("path")
         .attr("class", "state") //w/o class state - it wouldn't find elements w/ path state when redrawing
@@ -87,6 +99,43 @@ function init() {
             state.hover.latitude = projY
             draw()
         })
+
+    //CALL ZOOM
+    svg.call(zoom);
+
+    //DEFINE RESET FUNCTION 
+    function reset() {
+        states.transition().style("fill", null);
+        svg.transition().duration(850).call( //.duration affects the speed of the reset (smaller # = faster)
+            zoom.transform,
+            d3.zoomIdentity,
+            d3.zoomTransform(svg).invert([width / 2, height / 2])
+        );
+    }
+
+
+    //DEFINE CLICKED FUNCTION - HAPPENS WHEN CLICK AFTER ZOOMING
+    function clicked(event, d) {
+        const [[x0, y0], [x1, y1]] = path.bounds(d);
+        event.stopPropagation();
+        states.transition().style("fill", null);
+        svg.transition().duration(750).call(
+            zoom.transform,
+            d3.zoomIdentity
+                .translate(width / 2, height / 2)
+                .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height)))
+                .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
+            d3.pointer(event, svg.node())
+        );
+    }
+
+    //DEFINE FUNCTION ZOOMED ON AN EVENT
+    function zoomed(event) {
+        const { transform } = event;
+        g.attr("transform", transform);
+        g.attr("stroke-width", 1 / transform.k);
+    }
+
     draw(); // calls the draw function
 }
 
