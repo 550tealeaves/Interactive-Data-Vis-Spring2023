@@ -101,8 +101,8 @@ function init() {
         const [mx, my] = d3.pointer(e);
         // projection can be inverted to return [lat, long] from [x, y] in pixels
         const proj = projection.invert([mx, my]);
-        state.hover["longitude"] = proj[0];
-        state.hover["latitude"] = proj[1];
+        state.hover["lat"] = proj[1];
+        state.hover["lon"] = proj[0];
         draw();
     });
 
