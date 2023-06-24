@@ -1,9 +1,9 @@
-var margin = {top: 10, right: 10, bottom: 10, left: 10},
+const margin = {top: 10, right: 10, bottom: 10, left: 10},
   width = 1050 - margin.left - margin.right,
   height = 600 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
-var svg = d3.select("#container")
+const svg = d3.select("#container")
 .append("svg")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
@@ -15,7 +15,7 @@ var svg = d3.select("#container")
 d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_dendrogram_full.json", function(data) {
 
   // Give the data to this cluster layout:
-  var root = d3.hierarchy(data).sum(function(d){ return d.value}) // Here the size of each leave is given in the 'value' field in input data
+  const root = d3.hierarchy(data).sum(function(d){ return d.value}) // Here the size of each leave is given in the 'value' field in input data
 
   // Then d3.treemap computes the position of each element of the hierarchy
   d3.treemap()
