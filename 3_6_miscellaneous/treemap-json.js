@@ -1,9 +1,9 @@
 var margin = {top: 10, right: 10, bottom: 10, left: 10},
-  width = 445 - margin.left - margin.right,
-  height = 445 - margin.top - margin.bottom;
+  width = 1050 - margin.left - margin.right,
+  height = 600 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
-var svg = d3.select("#my_dataviz")
+var svg = d3.select("#container")
 .append("svg")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
@@ -20,7 +20,7 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/d
   // Then d3.treemap computes the position of each element of the hierarchy
   d3.treemap()
     .size([width, height])
-    .padding(2)
+    .padding(2) // higher #, more space b/w boxes
     (root)
 
   // use this information to add rectangles:
@@ -33,8 +33,8 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/d
       .attr('y', function (d) { return d.y0; })
       .attr('width', function (d) { return d.x1 - d.x0; })
       .attr('height', function (d) { return d.y1 - d.y0; })
-      .style("stroke", "black")
-      .style("fill", "slateblue")
+      .style("stroke", "skyblue")
+      .style("fill", "violet")
 
   // and to add the text labels
   svg
