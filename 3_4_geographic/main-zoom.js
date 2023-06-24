@@ -30,6 +30,7 @@ let state = {
 Promise.all([
     d3.json("/data/usState.json")
 ]).then(([geojson]) => {
+    console.log("states", geojson)
     state.geojson = geojson;
     // console.log("state: ", state);
     init();
@@ -71,9 +72,9 @@ function init() {
         .join("path")
         .attr("d", path)
         .attr("class", "state")
-        .attr("stroke", "purple")
+        .attr("stroke", "red")
         .attr("fill", "transparent")
-        .on("mouseover", (mouseEvent, d) => {
+        .on("mouseover", (event, d) => {
             // when the mouse rolls over this feature, do this
             state.hover["state"] = d.properties.NAME;
             draw(); // re-call the draw function when we set a new hoveredState

@@ -60,7 +60,7 @@ function init() {
         .attr("d", path)
         .attr("class", "state")
         .attr("fill", "transparent")
-        .on("mouseover", (mouseEvent, d) => {
+        .on("mouseover", (event, d) => {
             // when the mouse rolls over this feature, do this
             state.hover["state"] = d.properties.NAME;
             draw(); // re-call the draw function when we set a new hoveredState
