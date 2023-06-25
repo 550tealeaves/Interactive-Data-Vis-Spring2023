@@ -1,4 +1,4 @@
-// generate arary of random data
+// generate array of random data
 const data = d3.range(10) // d3 function that makes an array
     .map((d) => (
         [Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)]
@@ -26,21 +26,6 @@ svg.selectAll("circle.dot")
     .attr("cy", ([x, y]) => y * 5)
     .attr("r", 5)
     .attr("fill", "green")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
