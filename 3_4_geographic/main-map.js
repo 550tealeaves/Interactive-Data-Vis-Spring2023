@@ -39,8 +39,8 @@ let projection = d3.geoMercator()
 let data = d3.map();
 let colorScale = d3.scaleThreshold()
     .domain([100000, 1000000, 10000000, 30000000, 100000000, 500000000])
-    //.range(d3.schemeBlues[7]);
-    .range(["#feebe2", "#fcc5c0", "#fa9fb5", "#f768a1", "#c51b8a", "#7a0177"])
+    .range(d3.schemeRdPu[7]); //this is shorter way to write the below line - d3.scheme(scheme name - written on left of the color bar  - and # for # of colors)
+    //.range(["#feebe2", "#fcc5c0", "#fa9fb5", "#f768a1", "#dd3497", "#ae017e", "#7a0177"])
 
 //CALL ZOOM
 svg.call(zoom);
