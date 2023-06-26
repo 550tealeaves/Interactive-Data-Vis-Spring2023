@@ -40,7 +40,7 @@ let data = d3.map();
 let colorScale = d3.scaleThreshold()
     .domain([100000, 1000000, 10000000, 30000000, 100000000, 500000000])
     //.range(d3.schemeBlues[7]);
-    .range(["#fee5d9", "#fcbba1", "#fc9272", "#fb6a4a", "#de2d26", "#a50f15"])
+    .range(["#feebe2", "#fcc5c0", "#fa9fb5", "#f768a1", "#c51b8a", "#7a0177"])
 
 //CALL ZOOM
 svg.call(zoom);
