@@ -10,23 +10,13 @@ d3.queue()
     .defer(d3.csv, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world_population.csv", function (d) { data.set(d.code, +d.pop); })
     .await(ready);
  
-// CREATE ZOOM 
-const zoom = d3.zoom()
-    .scaleExtent([1, 8]) //extent to which you can zoom
-    .on("zoom", zoomed);
 
 // The svg
 let svg = d3.select("svg")
     .attr("width", width)
     .attr("height", height)
-    .call(d3.zoom().on("zoom", function () {
-        svg.attr("transform", d3.event.transform)
-    }))
-    .on("click", reset)
-
-//CREATE G - NEEDED FOR ZOOM
-const g = svg.append("g") //must append g to svg so the zoom function works
     
+  
 
 // Map and projection
 let path = d3.geoPath();
@@ -42,46 +32,11 @@ let colorScale = d3.scaleThreshold()
     .range(d3.schemeRdPu[7]); //this is shorter way to write the below line - d3.scheme(scheme name - written on left of the color bar  - and # for # of colors)
     //.range(["#feebe2", "#fcc5c0", "#fa9fb5", "#f768a1", "#dd3497", "#ae017e", "#7a0177"])
 
-//CALL ZOOM
-svg.call(zoom);
-
-//DEFINE RESET FUNCTION 
-function reset() {
-    path.transition().style("fill", null);
-    svg.transition().duration(850).call( //.duration affects the speed of the reset (smaller # = faster)
-        zoom.transform,
-        d3.zoomIdentity,
-        d3.zoomTransform(svg).invert([width / 2, height / 2])
-    );
-}
-
-
-//DEFINE CLICKED FUNCTION - HAPPENS WHEN CLICK AFTER ZOOMING
-function clicked(event, d) {
-    const [[x0, y0], [x1, y1]] = path.bounds(d);
-    event.stopPropagation();
-    path.transition().style("fill", null);
-    svg.transition().duration(750).call(
-        zoom.transform,
-        d3.zoomIdentity
-            .translate(width / 2, height / 2)
-            .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height)))
-            .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
-        d3.pointer(event, svg.node())
-    );
-}
-
-//DEFINE FUNCTION ZOOMED ON AN EVENT
-function zoomed(event) {
-    const { transform } = event;
-    g.attr("transform", transform);
-    g.attr("stroke-width", 1 / transform.k);
-}
 
 function ready(error, topo) {
 
     // Draw the map
-    g
+    svg.append("g")
         .selectAll("path")
         .data(topo.features)
         .enter()
