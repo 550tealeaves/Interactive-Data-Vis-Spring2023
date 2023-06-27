@@ -72,7 +72,7 @@ function init() {
         .join("path")
         .attr("d", path)
         .attr("class", "state")
-        .attr("stroke", "red")
+        .attr("stroke", "fuchsia")
         .attr("fill", "transparent")
         .on("mouseover", (event, d) => {
             // when the mouse rolls over this feature, do this
@@ -88,7 +88,7 @@ function init() {
         .data([GradCenterCoord])
         .join("circle")
         .attr("r", 20)
-        .attr("fill", "orange")
+        .attr("fill", "limegreen")
         .attr("transform", d => {
             const [x, y] = projection([d.longitude, d.latitude]);
             return `translate(${x}, ${y})`;

@@ -60,6 +60,7 @@ function init() {
         .attr("d", path)
         .attr("class", "state")
         .attr("fill", "transparent")
+        .attr("stroke", "teal")
         .on("mouseover", (event, d) => {
             // when the mouse rolls over this feature, do this
             state.hover["state"] = d.properties.NAME;

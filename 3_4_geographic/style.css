@@ -18,11 +18,11 @@ p {
   font-size: 1em;
 }
 
+.hermoine{
+  font-size: 14px
+}
+
 #tooltip {
   display: block;
   height: 50px;
-}
-
-path.state {
-  stroke: black;
 }
