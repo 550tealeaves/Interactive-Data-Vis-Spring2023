@@ -12,10 +12,10 @@ Promise.all([
 ]).then(([catPct, data]) => {
     console.log("catPct", catPct)
     console.log("statesPct", data)
-    console.log("maleCat", catPct.slice(1, 13));
-    console.log("maleState", data.columns.slice(1, 13));
+    console.log("maleCat", catPct.slice(1, 13)); //groups all the male occupation categories percentages
+    console.log("maleState", data.columns.slice(1, 13)); //groups all the male occup category labels (not the data)
     var allGroup = ["Alabama", "Alaska"]
-    console.log("allGroup", allGroup);
+    console.log("allGroup", allGroup); //only shows what's in the var allGroup above
 
     //X SCALE
     const xScale = d3.scaleLinear()
