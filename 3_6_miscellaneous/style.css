@@ -77,4 +77,10 @@ blockquote {
     border: 3px solid #4c154e; 
 }
 
-
+#map {
+    position: absolute;
+    top: 20;
+    bottom: 0;
+    height: 30%;
+    width: 100%;
+}
