@@ -70,7 +70,7 @@ const allStates = axios('/data/usState-jobs.json').then(resp => { //brings in th
         //         };
         //     },
         onEachFeature: function (feature, layer) {
-            layer.bindPopup(feature.properties.STUSPS + ': ' + '<b>' + 'F:' + '' + Math.abs(feature.properties.Fem_ManagementBusinessandFinancialOperations * 100.0) +  '%' + ' ' + ' ' + 'M:' + '' +  Math.abs(feature.properties.Male_ManagementBusinessandFinancialOperations * 100.0) + '%')  + '</b>'
+            layer.bindPopup(feature.properties.STUSPS + ': ' + '<b>' + 'F:' + '' + Math.round(feature.properties.Fem_ManagementBusinessandFinancialOperations * 100) +  '%' + ' ' + ' ' + 'M:' + '' +  Math.round(feature.properties.Male_ManagementBusinessandFinancialOperations * 100.0) + '%')  + '</b>'
         } //will show state initials (stusps) F: ##% M: ##% on popup
     }).addTo(map).bringToFront();
 }) 
