@@ -35,12 +35,9 @@ const allStates = axios('/data/usState-jobs.json').then(resp => { //brings in th
     console.log('response', resp); //see response in console log
     L.geoJSON(resp.data, {
         style: function (feature) {
-            // const blueVal = feature.properties.Fem_HealthcareSupport * 60;
-            // const redVal = feature.properties.Male_HealthcareSupport * 280;
-            // const greenVal = feature.properties.Total_HealthcareSupport * 15;
-
             return {
                 fillColor: getColorMFBus(feature),
+                //fillColor: getColorMFSales(feature),
                 fillOpacity: 0.95,
                 color: 'black', //colors the borders
                 weight: 1
@@ -71,6 +68,7 @@ const allStates = axios('/data/usState-jobs.json').then(resp => { //brings in th
         //     },
         onEachFeature: function (feature, layer) {
             layer.bindPopup(feature.properties.STUSPS + ': ' + '<b>' + 'F:' + '' + Math.round(feature.properties.Fem_ManagementBusinessandFinancialOperations * 100) +  '%' + ' ' + ' ' + 'M:' + '' +  Math.round(feature.properties.Male_ManagementBusinessandFinancialOperations * 100.0) + '%')  + '</b>'
+            // layer.bindPopup(feature.properties.STUSPS + ': ' + '<b>' + 'F:' + '' + Math.round(feature.properties.Fem_SalesandRelated * 100) + '%' + ' ' + ' ' + 'M:' + '' + Math.round(feature.properties.Male_SalesandRelated * 100.0) + '%') + '</b>'
         } //will show state initials (stusps) F: ##% M: ##% on popup
     }).addTo(map).bringToFront();
 }) 
