@@ -147,7 +147,7 @@ function getColorTotal(d) {
 
 function getColorMFBus(d) {
     let dataValue = d.properties[userSelectionMFBus]
-    return dataValue == 'F' ? '#fee090' :
+    return dataValue == 'F' ? '#fdae6b' :
         dataValue == 'M' ? '#542788' :
             '#ffffff';
 
@@ -156,7 +156,7 @@ function getColorMFBus(d) {
 
 function getColorMFProf(d) {
     let dataValue = d.properties[userSelectionMFProf]
-    return dataValue == 'F' ? '#fee090' :
+    return dataValue == 'F' ? '#fdae6b' :
         dataValue == 'M' ? '#542788' :
             '#ffffff';
 
@@ -164,7 +164,7 @@ function getColorMFProf(d) {
 
 function getColorMFHealth(d) {
     let dataValue = d.properties[userSelectionMFHealth]
-    return dataValue == 'F' ? '#fee090' :
+    return dataValue == 'F' ? '#fdae6b' :
         dataValue == 'M' ? '#542788' :
             '#ffffff';
 
@@ -173,7 +173,7 @@ function getColorMFHealth(d) {
 
 function getColorMFProt(d) {
     let dataValue = d.properties[userSelectionMFProt]
-    return dataValue == 'F' ? '#fee090' :
+    return dataValue == 'F' ? '#fdae6b' :
         dataValue == 'M' ? '#542788' :
             '#ffffff';
 
@@ -182,7 +182,7 @@ function getColorMFProt(d) {
 
 function getColorMFFood(d) {
     let dataValue = d.properties[userSelectionMFFood]
-    return dataValue == 'F' ? '#fee090' :
+    return dataValue == 'F' ? '#fdae6b' :
         dataValue == 'M' ? '#542788' :
             '#ffffff';
 
@@ -191,7 +191,7 @@ function getColorMFFood(d) {
 
 function getColorMFBuild(d) {
     let dataValue = d.properties[userSelectionMFBuild]
-    return dataValue == 'F' ? '#fee090' :
+    return dataValue == 'F' ? '#fdae6b' :
         dataValue == 'M' ? '#542788' :
             '#ffffff';
 
@@ -200,7 +200,7 @@ function getColorMFBuild(d) {
 
 function getColorMFPers(d) {
     let dataValue = d.properties[userSelectionMFPers]
-    return dataValue == 'F' ? '#fee090' :
+    return dataValue == 'F' ? '#fdae6b' :
         dataValue == 'M' ? '#542788' :
             '#ffffff';
 
@@ -208,7 +208,7 @@ function getColorMFPers(d) {
 
 function getColorMFSales(d) {
     let dataValue = d.properties[userSelectionMFSales]
-    return dataValue == 'F' ? '#fee090' :
+    return dataValue == 'F' ? '#fdae6b' :
         dataValue == 'M' ? '#542788' :
             '#ffffff';
 
@@ -216,7 +216,7 @@ function getColorMFSales(d) {
 
 function getColorMFOffice(d) {
     let dataValue = d.properties[userSelectionMFOffice]
-    return dataValue == 'F' ? '#fee090' :
+    return dataValue == 'F' ? '#fdae6b' :
         dataValue == 'M' ? '#542788' :
             '#ffffff';
 
@@ -225,7 +225,7 @@ function getColorMFOffice(d) {
 
 function getColorMFFarm(d) {
     let dataValue = d.properties[userSelectionMFFarm]
-    return dataValue == 'F' ? '#fee090' :
+    return dataValue == 'F' ? '#fdae6b' :
         dataValue == 'M' ? '#542788' :
             '#ffffff';
 
@@ -233,7 +233,7 @@ function getColorMFFarm(d) {
 
 function getColorMFCon(d) {
     let dataValue = d.properties[userSelectionMFCon]
-    return dataValue == 'F' ? '#fee090' :
+    return dataValue == 'F' ? '#fdae6b' :
         dataValue == 'M' ? '#542788' :
             '#ffffff';
 
@@ -241,7 +241,7 @@ function getColorMFCon(d) {
 
 function getColorMFProd(d) {
     let dataValue = d.properties[userSelectionMFProd]
-    return dataValue == 'F' ? '#fee090' :
+    return dataValue == 'F' ? '#fdae6b' :
         dataValue == 'M' ? '#542788' :
             '#ffffff';
 
@@ -249,7 +249,7 @@ function getColorMFProd(d) {
 
 function getColorMFTransp(d) {
     let dataValue = d.properties[userSelectionMFTransp]
-    return dataValue == 'F' ? '#fee090' :
+    return dataValue == 'F' ? '#fdae6b' :
         dataValue == 'M' ? '#542788' :
             '#ffffff';
 
