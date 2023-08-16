@@ -1,155 +1,292 @@
-/**
- * CONSTANTS AND GLOBALS
- * */
-const width = window.innerWidth * 0.9;
-height = window.innerHeight * 0.7,
-    margin = { top: 20, bottom: 50, left: 60, right: 40 };
+console.log('loaded');
+
+let map = L.map('map').setView([46.0, -97.5], 3.4);
+//L. - means it comes from the Leaflet library 
+//make a map object in the div with the ID map 
+//setView - sets the starting lat/long and the zoom level
+//use geojson.io - to determine lat/lon and zoom level and insert in the setView area (can start wherever you want it to ) - data up there starts at NYC
+//bigger zoom number = more zoomed in
+
+//http://maps.stamen.com/#terrain/12/37.7706/-122.3782
+const basemap_urls = {
+    terrain: "https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg",
+    osm: "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+}
+//adding different basemaps
+
+L.tileLayer(basemap_urls.terrain, { //will show the terrain layer
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+//L.tileLayer - comes directly from Leaflet library
+//wants a URL from were to get the tiles 
+
+
+const allStates = axios('/data/usState-jobs.json').then(resp => { //brings in the map data 
+    jobTitles = Object.keys(resp.data.features[0].properties) //use this to be able to select all the job titles
+
+    // jobTitles.forEach(function (item) {
+    //     const optionObj = document.createElement("option"); //loops through each item in the array and creates an option with the item inside
+    //     optionObj.textContent = item;
+    //     document.getElementById("selectJob").appendChild(optionObj); //select for the element w/ id selectJob and add the looped item in the array to dropdown
+    // }); //This will add all the keys in the dropdown menu
+
+    console.log('jobTitles', jobTitles);
+    console.log('response', resp); //see response in console log
+    L.geoJSON(resp.data, {
+        style: function (feature) {
+            return {
+                fillColor: getColorMFBus(feature),
+                //fillColor: getColorMFSales(feature),
+                fillOpacity: 0.95,
+                color: 'black', //colors the borders
+                weight: 1
+            }
+        },
+
+        //Trying to create additional style functions for the other 2 color palettes - not sure how to get them to show
+        //     style2: function (feature) {
+        //     return {
+        //         fillColor: getColorMale(feature),
+        //         weight: 2,
+        //         opacity: 1,
+        //         color: "white",
+        //         dashArray: "3",
+        //         fillOpacity: 0.7,
+        //     };
+        // },
+
+        //     style3: function (feature) {
+        //         return {
+        //             fillColor: getColorTotal(feature),
+        //             weight: 2,
+        //             opacity: 1,
+        //             color: "white",
+        //             dashArray: "3",
+        //             fillOpacity: 0.7,
+        //         };
+        //     },
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup(feature.properties.STUSPS + ': ' + '<b>' + 'F:' + '' + Math.round(feature.properties.Fem_ManagementBusinessandFinancialOperations * 100) + '%' + ' ' + ' ' + 'M:' + '' + Math.round(feature.properties.Male_ManagementBusinessandFinancialOperations * 100.0) + '%') + '</b>'
+            // layer.bindPopup(feature.properties.STUSPS + ': ' + '<b>' + 'F:' + '' + Math.round(feature.properties.Fem_SalesandRelated * 100) + '%' + ' ' + ' ' + 'M:' + '' + Math.round(feature.properties.Male_SalesandRelated * 100.0) + '%') + '</b>'
+        } //will show state initials (stusps) F: ##% M: ##% on popup
+    }).addTo(map).bringToFront();
+})
+
+
+//Adding color - can find colors on https:/ / colorbrewer2.org / #type=sequential & scheme=BuGn & n=3
+
+let jobTitles = [] //create an empty array
+let userSelection = 'Fem_ManagementBusinessandFinancialOperations' //set the field string = to variable
+let userSelectionMale = 'Male_ManagementBusinessandFinancialOperations'
+let userSelectionTotal = 'Total_ManagementBusinessandFinancialOperations'
+let userSelectionMFBus = 'M_F_ManagementBusinessandFinancialOperations'
+let userSelectionMFProf = 'M_F_ProfessionalandRelated'
+let userSelectionMFHealth = 'M_F_HealthcareSupport'
+let userSelectionMFProt = 'M_F_ProtectiveService'
+let userSelectionMFFood = 'M_F_FoodPrepandServing'
+let userSelectionMFBuild = 'M_F_BuildingandGroundsCleaningandMaintenance'
+let userSelectionMFPers = 'M_F_PersonalCareandService'
+let userSelectionMFSales = 'M_F_SalesandRelated'
+let userSelectionMFOffice = 'M_F_OfficeandAdminSupport'
+let userSelectionMFFarm = 'M_F_FarmingFishingandForestry'
+let userSelectionMFCon = 'M_F_ConstructionExtractionandMaintenance'
+let userSelectionMFProd = 'M_F_Production'
+let userSelectionMFTransp = 'M_F_TranspoandMaterialMoving'
 
 
 
-/**
-* APPLICATION STATE
-* */
-let svg;
-let state = {
-    geojson: [], //use empty array instead of null b/c null not iterable
-    hover: {
-        latitude: null,
-        longitude: null,
-        state: null,
-    }
-};
-
-/**
-* LOAD DATA
-* Using a Promise.all([]), we can load more than one dataset at a time
-* */
-Promise.all([
-    d3.json("../data/usState.json"), d3.json("../data/census_states_all_totals.json")]).then(([geojson, data]) => {
-        state.geojson = geojson; //store object in state
-        console.log("state: ", state); //"state: " will be the title in console log
-        console.log("census data", data); //"census data" will be the title in console log
-        init(); //forces synchronicity
-    });  //runs 1x after data finished loading 
-
-/**
-* INITIALIZING FUNCTION
-* this will be run *one time* when the data finishes loading in
-* */
-function init() {
-    // CREATE ZOOM 
-    const zoom = d3.zoom()
-        .scaleExtent([1, 8]) //extent to which you can zoom
-        .on("zoom", zoomed);
+function getColor(d) {
+    console.log('d', d)
+    let dataValue = d.properties[userSelection]
+    //let dataValue = d.properties['Fem_HealthcareSupport'] //will go into properties (object) and access the field Fem_Health... "d" = feature
+    //Create new variable - userSelection to replace string = d.properties[userSelection]
+    return dataValue > 0.396 ? '#67000d' :
+        dataValue > 0.352 ? '#a50f15' :
+            dataValue > 0.308 ? '#cb181d' :
+                dataValue > 0.264 ? '#ef3b2c' :
+                    dataValue > 0.22 ? '#fb6a4a' :
+                        dataValue > 0.176 ? '#fc9272' :
+                            dataValue > 0.132 ? '#fcbba1' :
+                                dataValue > 0.08 ? '#fee0d2' :
+                                    dataValue > 0.044 ? '#fff5f0' :
+                                        '#ffffcc';
+} //change the value in lines 27-33 b/c the fields in properties are in decimals - 0-1
 
 
-    // REASSIGN SVG - just call svg to refer to global scope
-    svg = d3.select("#container")
-        .append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .call(d3.zoom().on("zoom", function () {
-            svg.attr("transform", d3.event.transform)
-        }))
-        .on("click", reset)
+function getColorMale(d) {
+    let dataValue = d.properties[userSelectionMale]
+    //let dataValue = d.properties['Male_ManagementBusinessandFinancialOperations'] //will go into properties (object) and access the field Male_ManBusFin... "d" = feature
+    //Create new variable - userSelectionMale to replace string = d.properties[userSelectionMale]
+    return dataValue > 0.396 ? '#800026' :
+        dataValue > 0.352 ? '#bd0026' :
+            dataValue > 0.308 ? '#e31a1c' :
+                dataValue > 0.264 ? '#fc4e2a' :
+                    dataValue > 0.22 ? '#fd8d3c' :
+                        dataValue > 0.176 ? '#feb24c' :
+                            dataValue > 0.132 ? '#fed976' :
+                                dataValue > 0.08 ? '#ffeda0' :
+                                    dataValue > 0.044 ? '#ffffcc' :
+                                        '#ffffff';
+} //change the value in lines 27-33 b/c the fields in properties are in decimals - 0-1
 
-    //CREATE G - NEEDED FOR ZOOM
-    const g = svg.append("g") //must append g to svg so the zoom function works
+function getColorTotal(d) {
+    let dataValue = d.properties[userSelectionTotal]
+    return dataValue > 0.396 ? '#081d58' :
+        dataValue > 0.352 ? '#253494' :
+            dataValue > 0.308 ? '#225ea8' :
+                dataValue > 0.264 ? '#1d91c0' :
+                    dataValue > 0.22 ? '#41b6c4' :
+                        dataValue > 0.176 ? '#7fcdbb' :
+                            dataValue > 0.132 ? '#c7e9b4' :
+                                dataValue > 0.08 ? '#edf8b1' :
+                                    dataValue > 0.044 ? '#ffffd9' :
+                                        '#ffffff';
+} //change the value in lines 27-33 b/c the fields in properties are in decimals - 0-1
 
 
+function getColorMFBus(d) {
+    let dataValue = d.properties[userSelectionMFBus]
+    return dataValue == 'F' ? '#fee090' :
+        dataValue == 'M' ? '#542788' :
+            '#ffffff';
 
-
-    // CREATE PROJECTION - stored object geojson into state b/c need to access it to create projection
-    const projection = d3.geoAlbersUsa()
-        .fitSize([width, height], state.geojson)
-
-    // CREATE GEOPATH - map is actually a path
-    const geoPath = d3.geoPath(projection)
-
-
-    // DRAW THE MAP
-    g.selectAll(".state") //select elements called state
-        .data(state.geojson.features) //have to use state b/c geojson defined in state
-        .join("path")
-        .attr("class", "state") //w/o class state - it wouldn't find elements w/ path state when redrawing
-        .attr("d", d => geoPath(d)) //d defines coordinates path follows
-        .attr("fill", "transparent")
-        .attr("stroke", "black")
-        .on("mouseover", (event, d) => {  //mouseover is for hovering over div & child elements - 
-            console.log('event', event)
-
-            //         hover: {
-            //             latitude: null,
-            //                 longitude: null,
-            //                     state: null,
-            //          }
-            // ADD THE NAME
-            state.hover.state = d.properties.NAME
-        })  // calling .on evokes an event - always pass event, and then the data used - 
-
-        //pass both states and 
-        .on("mousemove", (event) => {
-            console.log('event', event)
-            // const mx = d3.pointer(event)[0] //d3.pointer locates mouse on screen
-            // const my = d3.pointer(event)[1]
-            const [mx, my] = d3.pointer(event) //shorter way of writing above 2 lines
-            // USE PROJECTION INVERT METHOD TO GET LAT/LONG
-            const [projX, projY] = projection.invert([mx, my])
-            state.hover.longitude = projX
-            state.hover.latitude = projY
-            draw()
-        })
-
-    //CALL ZOOM
-    svg.call(zoom);
-
-    //DEFINE RESET FUNCTION 
-    function reset() {
-        states.transition().style("fill", null);
-        svg.transition().duration(850).call( //.duration affects the speed of the reset (smaller # = faster)
-            zoom.transform,
-            d3.zoomIdentity,
-            d3.zoomTransform(svg).invert([width / 2, height / 2])
-        );
-    }
-
-    //DEFINE CLICKED FUNCTION - HAPPENS WHEN CLICK AFTER ZOOMING
-    function clicked(event, d) {
-        const [[x0, y0], [x1, y1]] = path.bounds(d);
-        event.stopPropagation();
-        states.transition().style("fill", null);
-        svg.transition().duration(750).call(
-            zoom.transform,
-            d3.zoomIdentity
-                .translate(width / 2, height / 2)
-                .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height)))
-                .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
-            d3.pointer(event, svg.node())
-        );
-    }
-
-    //DEFINE FUNCTION ZOOMED ON AN EVENT
-    function zoomed(event) {
-        const { transform } = event;
-        g.attr("transform", transform);
-        g.attr("stroke-width", 1 / transform.k);
-    }
-
-    draw(); // calls the draw function
 }
 
 
-/**
-* DRAW FUNCTION
-* we call this every time there is an update to the data/state
-* */
-function draw() {
-    const hoverBox = d3.select("#hover-content")
-    console.log('hover data', state.hover)
-    const hoverData = Object.entries(state.hover)
-    hoverBox.selectAll("div.row")
-        .data(hoverData) //pass an array into the HTML
-        .join("div")
-        .attr("class", "row")
-        .html(d => d)
+function getColorMFProf(d) {
+    let dataValue = d.properties[userSelectionMFProf]
+    return dataValue == 'F' ? '#fee090' :
+        dataValue == 'M' ? '#542788' :
+            '#ffffff';
+
 }
+
+function getColorMFHealth(d) {
+    let dataValue = d.properties[userSelectionMFHealth]
+    return dataValue == 'F' ? '#fee090' :
+        dataValue == 'M' ? '#542788' :
+            '#ffffff';
+
+}
+
+
+function getColorMFProt(d) {
+    let dataValue = d.properties[userSelectionMFProt]
+    return dataValue == 'F' ? '#fee090' :
+        dataValue == 'M' ? '#542788' :
+            '#ffffff';
+
+}
+
+
+function getColorMFFood(d) {
+    let dataValue = d.properties[userSelectionMFFood]
+    return dataValue == 'F' ? '#fee090' :
+        dataValue == 'M' ? '#542788' :
+            '#ffffff';
+
+}
+
+
+function getColorMFBuild(d) {
+    let dataValue = d.properties[userSelectionMFBuild]
+    return dataValue == 'F' ? '#fee090' :
+        dataValue == 'M' ? '#542788' :
+            '#ffffff';
+
+}
+
+
+function getColorMFPers(d) {
+    let dataValue = d.properties[userSelectionMFPers]
+    return dataValue == 'F' ? '#fee090' :
+        dataValue == 'M' ? '#542788' :
+            '#ffffff';
+
+}
+
+function getColorMFSales(d) {
+    let dataValue = d.properties[userSelectionMFSales]
+    return dataValue == 'F' ? '#fee090' :
+        dataValue == 'M' ? '#542788' :
+            '#ffffff';
+
+}
+
+function getColorMFOffice(d) {
+    let dataValue = d.properties[userSelectionMFOffice]
+    return dataValue == 'F' ? '#fee090' :
+        dataValue == 'M' ? '#542788' :
+            '#ffffff';
+
+}
+
+
+function getColorMFFarm(d) {
+    let dataValue = d.properties[userSelectionMFFarm]
+    return dataValue == 'F' ? '#fee090' :
+        dataValue == 'M' ? '#542788' :
+            '#ffffff';
+
+}
+
+function getColorMFCon(d) {
+    let dataValue = d.properties[userSelectionMFCon]
+    return dataValue == 'F' ? '#fee090' :
+        dataValue == 'M' ? '#542788' :
+            '#ffffff';
+
+}
+
+function getColorMFProd(d) {
+    let dataValue = d.properties[userSelectionMFProd]
+    return dataValue == 'F' ? '#fee090' :
+        dataValue == 'M' ? '#542788' :
+            '#ffffff';
+
+}
+
+function getColorMFTransp(d) {
+    let dataValue = d.properties[userSelectionMFTransp]
+    return dataValue == 'F' ? '#fee090' :
+        dataValue == 'M' ? '#542788' :
+            '#ffffff';
+
+}
+
+//Create the dropdown menu by looping through an array
+['Management, Business, & Financial Operations', 'Professional & Related', 'Healthcare Support', 'Protective Service', 'Food Prep & Serving', 'Building & Grounds Cleaning & Maintenance', 'Personal Care & Service', 'Sales & Related', 'Office & Admin Support', 'Farming, Fishing, & Forestry', 'Construction, Extraction, & Maintenance', 'Production', 'Transportation & Moving'].forEach(function (item) {
+    const optionObj = document.createElement("option"); //loops through each item in the array and creates an option with the item inside
+    optionObj.textContent = item;
+    document.getElementById("dropdown").appendChild(optionObj); //select for the element w/ id selectJob and add the looped item in the array to dropdown
+});
+
+// var e = document.getElementById("selectJob");
+// var optionObj = e.value;
+// var text = e.options[e.selectedIndex].text;
+
+
+
+
+//Prof's advice https://gist.github.com/Willjfield/9f9c59b9e5364f059e9c0c5b1186f680
+//Looks like I have to do an await.sync for both the usState and the statesPct and then access the features - need to figure out if there is a way to take the coords data from usState and add it ot statesPct or just access it and use it for statesPct
+
+// ...
+// L.geoJSON(resp.data, {
+//     style: function (feature) {
+//         //Filter the non-spatial data to find the one that matches this feature's NAME
+//         const featureStateData = statesPct.data.filter(f => f.NAME === feature.properties.NAME);
+
+//         //If it doesn't find a match, something is probably wrong. Just return "gray".
+//         if (featureStateData.length === 0) return { color: "gray" }
+
+//         //Otherwise, get a property (eg. TotalEmpStat_InLaborForce) and multiply it to get a usable blue channel value
+//         const blueVal = featureStateData[0].TotalEmpStat_InLaborForce * 255;
+//         //Return the color using the found value
+//         return { color: `rgb(0,0,${blueVal})` }
+//     }
+// },
+//     ...
+//         })
+//         ...
