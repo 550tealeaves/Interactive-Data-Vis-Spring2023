@@ -22,69 +22,126 @@ L.tileLayer(basemap_urls.terrain, { //will show the terrain layer
 //wants a URL from were to get the tiles 
 
 
-const allStates = axios('../data/usState.json').then(resp => { //brings in the map data 
+const allStates = axios('/data/usState-jobs.json').then(resp => { //brings in the map data 
+    jobTitles = Object.keys(resp.data.features[0].properties) //use this to be able to select all the job titles
+
+    // jobTitles.forEach(function (item) {
+    //     const optionObj = document.createElement("option"); //loops through each item in the array and creates an option with the item inside
+    //     optionObj.textContent = item;
+    //     document.getElementById("selectJob").appendChild(optionObj); //select for the element w/ id selectJob and add the looped item in the array to dropdown
+    // }); //This will add all the keys in the dropdown menu
+
+    console.log('jobTitles', jobTitles);
     console.log('response', resp); //see response in console log
+    L.geoJSON(resp.data, {
+        style: function (feature) {
+            // const blueVal = feature.properties.Fem_HealthcareSupport * 60;
+            // const redVal = feature.properties.Male_HealthcareSupport * 280;
+            // const greenVal = feature.properties.Total_HealthcareSupport * 15;
 
-    L.geoJSON(resp.data, { //access the response.data and style it 
-        style: {
-            opacity: 0.85, //higher the number the more opaque it is
-            color: "magenta",
-            weight: 2 //higher the number, thicker the lines are 
-        }
-    }).addTo(map).bringToBack(); //brought the map to the front so it sits on top
+            return {
+                fillColor: getColor(feature),
+                fillOpacity: 0.95,
+                color: 'black', //colors the borders
+                weight: 1
+            }
+        },
 
-}) //map shows up 
+        //Trying to create additional style functions for the other 2 color palettes - not sure how to get them to show
+        //     style2: function (feature) {
+        //     return {
+        //         fillColor: getColorMale(feature),
+        //         weight: 2,
+        //         opacity: 1,
+        //         color: "white",
+        //         dashArray: "3",
+        //         fillOpacity: 0.7,
+        //     };
+        // },
 
-//trying to get the state percentages to show
-const statesPct = axios('../data/census_states_pct.json').then(states => {
-    console.log('states', states);
-
-    //L.geoJSON(states.data[0].NAME) produces invalid GEOJSON error
-    L.geoJSON(states.data, {
-        style: {
-            radius: 3,
-            opacity: 0.95,
-            color: "yellow",
-            weight: 4
+        //     style3: function (feature) {
+        //         return {
+        //             fillColor: getColorTotal(feature),
+        //             weight: 2,
+        //             opacity: 1,
+        //             color: "white",
+        //             dashArray: "3",
+        //             fillOpacity: 0.7,
+        //         };
+        //     },
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup(feature.properties.NAME + ': ' + Math.abs(feature.properties.Fem_HealthcareSupport * 100.0) + '%' + ' <br>')
         }
     }).addTo(map).bringToFront();
+}) 
 
-})
 
-const statesGeojson = axios('../data/census_states_pct.geojson').then(statesGeo => {
-    console.log('statesGeo', statesGeo);
+//Adding color - can find colors on https:/ / colorbrewer2.org / #type=sequential & scheme=BuGn & n=3
 
-    //Trying to join statesGeojson file with usState.json based on NAME property & not working
-    //L.geoJSON(statesGeo.data) has no error
-    //But trying to access the data.features[0].properties.NAME & get error
-    L.geoJSON(statesGeo.data, {
-        style: {
-            radius: 5,
-            opacity: 0.95,
-            color: "green",
-            weight: 5
-        }
-    }).addTo(map).bringToFront();
-})
+let jobTitles = [] //create an empty array
+let userSelection = 'Fem_HealthcareSupport' //set the field string = to variable
+let userSelectionMale = 'Male_HealthcareSupport'
+let userSelectionTotal = 'Total_HealthcareSupport'
 
-//trying to get the occupation percentages to show but something isn't working - no console log errors
-const categoriesPct = axios('../data/census_cat_pct_nototals.json').then(catPct => {
-    console.log('categories', catPct);
+function getColor(d) {
+    console.log('d', d)
+    let dataValue = d.properties[userSelection]
+    //let dataValue = d.properties['Fem_HealthcareSupport'] //will go into properties (object) and access the field Fem_Health... "d" = feature
+    //Create new variable - userSelection to replace string = d.properties[userSelection]
+    return dataValue > 0.090 ? '#b10026' :
+        dataValue > 0.080 ? '#e31a1c' :
+            dataValue > 0.070 ? '#fc4e2a' :
+                dataValue > 0.060 ? '#fd8d3c' :
+                    dataValue > 0.050 ? '#feb24c' :
+                        dataValue > 0.030 ? '#fed976' :
+                            dataValue > 0.010 ? '#ffeda0' :
+                                '#ffffcc';
+} //change the value in lines 27-33 b/c the fields in properties are in decimals - 0-1
 
-    // L.geoJSON(catPct.data[0].MalePop, {
-    //     style: { 
-    //         radius: 6, 
-    //         opacity: 0.95, 
-    //         color: "green", 
-    //         weight: 5 
-    //     }
-    // }).addTo(map).bringToFront(); 
 
-})
+function getColorMale(d) {
+    console.log('d', d)
+    let dataValueMale = d.properties[userSelectionMale]
+    //let dataValue = d.properties['Male_HealthcareSupport'] //will go into properties (object) and access the field Fem_Health... "d" = feature
+    //Create new variable - userSelectionMale to replace string = d.properties[userSelectionMale]
+    return dataValueMale > 0.090 ? '#016450' :
+        dataValueMale > 0.080 ? '#02818a' :
+            dataValueMale > 0.070 ? '#3690c0' :
+                dataValueMale > 0.060 ? '#67a9cf' :
+                    dataValueMale > 0.050 ? '#a6bddb' :
+                        dataValueMale > 0.030 ? '#d0d1e6' :
+                            dataValueMale > 0.010 ? '#ece2f0' :
+                                '#fff7fb';
+} //change the value in lines 27-33 b/c the fields in properties are in decimals - 0-1
 
-const catPctTwo = axios('../data/census_cat_pct.geojson').then(catEdited => {
-    console.log('short', catEdited);
-})
+function getColorTotal(d) {
+    console.log('d', d)
+    let dataValueTotal = d.properties[userSelectionTotal]
+    //let dataValue = d.properties['Total_HealthcareSupport'] //will go into properties (object) and access the field Fem_Health... "d" = feature
+    //Create new variable - userSelectionTotal to replace string = d.properties[userSelectionTotal]
+    return dataValueTotal > 0.090 ? '#6e016b' :
+        dataValueTotal > 0.080 ? '#88419d' :
+            dataValueTotal > 0.070 ? '#8c6bb1' :
+                dataValueTotal > 0.060 ? '#8c96c6' :
+                    dataValueTotal > 0.050 ? '#9ebcda' :
+                        dataValueTotal > 0.030 ? '#bfd3e6' :
+                            dataValueTotal > 0.010 ? '#e0ecf4' :
+                                '#f7fcfd';
+} //change the value in lines 27-33 b/c the fields in properties are in decimals - 0-1
+
+
+//Create the dropdown menu by looping through an array
+['Female Healthcare Support', 'Male Healthcare Support', 'Total Healthcare Support'].forEach(function (item) {
+    const optionObj = document.createElement("option"); //loops through each item in the array and creates an option with the item inside
+    optionObj.textContent = item;
+    document.getElementById("dropdown").appendChild(optionObj); //select for the element w/ id selectJob and add the looped item in the array to dropdown
+});
+
+var e = document.getElementById("selectJob");
+var optionObj = e.value;
+var text = e.options[e.selectedIndex].text;
+
+
 
 
 //Prof's advice https://gist.github.com/Willjfield/9f9c59b9e5364f059e9c0c5b1186f680

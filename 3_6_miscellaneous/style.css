@@ -77,10 +77,14 @@ blockquote {
     border: 3px solid #4c154e; 
 }
 
+.leaflet-container {
+    height: 400px;
+    width: 600px;
+    max-width: 100%;
+    max-height: 100%;
+}
+
 #map {
-    position: absolute;
-    top: 20;
-    bottom: 0;
-    height: 30%;
-    width: 100%;
+    width: 900px;
+    height: 500px;
 }

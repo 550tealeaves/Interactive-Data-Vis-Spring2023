@@ -25,10 +25,9 @@ let state = {
 * Using a Promise.all([]), we can load more than one dataset at a time
 * */
 Promise.all([
-    d3.json("../data/usState.json"), d3.json("../data/census_states_all_totals.json")]).then(([geojson, data]) => {
-    state.geojson = geojson; //store object in state
-    console.log("state: ", state); //"state: " will be the title in console log
-    console.log("census data", data); //"census data" will be the title in console log
+    d3.json("../data/usState-jobs.json")]).then(([geojson]) => {
+    state.geojson = geojson; //store object in variable called state
+    console.log("state: ", state);
     init(); //forces synchronicity
 });  //runs 1x after data finished loading 
 
