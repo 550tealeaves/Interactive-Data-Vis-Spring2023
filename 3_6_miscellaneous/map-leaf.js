@@ -1,6 +1,6 @@
 console.log('loaded');
 
-let map = L.map('map').setView([40.7, -73.7], 5);
+let map = L.map('map').setView([46.0, -97.5], 3.4);
 //L. - means it comes from the Leaflet library 
 //make a map object in the div with the ID map 
 //setView - sets the starting lat/long and the zoom level
@@ -40,7 +40,7 @@ const allStates = axios('/data/usState-jobs.json').then(resp => { //brings in th
             // const greenVal = feature.properties.Total_HealthcareSupport * 15;
 
             return {
-                fillColor: getColorMFFood(feature),
+                fillColor: getColorMFBus(feature),
                 fillOpacity: 0.95,
                 color: 'black', //colors the borders
                 weight: 1
