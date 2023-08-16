@@ -34,6 +34,7 @@ let colorScale = d3.scaleThreshold()
 
 
 function ready(error, topo) {
+    console.log('topo', topo)
 
     // Draw the map
     svg.append("g")
