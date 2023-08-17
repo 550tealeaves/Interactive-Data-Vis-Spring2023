@@ -254,6 +254,29 @@ function getColorMFTransp(d) {
 
 }
 
+
+// control that shows state info on hover
+var info = L.control();
+
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info');
+    this.update();
+    return this._div;
+};
+
+info.update = function (props) {
+    this._div.innerHTML = '<h4>Occupation Stats</h4>' + (props ?
+        '<b>' + props.NAME + '</b><br />' + props.userSelectionTotal + ' people / mi<sup>2</sup>' : 'Hover over a state');
+};
+
+info.addTo(map);
+
+
+
+
+
+
+
 //Create the dropdown menu by looping through an array
 ['Management, Business, & Financial Operations', 'Professional & Related', 'Healthcare Support', 'Protective Service', 'Food Prep & Serving', 'Building & Grounds Cleaning & Maintenance', 'Personal Care & Service', 'Sales & Related', 'Office & Admin Support', 'Farming, Fishing, & Forestry', 'Construction, Extraction, & Maintenance', 'Production', 'Transportation & Moving'].forEach(function (item) {
     const optionObj = document.createElement("option"); //loops through each item in the array and creates an option with the item inside
