@@ -22,7 +22,7 @@ L.tileLayer(basemap_urls.terrain, { //will show the terrain layer
 //wants a URL from were to get the tiles 
 
 
-const allStates = axios('/data/usState-jobs.json').then(resp => { //brings in the map data 
+axios('https://raw.githubusercontent.com/550tealeaves/Interactive-Data-Vis-Spring2023/main/data/usState-jobs.json').then(resp => { //brings in the map data 
     jobTitles = Object.keys(resp.data.features[0].properties) //use this to be able to select all the job titles
 
     // jobTitles.forEach(function (item) {
