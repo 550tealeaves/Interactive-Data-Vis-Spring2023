@@ -112,13 +112,11 @@ function getColor(d) {
                                 dataValue > 0.08 ? '#fee0d2' :
                                     dataValue > 0.044 ? '#fff5f0' :
                                         '#ffffcc';
-} //change the value in lines 27-33 b/c the fields in properties are in decimals - 0-1
+} //change the value in dataValue > value ? b/c the fields in properties are in decimals - 0-1
 
 
 function getColorMale(d) {
     let dataValue = d.properties[userSelectionMale]
-    //let dataValue = d.properties['Male_ManagementBusinessandFinancialOperations'] //will go into properties (object) and access the field Male_ManBusFin... "d" = feature
-    //Create new variable - userSelectionMale to replace string = d.properties[userSelectionMale]
     return dataValue > 0.396 ? '#800026' :
         dataValue > 0.352 ? '#bd0026' :
             dataValue > 0.308 ? '#e31a1c' :
@@ -129,7 +127,7 @@ function getColorMale(d) {
                                 dataValue > 0.08 ? '#ffeda0' :
                                     dataValue > 0.044 ? '#ffffcc' :
                                         '#ffffff';
-} //change the value in lines 27-33 b/c the fields in properties are in decimals - 0-1
+} 
 
 function getColorTotal(d) {
     let dataValue = d.properties[userSelectionTotal]
@@ -143,7 +141,7 @@ function getColorTotal(d) {
                                 dataValue > 0.08 ? '#edf8b1' :
                                     dataValue > 0.044 ? '#ffffd9' :
                                         '#ffffff';
-} //change the value in lines 27-33 b/c the fields in properties are in decimals - 0-1
+} 
 
 
 function getColorMFBus(d) {
@@ -266,28 +264,3 @@ function getColorMFTransp(d) {
 // var e = document.getElementById("selectJob");
 // var optionObj = e.value;
 // var text = e.options[e.selectedIndex].text;
-
-
-
-
-//Prof's advice https://gist.github.com/Willjfield/9f9c59b9e5364f059e9c0c5b1186f680
-//Looks like I have to do an await.sync for both the usState and the statesPct and then access the features - need to figure out if there is a way to take the coords data from usState and add it ot statesPct or just access it and use it for statesPct
-
-// ...
-// L.geoJSON(resp.data, {
-//     style: function (feature) {
-//         //Filter the non-spatial data to find the one that matches this feature's NAME
-//         const featureStateData = statesPct.data.filter(f => f.NAME === feature.properties.NAME);
-
-//         //If it doesn't find a match, something is probably wrong. Just return "gray".
-//         if (featureStateData.length === 0) return { color: "gray" }
-
-//         //Otherwise, get a property (eg. TotalEmpStat_InLaborForce) and multiply it to get a usable blue channel value
-//         const blueVal = featureStateData[0].TotalEmpStat_InLaborForce * 255;
-//         //Return the color using the found value
-//         return { color: `rgb(0,0,${blueVal})` }
-//     }
-// },
-//     ...
-//         })
-//         ...
