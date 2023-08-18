@@ -26,53 +26,78 @@ L.tileLayer(basemap_urls.terrain, { //will show the terrain layer
 const allStates = axios("../data/usState-jobs.json").then(resp => { //brings in the map data 
     jobTitles = Object.keys(resp.data.features[0].properties) //use this to be able to select all the job titles
 
-    // jobTitles.forEach(function (item) {
-    //     const optionObj = document.createElement("option"); //loops through each item in the array and creates an option with the item inside
-    //     optionObj.textContent = item;
-    //     document.getElementById("selectJob").appendChild(optionObj); //select for the element w/ id selectJob and add the looped item in the array to dropdown
-    // }); //This will add all the keys in the dropdown menu
-
     console.log('jobTitles', jobTitles);
+    jobValues = Object.values(resp.data.features[0].properties)
+    console.log('jobValues', jobValues)
+
     console.log('response', resp); //see response in console log
-    L.geoJSON(resp.data, {
+    var geojson = L.geoJSON(resp.data, {
         style: function (feature) {
             return {
-                fillColor: getColorMFBus(feature),
-                //fillColor: getColorMFSales(feature),
+                fillColor: getColorMFSales(feature),
                 fillOpacity: 0.95,
                 color: 'black', //colors the borders
                 weight: 1
             }
         },
 
-        //Trying to create additional style functions for the other 2 color palettes - not sure how to get them to show
-        //     style2: function (feature) {
-        //     return {
-        //         fillColor: getColorMale(feature),
-        //         weight: 2,
-        //         opacity: 1,
-        //         color: "white",
-        //         dashArray: "3",
-        //         fillOpacity: 0.7,
-        //     };
-        // },
-
-        //     style3: function (feature) {
-        //         return {
-        //             fillColor: getColorTotal(feature),
-        //             weight: 2,
-        //             opacity: 1,
-        //             color: "white",
-        //             dashArray: "3",
-        //             fillOpacity: 0.7,
-        //         };
-        //     },
         onEachFeature: function (feature, layer) {
-            layer.bindPopup(feature.properties.STUSPS + ': ' + '<b>' + 'F:' + '' + Math.round(feature.properties.Fem_ManagementBusinessandFinancialOperations * 100) + '%' + ' ' + ' ' + 'M:' + '' + Math.round(feature.properties.Male_ManagementBusinessandFinancialOperations * 100.0) + '%') + '</b>'
-            // layer.bindPopup(feature.properties.STUSPS + ': ' + '<b>' + 'F:' + '' + Math.round(feature.properties.Fem_SalesandRelated * 100) + '%' + ' ' + ' ' + 'M:' + '' + Math.round(feature.properties.Male_SalesandRelated * 100.0) + '%') + '</b>'
+            // layer.bindPopup(feature.properties.STUSPS + ': ' + '<b>' + 'F:' + '' + Math.round(feature.properties.Fem_ManagementBusinessandFinancialOperations * 100) + '%' + ' ' + ' ' + 'M:' + '' + Math.round(feature.properties.Male_ManagementBusinessandFinancialOperations * 100.0) + '%') + '</b>',
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetHighlight,
+                    click: zoomToFeature
+                });
         } //will show state initials (stusps) F: ##% M: ##% on popup
     }).addTo(map).bringToFront();
+
+
+    function highlightFeature(e) {
+        const layer = e.target;
+
+        layer.setStyle({
+            weight: 2.5,
+            color: '#67000d',
+            dashArray: '',
+            fillOpacity: 0.8
+        });
+
+        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+            layer.bringToFront();
+        }
+
+        info.update(layer.feature.properties);
+    }
+
+
+    function resetHighlight(e) {
+        console.log(resetHighlight)
+        geojson.resetStyle(e.target);
+        info.update();
+    }
+
+    function zoomToFeature(e) {
+        map.fitBounds(e.target.getBounds());
+    }
 })
+
+// CONTROL THAT SHOWS STATE INFO IN HOVER
+var info = L.control();
+
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info');
+    this.update();
+    return this._div;
+};
+
+info.update = function (props) {
+    console.log('props', props)
+    this._div.innerHTML = '<h4>Occupation stats</h4>' + (props ?
+        '<b>' + props.NAME + '</b><br />' + (props.Fem_SalesandRelated * 100).toFixed(1) + ' % ' + ' women' + '<br />' + (props.Male_SalesandRelated * 100).toFixed(1) + ' % ' + 'men' : 'Hover over a state');
+};
+
+info.addTo(map);
+
 
 
 //Adding color - can find colors on https:/ / colorbrewer2.org / #type=sequential & scheme=BuGn & n=3
@@ -255,27 +280,6 @@ function getColorMFTransp(d) {
 }
 
 
-// control that shows state info on hover
-var info = L.control();
-
-info.onAdd = function (map) {
-    this._div = L.DomUtil.create('div', 'info');
-    this.update();
-    return this._div;
-};
-
-info.update = function (props) {
-    this._div.innerHTML = '<h4>Occupation Stats</h4>' + (props ?
-        '<b>' + props.NAME + '</b><br />' + props.userSelectionTotal + ' people / mi<sup>2</sup>' : 'Hover over a state');
-};
-
-info.addTo(map);
-
-
-
-
-
-
 
 //Create the dropdown menu by looping through an array
 ['Management, Business, & Financial Operations', 'Professional & Related', 'Healthcare Support', 'Protective Service', 'Food Prep & Serving', 'Building & Grounds Cleaning & Maintenance', 'Personal Care & Service', 'Sales & Related', 'Office & Admin Support', 'Farming, Fishing, & Forestry', 'Construction, Extraction, & Maintenance', 'Production', 'Transportation & Moving'].forEach(function (item) {
@@ -287,3 +291,7 @@ info.addTo(map);
 // var e = document.getElementById("selectJob");
 // var optionObj = e.value;
 // var text = e.options[e.selectedIndex].text;
+
+var popup = L.popup();
+
+map.attributionControl.addAttribution('Occupation data &copy; <a href="http://census.gov/">US Census Bureau</a>');

@@ -1,5 +1,6 @@
 {
     "evenbettercomments.allowFullBlockHighlights": true,
     "evenbettercomments.highlightTagOnly": true,
-    "evenbettercomments.highlightPlainText": true
+    "evenbettercomments.highlightPlainText": true,
+    "liveServer.settings.port": 5501
 }
