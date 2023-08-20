@@ -58,23 +58,25 @@
 
 
     <div class="filter-options">
-        <!-- <label for="dropdown">Occupation categories</label> -->
-        <select name="dropdown" id="dropdown">
-            <option value="" selected>--Select an occupation--</option>
-            <!-- <option value="mbfoo" class="value">Management, business & finance</option>
-            <option value="pro" class="value">Professional and related</option>
-            <option value="hso" class="value">Healthcare support</option>
-            <option value="protect" class="value">Protective service</option>
-            <option value="fps" class="value">Food prep & service</option>
-            <option value="bgcmo" class="value">Building, grounds cleaning & maintenance</option>
-            <option value="pcso" class="value">Personal care & service</option>
-            <option value="sro" class="value">Sales and related</option>
-            <option value="oaso" class="value">Office & administrative support</option>
-            <option value="fffo" class="value">Farming, fishing & forestry</option>
-            <option value="cemo" class="value">Construction, extraction, maintenance</option>
-            <option value="prod" class="value">Production</option>
-            <option value="tmmo" class="value">Transportation & material moving</option> -->
-        </select>
+        <form action="" id="thisForm">
+            <select name="jobs" id="selectJob">
+                <option value="" selected>--Select an occupation--</option>
+                <!--the selected after value="" ensures that it is the default selection on site-->
+                <option value="manage">Management, Business, & Financial Operations</option>
+                <option value="prof">Professional & Related</option>
+                <option value="health">Healthcare Support</option>
+                <option value="prot">Protective Service</option>
+                <option value="food">Food Prep & Serving</option>
+                <option value="build">Building & Grounds Cleaning & Maintenance</option>
+                <option value="personal">Personal Care & Service</option>
+                <option value="sales">Sales & Related</option>
+                <option value="admin">Office & Admin Support</option>
+                <option value="farm">Farming, Fishing, & Forestry</option>
+                <option value="construct">Construction, Extraction, & Maintenance</option>
+                <option value="prod">Production</option>
+                <option value="transp">Transportation & Moving</option>
+            </select>
+        </form>
     </div>
 
     <br />
