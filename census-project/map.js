@@ -203,26 +203,25 @@ const allStates = axios('../data/usState-jobs.json').then(resp => { //brings in 
         map.fitBounds(e.target.getBounds());
     }
 
+
+    // CONTROL THAT SHOWS STATE INFO IN HOVER
+    var info = L.control();
+
+    info.onAdd = function (map) {
+        this._div = L.DomUtil.create('div', 'info');
+        this.update();
+        return this._div;
+    };
+
+    info.update = function (props) {
+        console.log('props', props)
+        this._div.innerHTML = '<h4>Occupation stats</h4>' + (props ?
+            '<b>' + props.NAME + '</b><br />' + ([userSelection.femaleValue] * 100).toFixed(1) + ' % ' + ' women' + '<br />' + ([userSelection.maleValue] * 100).toFixed(1) + ' % ' + 'men' : 'Hover over a state');
+    }; info.addTo(map);
+
 })
 
-
-// CONTROL THAT SHOWS STATE INFO IN HOVER
-var info = L.control();
-
-info.onAdd = function (map) {
-    this._div = L.DomUtil.create('div', 'info');
-    this.update();
-    return this._div;
-};
-
-// This will update the hover with the relevant text and data interpolated
-info.update = function (props) {
-    console.log('props', props)
-    this._div.innerHTML = '<h4>Occupation stats</h4>' + (props ?
-        '<b>' + props.NAME + '</b><br />' + (props.Fem_SalesandRelated * 100).toFixed(1) + ' % ' + ' women' + '<br />' + (props.Male_SalesandRelated * 100).toFixed(1) + ' % ' + 'men' : 'Hover over a state');
-};
-
-info.addTo(map);
+var popup = L.popup();
 
 
 map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
