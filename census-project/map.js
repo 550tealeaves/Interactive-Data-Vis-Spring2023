@@ -180,7 +180,7 @@ const allStates = axios('../data/usState-jobs.json').then(resp => { //brings in 
 
         layer.setStyle({
             weight: 2.5,
-            color: '#67000d',
+            color: '#2cc1f7',
             dashArray: '',
             fillOpacity: 0.8
         });
