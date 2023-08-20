@@ -1,6 +1,6 @@
 console.log('loaded');
 
-//CREATE BASE MAP LAYERS
+// CREATE BASE MAP LAYERS
 let map = L.map('map').setView([40.7, -73.7], 5);
 
 //http://maps.stamen.com/#terrain/12/37.7706/-122.3782
@@ -8,28 +8,25 @@ const basemap_urls = {
     terrain: "https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg",
     osm: "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
 }
-//adding different basemaps
+//Add different basemaps
 
 L.tileLayer(basemap_urls.terrain, { //will show the terrain layer
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
-//L.tileLayer - comes directly from Leaflet library
-//wants a URL from were to get the tiles 
+// needs a URL from where to get the tiles 
 
-//Use https://stackoverflow.com/questions/9895082/javascript-populate-drop-down-list-with-array - to learn how to create dropdown and select value
-
-// Use https://stackoverflow.com/questions/1085801/get-selected-value-in-dropdown-list-using-javascript - to learn how to select value
-
-//Save value of selected option (ex: Fem_Health...from dropdown) into a variable - it saves the name of the object key
 var geojson;
 
-
+// Call the data
 const allStates = axios('../data/usState-jobs.json').then(resp => { //brings in the map data 
-    jobTitles = Object.keys(resp.data.features[0].properties) //use this to be able to select all the job titles
+    console.log('response', resp);
+    jobTitles = Object.keys(resp.data.features[0].properties) //use this to be able to select all the job titles (field names)
 
-    jobValues = Object.values(resp.data.features[0].properties) //use this to see all the values from the key.value pairs
+    jobValues = Object.values(resp.data.features[0].properties) //use this to see all the (numerical/string) values from the key.value pairs
+    console.log('jobValues', jobValues);
 
+    // Create an object that routes to the fields of each category for males, females, and majority
     const profFields = {
         'prof': {
             'male': 'Male_ProfessionalandRelated',
@@ -97,18 +94,21 @@ const allStates = axios('../data/usState-jobs.json').then(resp => { //brings in 
             'majority': 'M_F_TranspoandMaterialMoving',
         }
     };
+    
+    // Set userSelection to an open string
     let userSelection = '';
 
+    // Create style feature that will fill map based on getColor function
     geojson = L.geoJSON(resp.data, {
         style: function (feature) {
             return {
                 fillColor: getColor(feature),
                 fillOpacity: 0.95,
-                color: 'black', //colors the borders
+                color: 'black',
                 weight: 1
             }
         },
-        //onEachFeature - can click and display state name 
+        // onEachFeature - mouse over = highlight each state a color, then when mouseout, highlight turns off. Click state = zooms into state
         onEachFeature: function (feature, layer) {
             // layer.bindPopup(feature.properties.STUSPS + ': ' + Math.round(feature.properties.Fem_HealthcareSupport * 100.0)  + '%' + ' <br>' ), not needed b/c highlight shows percentages
             layer.on({
@@ -120,7 +120,8 @@ const allStates = axios('../data/usState-jobs.json').then(resp => { //brings in 
 
     }).addTo(map).bringToFront();
 
-    //Create event change function
+    // Create event change function that will update based on user selection in dropdown list
+    // Must recall the style function whenever the dropdown (userSelection) updates
     function selectEventHandler(e) {
         userSelection = e.target.value;
 
@@ -129,7 +130,7 @@ const allStates = axios('../data/usState-jobs.json').then(resp => { //brings in 
             layer.setStyle({
                 fillColor: getColor(layer.feature),
                 fillOpacity: 0.95,
-                color: 'black', //colors the borders
+                color: 'black', 
                 weight: 1
             }
             );
@@ -137,11 +138,11 @@ const allStates = axios('../data/usState-jobs.json').then(resp => { //brings in 
         });
 
     }
-    //Target the HTML that will change and add eventListener
+    // Target the HTML ("selectJob") that will change and add eventListener
     document.getElementById("selectJob").addEventListener('change', selectEventHandler);
 
 
-    // // CREATE COLOR VARIABLE
+    // CREATE COLOR VARIABLE
     function getColor(d) {
 
         if (userSelection.length === 0) return '#8888';
@@ -149,19 +150,19 @@ const allStates = axios('../data/usState-jobs.json').then(resp => { //brings in 
         const fields = profFields[userSelection];
 
         const maleValue = d.properties[fields.male];
-        console.log('males', maleValue)
+        
         const femaleValue = d.properties[fields.female];
-        console.log('female', femaleValue)
+        
 
         let majorityValue = d.properties[fields.majority];
-        console.log('majority', majorityValue)
+        
 
         return majorityValue == 'F' ? '#fdae6b' :
             majorityValue == 'M' ? '#542788' :
                 '#ffffff';
 
     }
-
+    // Recall the getStyle function
     function getStyle(feature) {
         return {
             fillColor: getColor(feature),
@@ -173,7 +174,7 @@ const allStates = axios('../data/usState-jobs.json').then(resp => { //brings in 
 
 
 
-
+// Create highlight function - will highlight and apply style when hovered over the state
     function highlightFeature(e) {
         const layer = e.target;
 
@@ -191,13 +192,13 @@ const allStates = axios('../data/usState-jobs.json').then(resp => { //brings in 
         info.update(layer.feature.properties);
     }
 
-
+// Create function that will reset highlight when cursor is no longer over the state (target)
     function resetHighlight(e) {
-        console.log(resetHighlight)
         geojson.resetStyle(e.target);
         info.update();
     }
 
+// Create zoom function that will zoom when clicked
     function zoomToFeature(e) {
         map.fitBounds(e.target.getBounds());
     }
@@ -214,6 +215,7 @@ info.onAdd = function (map) {
     return this._div;
 };
 
+// This will update the hover with the relevant text and data interpolated
 info.update = function (props) {
     console.log('props', props)
     this._div.innerHTML = '<h4>Occupation stats</h4>' + (props ?
