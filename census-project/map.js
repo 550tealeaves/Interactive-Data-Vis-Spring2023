@@ -1,7 +1,7 @@
 console.log('loaded');
 
 // CREATE BASE MAP LAYERS
-let map = L.map('map').setView([40.7, -73.7], 5);
+let map = L.map('map').setView([46.0, -97.5], 3.4);
 
 //http://maps.stamen.com/#terrain/12/37.7706/-122.3782
 const basemap_urls = {
