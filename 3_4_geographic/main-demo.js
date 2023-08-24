@@ -28,10 +28,10 @@ let state = {
 * Using a Promise.all([]), we can load more than one dataset at a time
 * */
 Promise.all([
-    d3.json("../data/usState.json")
+    d3.json("../data/usState-jobs.json")
 ]).then(([geojson]) => {
     state.geojson = geojson;
-    // console.log("state: ", state);
+    console.log("state: ", state);
     init();
 });
 
@@ -64,6 +64,7 @@ function init() {
         .on("mouseover", (event, d) => {
             // when the mouse rolls over this feature, do this
             state.hover["state"] = d.properties.NAME;
+            state.geojson['state'] = d.properties.MaleEmpStat_Civilian; //this does not work
             draw(); // re-call the draw function when we set a new hoveredState
         });
 
