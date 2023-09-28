@@ -195,7 +195,7 @@ const allStates = axios('../data/usState-jobs.json').then(resp => { //brings in 
 // Create function that will reset highlight when cursor is no longer over the state (target)
     function resetHighlight(e) {
         geojson.resetStyle(e.target);
-        info.update();
+        //info.update(); //this may not be needed
     }
 
 // Create zoom function that will zoom when clicked
@@ -213,10 +213,17 @@ const allStates = axios('../data/usState-jobs.json').then(resp => { //brings in 
         return this._div;
     };
 
+    //user selection is to be used as the lookup for the data - need to actually connect to the numerical values
     info.update = function (props) {
         console.log('props', props)
+        console.log('user', userSelection)
+        console.log('test', profFields[userSelection])
+        // const femaleLookUp = profFields[userSelection].female
+        // const maleLookUp = profFields[userSelection].male
+        console.log('femaleTest', props[profFields[userSelection].female])
+        console.log('maleTest', props[profFields[userSelection].male])
         this._div.innerHTML = '<h4>Occupation stats</h4>' + (props ?
-            '<b>' + props.NAME + '</b><br />' + ([userSelection.femaleValue] * 100).toFixed(1) + ' % ' + ' women' + '<br />' + ([userSelection.maleValue] * 100).toFixed(1) + ' % ' + 'men' : 'Hover over a state');
+            '<b>' + props.NAME + '</b><br />' + (parseInt(profFields[userSelection].female) * 100).toFixed(1) + ' % ' + ' women' + '<br />' + (parseInt(profFields[userSelection].male) * 100).toFixed(1) + ' % ' + 'men' : 'Hover over a state');
     }; info.addTo(map);
 
 })
