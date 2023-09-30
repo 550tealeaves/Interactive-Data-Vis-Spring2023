@@ -110,7 +110,7 @@ const allStates = axios('../data/usState-jobs.json').then(resp => { //brings in 
         },
         // onEachFeature - mouse over = highlight each state a color, then when mouseout, highlight turns off. Click state = zooms into state
         onEachFeature: function (feature, layer) {
-            // layer.bindPopup(feature.properties.STUSPS + ': ' + Math.round(feature.properties.Fem_HealthcareSupport * 100.0)  + '%' + ' <br>' ), not needed b/c highlight shows percentages
+            layer.bindPopup(feature.properties.STUSPS + '<br> Women: ' + Math.round(feature.properties.Fem_PersonalCareandService * 100.0) + '%' + ' <br> Men: ' + Math.round(feature.properties.Male_PersonalCareandService * 100.0) + '%'), //not needed b/c highlight shows percentages
             layer.on({
                 mouseover: highlightFeature,
                 mouseout: resetHighlight,
@@ -220,17 +220,16 @@ const allStates = axios('../data/usState-jobs.json').then(resp => { //brings in 
         console.log('props', props)
         console.log('user', userSelection)
         console.log('test', profFields[userSelection])
-        let femaleLookUp = profFields[userSelection].female
-        let maleLookUp = profFields[userSelection].male
-        console.log('femaleTest', props[profFields[userSelection].female]) //shows female % per category/state - also can be props[profFields[userSelection].female]
-        console.log('maleTest', props[profFields[userSelection].male]) //shows male % per category/state - also can be props[profFields[userSelection].male]
+        let femaleLookUp = profFields[userSelection].female //female returns as undefined
+        let maleLookUp = profFields[userSelection].male //male returns as undefined
+        console.log('femaleJob', props[femaleLookUp]) //shows female % per category/state - also can be props[profFields[userSelection].female]
+        console.log('maleJob', props[maleLookUp]) //shows male % per category/state - also can be props[profFields[userSelection].male]
         this._div.innerHTML = '<h4>Occupation stats</h4>' + (props ?
             '<b>' + props.NAME + '</b><br />' + ([userSelection.femaleValue] * 100).toFixed(1) + ' % ' + ' women' + '<br />' + ([userSelection.maleValue] * 100).toFixed(1) + ' % ' + 'men' : 'Hover over a state');
         
             // this._div.innerHTML = '<h4>Occupation stats</h4>' + (props ?
         //     '<b>' + props.NAME + '</b><br />' + (parseInt(profFields[userSelection].female) * 100).toFixed(1) + ' % ' + ' women' + '<br />' + (parseInt(profFields[userSelection].male) * 100).toFixed(1) + ' % ' + 'men' : 'Hover over a state');
     }; info.addTo(map);
-
 })
 
 var popup = L.popup();
