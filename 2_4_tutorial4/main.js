@@ -92,7 +92,7 @@ Promise.all([
         .attr("transform", d => {
             const [x, y] = projection([d.Long, d.Lat])
             return `translate(${x}, ${y})`
-        }) //projection converts lat/long from the heat extremes dataset into x/y coordinates
+        }) //projection converts lat/long from the heat extremes dataset into x/y coordinates for map
 
 
     // DRAW POINT FOR ALL STATE CAPITALS
@@ -106,7 +106,7 @@ Promise.all([
             // ref: https://github.com/d3/d3-geo#_projection
             const [x, y] = projection([d.longitude, d.latitude])
             return `translate(${x}, ${y})`
-        })
+        }) //projection converts lat/long from the capitals dataset into x/y coordinates for map
 
 
     //CALL ZOOM

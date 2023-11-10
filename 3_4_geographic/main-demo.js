@@ -80,7 +80,7 @@ function init() {
         .attr("transform", d => {
             const [x, y] = projection([d.longitude, d.latitude]);
             return `translate(${x}, ${y})`;
-        });
+        }); //projection converts lat/long from the GradCenterCoord into x/y coordinates for map
 
     // EXAMPLE 2: going from x, y => lat-long
     // this triggers any movement at all while on the svg

@@ -95,7 +95,7 @@ function init() {
             state.hover.longitude = projX
             state.hover.latitude = projY
             draw()
-        })
+        }) //projection converts lat/long from the state.geojson dataset into x/y coordinates for map
 
 
     //CALL ZOOM
