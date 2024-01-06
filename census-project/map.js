@@ -1,4 +1,4 @@
-console.log('loaded');
+//Problem is the userSelection defaults to 0 so when it's multiplied by something else - result is still 0
 
 // CREATE BASE MAP LAYERS
 let map = L.map('map').setView([46.0, -97.5], 3.4);
@@ -95,90 +95,91 @@ const allStates = axios('../data/usState-jobs.json').then(resp => { //brings in 
         }
     };
     
-    // Set userSelection to an open string
     let userSelection = '';
 
-    // Create style feature that will fill map based on getColor function
+    // CREATE COLOR VARIABLE
+    function getColor(d) {
+        //sets default color if there is no userSelection (length=0)
+        //think this is the problem - userSelection = 0 - so multiplication doesn't work
+        if (userSelection.length === 0) return '#8888';
+
+        //move the below 3 fields (to the hover section)
+        let fields = profFields[userSelection];
+        console.log('fields', fields)
+        let maleValue = d.properties[fields.male];
+        console.log('males', maleValue)
+        let femaleValue = d.properties[fields.female];
+        console.log('female', femaleValue)
+
+        let majorityValue = d.properties[fields.majority];
+        console.log('majority', majorityValue)
+
+        return majorityValue == 'F' ? '#fdae6b' :
+            majorityValue == 'M' ? '#542788' :
+                '#ffffff';
+    }
+
     geojson = L.geoJSON(resp.data, {
         style: function (feature) {
             return {
                 fillColor: getColor(feature),
                 fillOpacity: 0.95,
-                color: 'black',
+                color: 'black', //colors the borders
                 weight: 1
             }
         },
-        // onEachFeature - mouse over = highlight each state a color, then when mouseout, highlight turns off. Click state = zooms into state
+
+        //onEachFeature - can click and display state name and tooltip
         onEachFeature: function (feature, layer) {
-            layer.bindPopup(feature.properties.STUSPS + '<br> Women: ' + Math.round(feature.properties.Fem_PersonalCareandService * 100.0) + '%' + ' <br> Men: ' + Math.round(feature.properties.Male_PersonalCareandService * 100.0) + '%'), //not needed b/c highlight shows percentages
-            layer.on({
-                mouseover: highlightFeature,
-                mouseout: resetHighlight,
-                click: zoomToFeature
-            });
+            layer.bindPopup(feature.properties.STUSPS + '<br />' + ([profFields.female] - 140).toFixed(2) + ' % ' + ' women' + '<br />' + ([profFields.male] - 27).toFixed(2) + ' % ' + 'men'), //adds tooltip - problem is the default number rounds to 0 so multiply/div doesn't work - but subtraction does 
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetHighlight,
+                    click: zoomToFeature
+                });
         }
 
     }).addTo(map).bringToFront();
 
-    // Create event change function that will update based on user selection in dropdown list
-    // Must recall the style function whenever the dropdown (userSelection) updates
+    //CREATE EVENT CHANGE FUNCTION THAT UPDATES WHEN USER SELECTS OPTION FROM DROPDOWN 
     function selectEventHandler(e) {
         userSelection = e.target.value;
 
         geojson.eachLayer(function (layer) {
-
             layer.setStyle({
                 fillColor: getColor(layer.feature),
                 fillOpacity: 0.95,
-                color: 'black', 
+                color: 'black', //colors the borders
                 weight: 1
             }
             );
-
         });
-
     }
-    // Target the HTML ("selectJob") that will change and add eventListener
+
+    //TARGET THE HTML ("selectJob") THAT WILL CHANGE AND ADD eventListener 
+    //ADD THE 'CHANGE' eventListener TO HTML & WILL TRIGGER THE selectionEventHandler FUNCTION 
     document.getElementById("selectJob").addEventListener('change', selectEventHandler);
 
 
-    // CREATE COLOR VARIABLE
-    function getColor(d) {
-
-        if (userSelection.length === 0) return '#8888';
-        //move the below 3 fields (to the hover section)
-        let fields = profFields[userSelection];
-
-        let maleValue = d.properties[fields.male];
-        //console.log('maleValue', maleValue)
-        let femaleValue = d.properties[fields.female];
-        //console.log('femaleValue', femaleValue)
-        
-
-        let majorityValue = d.properties[fields.majority];
-        
-
-        return majorityValue == 'F' ? '#fdae6b' :
-            majorityValue == 'M' ? '#542788' :
-                '#ffffff';
-
-    }
-    // Recall the getStyle function
-    function getStyle(feature) {
-        return {
-            fillColor: getColor(feature),
-            fillOpacity: 0.95,
-            color: 'black', //colors the borders
-            weight: 1
-        }
-    }
 
 
 
-// Create highlight function - will highlight and apply style when hovered over the state
+
+    // CONTROL THAT SHOWS STATE INFO IN HOVER
+    var info = L.control();
+
+    info.onAdd = function (map) {
+        this._div = L.DomUtil.create('div', 'info');
+        this.update();
+        return this._div;
+    };
+
+
+    //HIGHLIGHT THAT SHOWS ON STATES DURING HOVER
     function highlightFeature(e) {
         const layer = e.target;
 
+        //styles the highlight feature over the states
         layer.setStyle({
             weight: 2.5,
             color: '#2cc1f7',
@@ -193,44 +194,26 @@ const allStates = axios('../data/usState-jobs.json').then(resp => { //brings in 
         info.update(layer.feature.properties);
     }
 
-// Create function that will reset highlight when cursor is no longer over the state (target)
+    //RESETS THE HIGHLIGHT 
     function resetHighlight(e) {
+        console.log(resetHighlight)
         geojson.resetStyle(e.target);
-        //info.update(); //this may not be needed
+        info.update();
     }
 
-// Create zoom function that will zoom when clicked
+    //ZOOM FEATURE WHEN YOU CLICK THE STATE
     function zoomToFeature(e) {
         map.fitBounds(e.target.getBounds());
     }
 
 
-    // CONTROL THAT SHOWS STATE INFO IN HOVER
-    var info = L.control();
-
-    info.onAdd = function (map) {
-        this._div = L.DomUtil.create('div', 'info');
-        this.update();
-        return this._div;
-    };
-
-    //user selection is to be used as the lookup for the data - need to actually connect to the numerical values
-    //2 problems - (1)if femaleLoopUp & maleLookUp & console logs are active, then hover doesn't show (2) if they are inactive, then they do
     info.update = function (props) {
         console.log('props', props)
-        console.log('user', userSelection)
-        console.log('test', profFields[userSelection])
-        let femaleLookUp = profFields[userSelection].female //female returns as undefined
-        let maleLookUp = profFields[userSelection].male //male returns as undefined
-        console.log('femaleJob', props[femaleLookUp]) //shows female % per category/state - also can be props[profFields[userSelection].female]
-        console.log('maleJob', props[maleLookUp]) //shows male % per category/state - also can be props[profFields[userSelection].male]
         this._div.innerHTML = '<h4>Occupation stats</h4>' + (props ?
             '<b>' + props.NAME + '</b><br />' + ([userSelection.femaleValue] * 100).toFixed(1) + ' % ' + ' women' + '<br />' + ([userSelection.maleValue] * 100).toFixed(1) + ' % ' + 'men' : 'Hover over a state');
-        
-            // this._div.innerHTML = '<h4>Occupation stats</h4>' + (props ?
-        //     '<b>' + props.NAME + '</b><br />' + (parseInt(profFields[userSelection].female) * 100).toFixed(1) + ' % ' + ' women' + '<br />' + (parseInt(profFields[userSelection].male) * 100).toFixed(1) + ' % ' + 'men' : 'Hover over a state');
     }; info.addTo(map);
-})
+
+});
 
 var popup = L.popup();
 
