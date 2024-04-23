@@ -17,9 +17,7 @@ var width = 960,
 
 var pie = d3.layout.pie()
     .sort(null)
-    .value(function (d) {
-        return d.value;
-    }); //d=> d.value
+    .value(d => d.value); //function (d) {return d.value}
 
 var arc = d3.svg.arc()
     .outerRadius(radius * 0.8)
@@ -31,7 +29,7 @@ var outerArc = d3.svg.arc()
 
 svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-var key = function (d) { return d.data.label; }; //d => d.data.label
+var key = d => d.data.label; //function (d) {return d.data.label;}
 
 var color = d3.scale.category20()
     .domain(["kiwi", "pineapple", "dragonfruit", "peach", "grapefruit", "blackberry", "lime", "honeydew", "strawberry", "tangerine", "pomegranate", "blueberry"])
@@ -71,7 +69,7 @@ function mergeWithFirstEqualZero(first, second) {
 function change(data) {
     var duration = +document.getElementById("duration").value;
     var data0 = svg.select(".slices").selectAll("path.slice")
-        .data().map(function (d) { return d.data });
+        .data().map(d => d.data); // function(d) {return d.data}
     if (data0.length == 0) data0 = data;
     var was = mergeWithFirstEqualZero(data, data0);
     var is = mergeWithFirstEqualZero(data0, data);
@@ -84,7 +82,7 @@ function change(data) {
     slice.enter()
         .insert("path")
         .attr("class", "slice")
-        .style("fill", function (d) { return color(d.data.label); })
+        .style("fill", d => color(d.data.label)) //function (d) {return color(d.data.label);}
         .each(function (d) {
             this._current = d;
         });
@@ -119,9 +117,7 @@ function change(data) {
         .append("text")
         .attr("dy", ".35em")
         .style("opacity", 0)
-        .text(function (d) {
-            return d.data.label;
-        })
+        .text(d => d.data.label)
         .each(function (d) {
             this._current = d;
         });
