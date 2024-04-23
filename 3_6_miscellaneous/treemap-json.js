@@ -12,10 +12,10 @@ const svg = d3.select("#container")
         "translate(" + margin.left + "," + margin.top + ")");
 
 // read json data
-d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_dendrogram_full.json", function(data) {
+d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_dendrogram_full.json", (data) => {
 
   // Give the data to this cluster layout:
-  const root = d3.hierarchy(data).sum(function(d){ return d.value}) // Here the size of each leave is given in the 'value' field in input data
+  const root = d3.hierarchy(data).sum(d => d.value) // Here the size of each leave is given in the 'value' field in input data
 
   // Then d3.treemap computes the position of each element of the hierarchy
   d3.treemap()
@@ -29,12 +29,13 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/d
     .data(root.leaves())
     .enter()
     .append("rect")
-      .attr('x', function (d) { return d.x0; })
-      .attr('y', function (d) { return d.y0; })
-      .attr('width', function (d) { return d.x1 - d.x0; })
-      .attr('height', function (d) { return d.y1 - d.y0; })
+      .attr('x', d => d.x0)
+      .attr('y', d => d.y0)
+      .attr('width', d => d.x1 - d.x0)
+      .attr('height', d => d.y1 - d.y0)
       .style("stroke", "skyblue")
-      .style("fill", "violet")
+      .attr("stroke-weight", 1)
+      .style("fill", "violet");
 
   // and to add the text labels
   svg
@@ -42,9 +43,9 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/d
     .data(root.leaves())
     .enter()
     .append("text")
-      .attr("x", function(d){ return d.x0+5})    // +10 to adjust position (more right)
-      .attr("y", function(d){ return d.y0+20})    // +20 to adjust position (lower)
-      .text(function(d){ return d.data.name })
+      .attr("x", d => d.x0+5)    // +10 to adjust position (more right)
+      .attr("y", d => d.y0+20)    // +20 to adjust position (lower)
+      .text(d => d.data.name)
       .attr("font-size", "15px")
-      .attr("fill", "white")
+      .attr("fill", "white");
 })
