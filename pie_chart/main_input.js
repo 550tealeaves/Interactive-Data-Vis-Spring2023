@@ -15,8 +15,8 @@ var svg = d3.select("#container")
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 // create 2 data_set
-var data1 = { a: 9, b: 20, c: 30, d: 8, e: 12 }
-var data2 = { a: 6, b: 16, c: 20, d: 14, e: 19, f: 12 }
+var data1 = { a: 9, b: 20, c: 30, d: 5, e: 12 }
+var data2 = { a: 6, b: 13, c: 2, d: 10, e: 29, f: 12 }
 
 // set the color scale
 var color = d3.scaleOrdinal()
@@ -28,8 +28,8 @@ function update(data) {
 
     // Compute the position of each group on the pie:
     var pie = d3.pie()
-        .value(function (d) { return d.value; })
-        .sort(function (a, b) { console.log(a); return d3.ascending(a.key, b.key); }) // This make sure that group order remains the same in the pie chart
+        .value(d => d.value)
+        .sort((a, b) => { console.log(a); return d3.ascending(a.key, b.key); }) // This make sure that group order remains the same in the pie chart
     var data_ready = pie(d3.entries(data))
 
     // map to data
@@ -47,7 +47,7 @@ function update(data) {
             .innerRadius(0)
             .outerRadius(radius)
         )
-        .attr("fill", function (d) { return (color(d.data.key)) })
+        .attr("fill", d => color(d.data.key))
         .attr("stroke", "white")
         .style("stroke-width", "2px")
         .style("opacity", 1)
