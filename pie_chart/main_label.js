@@ -21,11 +21,11 @@ var data = { A: 9, B: 20, C: 30, D: 8, E: 12 }
 // set the color scale
 var color = d3.scaleOrdinal()
     .domain(data)
-    .range(d3.schemeSet2);
+    .range(["#440154", "#3b528b", "#21918c", "#5ec962", "#fde725"]);
 
 // Compute the position of each group on the pie:
 var pie = d3.pie()
-    .value(function (d) { return d.value; })
+    .value(d => d.value)
 var data_ready = pie(d3.entries(data))
 // Now I know that group A goes from 0 degrees to x degrees and so on.
 
@@ -41,7 +41,7 @@ svg
     .enter()
     .append("path")
     .attr('d', arcGenerator)
-    .attr('fill', function (d) { return (color(d.data.key)) })
+    .attr('fill', d => color(d.data.key))
     .attr("stroke", "black")
     .style("stroke-width", "2px")
     .style("opacity", 0.7)
@@ -52,8 +52,9 @@ svg
     .data(data_ready)
     .enter()
     .append("text")
-    .text(function (d) { return "Slice " + d.data.key }) //will say slice + data values
-    .attr("transform", function (d) { return "translate(" + arcGenerator.centroid(d) + ")"; })
+    .text(d => { return "Slice " + d.data.key }) //will say slice + data values
+    .attr("transform", d => { return "translate(" + arcGenerator.centroid(d) + ")"; })
     .style("text-anchor", "middle")
     .style("font-size", 16)
-    .attr("fill", "darkviolet")
+    .style("font-weight", 500)
+    .attr("fill", "red");
