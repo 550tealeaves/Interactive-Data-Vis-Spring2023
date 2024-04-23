@@ -17,9 +17,7 @@ var width = 960,
 
 var pie = d3.layout.pie()
     .sort(null)
-    .value(function (d) {
-        return d.value;
-    });
+    .value(d => d.value);
 
 var arc = d3.svg.arc()
     .outerRadius(radius * 0.8)
@@ -31,7 +29,7 @@ var outerArc = d3.svg.arc()
 
 svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-var key = function (d) { return d.data.label; };
+var key = d => d.data.label;
 
 var color = d3.scale.ordinal()
     .domain(["kiwi", "pineapple", "dragonfruit", "peach", "grapefruit", "blackberry", "lime", "honeydew", "strawberry", "tangerine", "pomegranate", "blueberry"])
@@ -60,12 +58,13 @@ function change(data) {
 
     slice.enter()
         .insert("path")
-        .style("fill", function (d) { return color(d.data.label); })
+        .style("fill", d => color(d.data.label))
         .attr("class", "slice");
 
     slice
         .transition().duration(1000)
-        .attrTween("d", function (d) {
+        //if you convert below to arrow function it changes transition - colors appear individually instead of just being there at start
+        .attrTween("d", function (d) { 
             this._current = this._current || d;
             var interpolate = d3.interpolate(this._current, d);
             this._current = interpolate(0);
@@ -85,9 +84,7 @@ function change(data) {
     text.enter()
         .append("text")
         .attr("dy", ".35em")
-        .text(function (d) {
-            return d.data.label;
-        });
+        .text(d => d.data.label);
 
     function midAngle(d) {
         return d.startAngle + (d.endAngle - d.startAngle) / 2;
