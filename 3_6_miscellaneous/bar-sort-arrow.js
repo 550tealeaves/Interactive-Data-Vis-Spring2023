@@ -71,33 +71,33 @@ svg.selectAll("rect")
         d3.select(this)
             .transition("colorfade")
             .duration(250)
-            .attr("fill", function (d) {
+            .attr("fill", d => {
                 return "rgb(" + Math.round(d.value * 2) + ","
                     + Math.round(d.value * 2) + "," + Math.round(d.value * 2) + ")";
             })
     })
 
-    .attr("fill", function (d) {
+    .attr("fill", d => {
         return "rgb(" + Math.round(d.value * 2) + ","
             + Math.round(d.value * 2) + "," + Math.round(d.value * 2) + ")";
     })
 
-    .attr("x", function (d, i) {
+    .attr("x", (d, i) => {
         return x(d.key);
     })
     .attr("width", x.bandwidth())
     .attr("y", height)
 
     .transition("bars")
-    .delay(function (d, i) {
+    .delay((d, i) => {
         return i * 50;
     })
     .duration(1000)
 
-    .attr("y", function (d, i) {
+    .attr("y", (d, i) => {
         return y(d.value);
     })
-    .attr("height", function (d, i) {
+    .attr("height", (d, i) => {
         return height - y(d.value);
     })
 
@@ -114,18 +114,18 @@ svg.selectAll(".val-label")
     .append("text")
     .classed("val-label", true)
 
-    .attr("x", function (d, i) {
+    .attr("x", (d, i) => {
         return x(d.key) + x.bandwidth() / 2;
     }) 
     .attr("y", height)
 
     .transition("label")
-    .delay(function (d, i) {
+    .delay((d, i) => {
         return i * 50;  // gives it a smoother effect
     })
     .duration(1000)
 
-    .attr("y", function (d, i) {
+    .attr("y", (d, i) => {
         return y(d.value) - 4;
     })
     .attr("text-anchor", "middle")
@@ -139,7 +139,7 @@ svg.selectAll(".bar-label")
     .append("text")
     .classed("bar-label", true)
 
-    .attr("transform", function (d, i) {
+    .attr("transform", (d, i) => {
         return "translate(" + (x(d.key) + x.bandwidth() / 2 - 8) + "," + (height + 15) + ")"
             + " rotate(45)"
     })
@@ -150,28 +150,28 @@ svg.selectAll(".bar-label")
 
 //ADD FUNCATIONALITY TO "SORT BY KEY" BUTTON - MUST TELL THE BARS, VALUE & BAR LABELS HOW TO MOVE WHEN EVENT HAPPENS
 d3.select("#byKey").on("click", function () {
-    data.sort(function (a, b) {
+    data.sort((a, b) => {
         return d3.ascending(a.key, b.key)
     })
     x.domain(data.map(d => d.key)) //(d => d.key) replaces (function(d) {return d.key;});
     svg.selectAll(".bar")
         .transition()
         .duration(500) //changes how fast the bars shift
-        .attr("x", function (d, i) {
+        .attr("x", (d, i) => {
             return x(d.key);
         })
 
     svg.selectAll(".val-label")
         .transition()
         .duration(500)
-        .attr("x", function (d, i) {
+        .attr("x", (d, i) => {
             return x(d.key) + x.bandwidth() / 2;
         })
 
     svg.selectAll(".bar-label")
         .transition()
         .duration(500)
-        .attr("transform", function (d, i) {
+        .attr("transform", (d, i) => {
             return "translate(" + (x(d.key) + x.bandwidth() / 2 - 8) + "," + (height + 15) + ")" + " rotate(45)"
         })
 
@@ -180,28 +180,28 @@ d3.select("#byKey").on("click", function () {
 
 //ADD FUNCTIONALITY TO "SORT BY VALUE" BUTTON - MUST TELL THE BARS, VALUE & BAR LABELS HOW TO MOVE WHEN EVENT HAPPENS
 d3.select("#byValue").on("click", function () {
-    data.sort(function (a, b) {
+    data.sort((a, b) => {
         return d3.descending(a.value, b.value)
     })
     x.domain(data.map(d => d.key)) //(d => d.key) replaces (function(d) {return d.key;});
     svg.selectAll(".bar")
         .transition()
         .duration(500)
-        .attr("x", function (d, i) {
+        .attr("x", (d, i) => {
             return x(d.key);
         })
 
     svg.selectAll(".val-label")
         .transition()
         .duration(500)
-        .attr("x", function (d, i) {
+        .attr("x", (d, i) => {
             return x(d.key) + x.bandwidth() / 2;
         })
 
     svg.selectAll(".bar-label")
         .transition()
         .duration(500)
-        .attr("transform", function (d, i) {
+        .attr("transform", (d, i) => {
             return "translate(" + (x(d.key) + x.bandwidth() / 2 - 8) + "," + (height + 15) + ")" + " rotate(45)"
         })
 })
