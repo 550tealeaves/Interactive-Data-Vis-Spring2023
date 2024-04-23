@@ -100,7 +100,7 @@ function PieChart(data, {
 
 }})
 
-import { PieChart } from "@d3/pie-chart"
+import { PieChart } from "@d3/pie-chart";
 
 chart = PieChart(data, {
     name: d => d.name,
@@ -108,4 +108,4 @@ chart = PieChart(data, {
     width,
     height: 500
 
-})
+});
