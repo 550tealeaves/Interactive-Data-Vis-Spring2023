@@ -1,3 +1,5 @@
+//SOURCE - https://gist.github.com/mbostock/6bbb0a7ff7686b124d80#file-flare-csv
+
 //SET DIMENSIONS
 var width = 960,
     height = 1060;

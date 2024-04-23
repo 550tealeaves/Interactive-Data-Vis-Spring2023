@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Treemap</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            margin: auto;
+            position: relative;
+            width: 960px;
+            }
+        form {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            }
+        .node {
+            border: solid 1px white;
+            font: 10px sans-serif;
+            line-height: 12px;
+            overflow: hidden;
+            position: absolute;
+            text-indent: 2px;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <label><input type="radio" name="mode" value="size" checked> Size</label>
+        <label><input type="radio" name="mode" value="count"> Count</label>
+    </form>
+    <script src="//d3js.org/d3.v4.min.js"></script>
+    <script>
+        'use strict';
+
+        const margin = { top: 40, right: 10, bottom: 10, left: 10 },
+            width = 960 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom,
+            color = d3.scaleOrdinal().range(d3.schemeCategory20c);
+
+        const treemap = d3.treemap().size([width, height]);
+
+        const div = d3.select("body").append("div")
+            .style("position", "relative")
+            .style("width", (width + margin.left + margin.right) + "px")
+            .style("height", (height + margin.top + margin.bottom) + "px")
+            .style("left", margin.left + "px")
+            .style("top", margin.top + "px");
+
+        //HAD TO USE RAW WEBSITE B/C THE d3.json('../data/flare.json') NOT WORKING
+        d3.json("https://gist.githubusercontent.com/ganezasan/52fced34d2182483995f0ca3960fe228/raw/a4b255aedb7bd025bdb5f1a8aef2adea8f33aa38/flare.json", function (error, data) {
+            if (error) throw error;
+
+            const root = d3.hierarchy(data, (d) => d.children)
+                .sum((d) => d.size);
+
+            const tree = treemap(root);
+
+            const node = div.datum(root).selectAll(".node")
+                .data(tree.leaves())
+                .enter().append("div")
+                .attr("class", "node")
+                .style("left", (d) => d.x0 + "px")
+                .style("top", (d) => d.y0 + "px")
+                .style("width", (d) => Math.max(0, d.x1 - d.x0 - 1) + "px")
+                .style("height", (d) => Math.max(0, d.y1 - d.y0 - 1) + "px")
+                .style("background", (d) => color(d.parent.data.name))
+                .text((d) => d.data.name);
+
+            d3.selectAll("input").on("change", function change() {
+                const value = this.value === "count"
+                    ? (d) => { return d.size ? 1 : 0; }
+                    : (d) => { return d.size; };
+
+                const newRoot = d3.hierarchy(data, (d) => d.children)
+                    .sum(value);
+
+                node.data(treemap(newRoot).leaves())
+                    .transition()
+                    .duration(2000)
+                    .style("left", (d) => d.x0 + "px")
+                    .style("top", (d) => d.y0 + "px")
+                    .style("width", (d) => Math.max(0, d.x1 - d.x0 - 1) + "px")
+                    .style("height", (d) => Math.max(0, d.y1 - d.y0 - 1) + "px")
+            });
+        });
+
+    </script>
+</body>
+</html>
