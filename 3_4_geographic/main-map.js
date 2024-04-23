@@ -47,7 +47,7 @@ function ready(error, topo) {
             .projection(projection)
         )
         // set the color of each country
-        .attr("fill", function (d) {
+        .attr("fill", d => {
             d.total = data.get(d.id) || 0;
             return colorScale(d.total);
         }); 

@@ -1,12 +1,12 @@
-// set the dimensions and margins of the graph
-var width = 450 //increase width and chart moves to middle
+// SET DIMENSIONS AND MARGINS
+var width = 500 //increase width and chart moves to middle
 height = 450
 margin = 40
 
 
 
-// The radius of the pieplot is half the width or half the height (smallest one). 
-//I subtract a bit of margin.
+// The radius of the pie plot is half the width or half the height (smallest one). 
+//Subtracted a bit of margin.
 var radius = Math.min(width, height) / 2 - margin
 
 // append the svg object to the div called 'container'
