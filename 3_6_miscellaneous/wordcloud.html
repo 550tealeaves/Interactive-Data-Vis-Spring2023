@@ -18,17 +18,17 @@
 
 <script>
 
-// List of words
+// WORD LIST
 var myWords = ["Hello", "Everybody", "How", "Are", "You", "Today", "It", "Is", "A", "Lovely", "Day", "I", "Am", "Still ", "Learning", "D3", "It's", "Difficult"]
 
 console.log("words", myWords);
 
-// set the dimensions and margins of the graph
+// SET MARGINS & DIMENSIONS
 var margin = {top: 10, right: 10, bottom: 10, left: 10},
     width = 750 - margin.left - margin.right,
     height = 650 - margin.top - margin.bottom;
 
-// append the svg object to the body of the page
+// CREATE SVG & APPEND IT TO BODY OF PAGE
 var svg = d3.select("#container")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -37,7 +37,7 @@ var svg = d3.select("#container")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 
-// Constructs a new cloud layout instance. It run an algorithm to find the position of words that suits your requirements
+// D3.LAYOUT CONSTRUCTS A NEW CLOUD LAYOUT INSTANCE. IT RUNS ALGORITHM TO FIND POSITION OF WORDS THAT SUITS YOUR REQUIREMENTS
 var layout = d3.layout
   .cloud()
   .size([width, height])
@@ -47,8 +47,8 @@ var layout = d3.layout
   .on("end", draw);
 layout.start();
 
-// This function takes the output of 'layout' above and draw the words
-// Better not to touch it. To change parameters, play with the 'layout' variable above
+// FUNCTION DRAW TAKES OUTPUT OF 'LAYOUT' ABOVE & DRAWS THE WORDS
+// DON'T TOUCH FUNCTION DRAW - MODIFY THE VAR LAYOUT TO CHANGE THE PARAMETERS INSTEAD
 function draw(words) {
   svg
     .append("g")
@@ -65,7 +65,4 @@ function draw(words) {
 </script> 
 
 </body>
-
-
-
 </html>
