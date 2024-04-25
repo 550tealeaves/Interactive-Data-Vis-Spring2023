@@ -1,0 +1,71 @@
+<!-- Code from https://d3-graph-gallery.com/graph/wordcloud_basic.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"> 
+</head>
+
+<body>
+ <!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Load d3-cloud -->
+<script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+
+<!-- Create a div where the graph will take place -->
+<div id="container"></div>
+
+
+<script>
+
+// List of words
+var myWords = ["Hello", "Everybody", "How", "Are", "You", "Today", "It", "Is", "A", "Lovely", "Day", "I", "Am", "Still ", "Learning", "D3", "It's", "Difficult"]
+
+console.log("words", myWords);
+
+// set the dimensions and margins of the graph
+var margin = {top: 10, right: 10, bottom: 10, left: 10},
+    width = 750 - margin.left - margin.right,
+    height = 650 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#container")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+// Constructs a new cloud layout instance. It run an algorithm to find the position of words that suits your requirements
+var layout = d3.layout
+  .cloud()
+  .size([width, height])
+  .words(myWords.map(d => { return {text: d}; }))
+  .padding(10)
+  .fontSize(60)
+  .on("end", draw);
+layout.start();
+
+// This function takes the output of 'layout' above and draw the words
+// Better not to touch it. To change parameters, play with the 'layout' variable above
+function draw(words) {
+  svg
+    .append("g")
+      .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
+      .selectAll("text")
+        .data(words)
+      .enter().append("text")
+        .style("font-size", d => d.size + "px")
+        .attr("fill", "green")
+        .attr("text-anchor", "middle")
+        .attr("transform", d => "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")")
+        .text(d => d.text);
+}
+</script> 
+
+</body>
+
+
+
+</html>
