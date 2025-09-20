@@ -167,5 +167,135 @@ Promise.all([
         .style("text-anchor", "end")
         .text(d => d)
 
+    
+
+
+
+    // after you draw the initial chart, add:
+
+    // 1️⃣ Define a lookup from dropdown value -> CSV columns
+    const columns = {
+    mbfoo: {
+        male: "Male_ManagementBusinessandFinancialOperations",
+        fem: "Fem_ManagementBusinessandFinancialOperations",
+        mf: "M_F_ManagementBusinessandFinancialOperations",
+        title: "Management, Business & Finance"
+    },
+    pro: {
+        male: "Male_ProfessionalandRelated",
+        fem: "Fem_ProfessionalandRelated",
+        mf: "M_F_ProfessionalandRelated",
+        title: "Professional and Related"
+    },
+    hso: {
+        male: "Male_HealthcareSupport",
+        fem: "Fem_HealthcareSupport",
+        mf: "M_F_HealthcareSupport",
+        title: "Healthcare support"
+    },
+    protect: {
+        male: "Male_ProtectiveService",
+        fem: "Fem_ProtectiveService",
+        mf: "M_F_ProtectiveService",
+        title: "Protective service"
+    },
+    fps: {
+        male: "Male_FoodPrepandServing",
+        fem: "Fem_FoodPrepandServing",
+        mf: "M_F_FoodPrepandServing",
+        title: "Food prep & service"
+    },
+    bgcmo: {
+        male: "Male_BuildingandGroundsCleaningandMaintenance",
+        fem: "Fem_BuildingandGroundsCleaningandMaintenance",
+        mf: "M_F_BuildingandGroundsCleaningandMaintenance",
+        title: "Building, grounds cleaning & maintenance"
+    },
+    pcso: {
+        male: "Male_PersonalCareandService",
+        fem: "Fem_PersonalCareandService",
+        mf: "M_F_PersonalCareandService",
+        title: "Personal care & service"
+    },
+    sro: {
+        male: "Male_SalesandRelated",
+        fem: "Fem_SalesandRelated",
+        mf: "M_F_SalesandRelated",
+        title: "Sales and related"
+    },
+    oaso: {
+        male: "Male_OfficeandAdminSupport",
+        fem: "Fem_OfficeandAdminSupport",
+        mf: "M_F_OfficeandAdminSupport",
+        title: "Office & administrative support"
+    },
+    fffo: {
+        male: "Male_FarmingFishingandForestry",
+        fem: "Fem_FarmingFishingandForestry",
+        mf: "M_F_FarmingFishingandForestry",
+        title: "Farming, fishing & forestry"
+    },
+    cemo: {
+        male: "Male_ConstructionExtractionandMaintenance",
+        fem: "Fem_ConstructionExtractionandMaintenance",
+        mf: "M_F_ConstructionExtractionandMaintenance",
+        title: "Construction, extraction, maintenance"
+    },
+    prod: {
+        male: "Male_Production",
+        fem: "Fem_Production",
+        mf: "M_F_Production",
+        title: "Production"
+    },
+    tmmo: {
+        male: "Male_TranspoandMaterialMoving",
+        fem: "Fem_TranspoandMaterialMoving",
+        mf: "M_F_TranspoandMaterialMoving",
+        title: "Transportation & material moving"
+    }
+    // ... add the rest of your 13 categories here
+    };
+
+    // 2️⃣ Wrap your drawing code into a function
+    function updateScatter(catKey) {
+    const cfg = columns[catKey];
+
+    // update scales
+    xScale
+        .domain(d3.extent(data, d => d[cfg.male]));
+    yScale
+        .domain(d3.extent(data, d => d[cfg.fem]));
+
+    svg.select(".axis.x")
+        .transition().duration(600)
+        .call(d3.axisBottom(xScale).tickFormat(d => Math.round(d*100)+"%"));
+
+    svg.select(".axis.y")
+        .transition().duration(600)
+        .call(d3.axisLeft(yScale).tickFormat(d => Math.round(d*100)+"%"));
+
+    // update points
+    svg.selectAll("circle.dot")
+        .data(data, d => d.State)
+        .join("circle")
+        .attr("class", "dot")
+        .transition().duration(600)
+        .attr("cx", d => xScale(d[cfg.male]))
+        .attr("cy", d => yScale(d[cfg.fem]))
+        .attr("fill", d => colorScale(d[cfg.mf]));
+
+    // update title
+    svg.select(".title").text(cfg.title);
+    }
+
+    // 3️⃣ Listen for changes on the dropdown
+    d3.select("#dropdown")
+        .on("change", function () {
+            const selected = d3.select(this)
+                .property("value");
+        updateScatter(selected);
+    });
+
+
 
 });
