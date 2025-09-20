@@ -96,7 +96,7 @@ Promise.all([
         .style("position", "absolute")
         .style("background", "#fff")
         .style("padding", "6px 8px")
-        .style("border", "1px solid #aaa")
+        .style("border", "1px solid #62ac3aff")
         .style("border-radius", "4px")
         .style("pointer-events", "none")
         .style("opacity", 0);
@@ -172,13 +172,13 @@ Promise.all([
         })
 
 
-
-    svg
-        .append("text")
-        .attr("font-size", 13)
-        .attr("fill", "limegreen")
-        .attr("font-weight", "bold")
-        .attr("id", "dot-labels")
+    // this is the original tooltip - removed b/c of other tooltip created
+    // svg
+    //     .append("text")
+    //     .attr("font-size", 13)
+    //     .attr("fill", "limegreen")
+    //     .attr("font-weight", "bold")
+    //     .attr("id", "dot-labels")
 
 
     //LABEL THE SCATTERPLOT
