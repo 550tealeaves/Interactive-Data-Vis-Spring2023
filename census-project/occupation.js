@@ -10,10 +10,29 @@ Promise.all([
     d3.csv("../data/census_occ_cat_subset.csv"),
     d3.csv("../data/census_occ_pct.csv", d3.autoType),
 ]).then(([catPct, data]) => {
+
+    console.log("keyNames", Object.keys(data[0])); //extracts all the key names used for mapping
+
+    // ⬅️  ADD THE CLEANUP RIGHT HERE, before you create scales or access columns
+    data.forEach(d => {
+        Object.keys(d).forEach(k => {
+            const cleanKey = k.trim().replace(/^"|"$/g, ""); // remove spaces and surrounding quotes
+            if (cleanKey !== k) {
+                d[cleanKey] = d[k];
+                delete d[k];
+            }
+        });
+    });
+
+    console.log("columns after cleanup", Object.keys(data[0]));
+
+
     console.log("catPct", catPct)
     console.log("statesPct", data)
     console.log("maleCat", catPct.slice(1, 13)); //groups all the male occupation categories percentages
     console.log("maleState", data.columns.slice(1, 13)); //groups all the male occup category labels (not the data)
+
+    
     var allGroup = ["Alabama", "Alaska"]
     console.log("allGroup", allGroup); //only shows what's in the var allGroup above
 
@@ -40,22 +59,69 @@ Promise.all([
         .attr("width", width)
         .attr("height", height)
 
-    //X AXIS 
+    
+    // === ⬇️ INSERT LEGEND CODE HERE, just after svg & colorScale ===
+    const legendOffset = { x: margin.left + 20, y: margin.top + 20   };
+
+    const legend = svg.append("g")
+        .attr("class", "legend")
+        .attr("transform", `translate(${legendOffset.x}, ${legendOffset.y})`);
+
+    const legendItem = legend.selectAll(".legend-item")
+        .data(colorScale.domain())
+        .enter()
+        .append("g")
+        .attr("class", "legend-item")
+        .attr("transform", (d, i) => `translate(0, ${i * 26})`); //higher the i*# is the more spaced out the rectangles are
+        //higher the # after the translate - the boxes move to the right, lower the # move to left
+
+    legendItem.append("rect")
+        .attr("width", 25)
+        .attr("height", 20)
+        .attr("rx", 3)
+        .attr("ry", 3)
+        .style("fill", colorScale);
+
+    legendItem.append("text")
+        .attr("x", 8) //higher # the more to the right the M&F move
+        .attr("y", 10) //higher # the further dow the M&F move
+        .attr("dy", "2px") //higher the # the further down the M&F move 
+        .style("font-size", "14px")
+        .style("alignment-baseline", "middle") //alignment of text in relation to square
+        .style("fill", "white") //color of text
+        .attr("font-weight", "bold")
+        .text(d => d);
+
+    //Add tooltip
+    const tooltip = d3.select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("background", "#fff")
+        .style("padding", "6px 8px")
+        .style("border", "1px solid #62ac3aff")
+        .style("border-radius", "4px")
+        .style("pointer-events", "none")
+        .style("opacity", 0);
+
+
+    // X axis
     const xAxis = d3.axisBottom(xScale)
-        .tickFormat(d => Math.round(d * 100) + "%") //rounds the tick value, multiplies it by 100 and then adds % at the end
+        .tickFormat(d => Math.round(d * 100) + "%");
+
     svg.append("g")
-        .attr("class", "axis")
+        .attr("class", "x axis")     // 👈 add "x axis"
         .attr("transform", `translate(0,${height - margin.bottom})`)
-        .call(xAxis)
+        .call(xAxis);
 
-
-    //Y AXIS
+    // Y axis
     const yAxis = d3.axisLeft(yScale)
-        .tickFormat(d => Math.round(d * 100) + "%") //rounds the tick value, multiplies it by 100 and then adds % at the end
+        .tickFormat(d => Math.round(d * 100) + "%");
+
     svg.append("g")
-        .attr("class", "axis")
+        .attr("class", "y axis")     // 👈 add "y axis"
         .attr("transform", `translate(${margin.left},0)`)
-        .call(yAxis)
+        .call(yAxis);
 
 
     //CREATE SCATTERPLOT
@@ -92,13 +158,14 @@ Promise.all([
         })
 
 
-
-    svg
-        .append("text")
-        .attr("font-size", 13)
-        .attr("fill", "limegreen")
-        .attr("font-weight", "bold")
-        .attr("id", "dot-labels")
+    // this is the original tooltip - removed b/c of other tooltip created
+    // svg
+    //     .append("text")
+    //     .attr("font-size", 13)
+    //     .attr("fill", "limegreen")
+    //     .attr("font-weight", "bold")
+    //     .attr("id", "dot-labels")
+        
 
 
     //LABEL THE SCATTERPLOT
@@ -133,43 +200,7 @@ Promise.all([
         .style("font-weight", "bold")
         .style("font-size", "18px")
         .text("Females")
-    // .attr('transform', (d, i) => {
-    //     return 'translate( ' + yScale(i) + ' , ' + 350 + '),' + 'rotate(270)';
-    // })  
-    // .attr('y', -970) 
-
-    //CREATE A LEGEND
-    //https://stackoverflow.com/questions/35243433/styling-a-legend-in-d3
-
-    const legend = svg.selectAll("#legend")
-        .data(colorScale.domain())
-        .enter()
-        .append("g") //have to connect the legend to the axes
-        .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
-
-    //To flip the color order, add .slice().reverse() to the .data = .data(colorScale.domain().slice().reverse())     
-
-    legend.append("rect")
-        .attr("x", width - 18)
-        .attr("width", 18)
-        .attr("height", 18)
-        .style("fill", colorScale) //this adds the purple/orange to the boxes
-    // .attr("id", function (d, i) {
-    //     return "id" + d.replace(/\s/g, '');
-    // }) //unsure what it does
-
-
-    //CREATE THE LEGEND TEXT
-    legend.append("text")
-        .attr("x", width - 24)
-        .attr("y", 10)
-        .attr("dy", ".35em")
-        .style("text-anchor", "end")
-        .text(d => d)
-
     
-
-
 
     // after you draw the initial chart, add:
 
@@ -188,9 +219,9 @@ Promise.all([
         title: "Professional and Related"
     },
     hso: {
-        male: '"Male_HealthcareSupport"',
-        fem: '"Fem_HealthcareSupport"',
-        mf: '"M_F_HealthcareSupport"',
+        male: "Male_HealthcareSupport",
+        fem: "Fem_HealthcareSupport",
+        mf: "M_F_HealthcareSupport",
         title: "Healthcare support"
     },
     protect: {
@@ -206,10 +237,10 @@ Promise.all([
         title: "Food prep & service"
     },
     bgcmo: {
-        male: '"Male_BuildingandGroundsCleaningandMaintenance"',
-        fem: '"Fem_BuildingandGroundsCleaningandMaintenance"',
-        mf: '"M_F_BuildingandGroundsCleaningandMaintenance"',
-        title: "Building, grounds cleaning & maintenance" 
+        male: "Male_BuildingandGroundsCleaningandMaintenance",
+        fem: "Fem_BuildingandGroundsCleaningandMaintenance",
+        mf: "M_F_BuildingandGroundsCleaningandMaintenance",
+        title: "Building, grounds cleaning & maintenance"
     },
     pcso: {
         male: "Male_PersonalCareandService",
@@ -266,23 +297,43 @@ Promise.all([
     yScale
         .domain(d3.extent(data, d => d[cfg.fem]));
 
-    svg.select(".axis.x")
-        .transition().duration(600)
-        .call(d3.axisBottom(xScale).tickFormat(d => Math.round(d*100)+"%"));
 
-    svg.select(".axis.y")
+    svg.select(".x.axis")
         .transition().duration(600)
-        .call(d3.axisLeft(yScale).tickFormat(d => Math.round(d*100)+"%"));
+        .call(d3.axisBottom(xScale).tickFormat(d => Math.round(d * 100) + "%"));
 
-    // update points
+    svg.select(".y.axis")
+        .transition().duration(600)
+        .call(d3.axisLeft(yScale).tickFormat(d => Math.round(d * 100) + "%"));
+
+
+    //Update points
     svg.selectAll("circle.dot")
         .data(data, d => d.State)
         .join("circle")
         .attr("class", "dot")
+        .on("mouseover", (e, d) => {
+            tooltip.style("opacity", 1)
+                .html(
+                `<strong>${d.State}</strong><br>
+                Males: ${(d[cfg.male] * 100).toFixed(1)}%<br>
+                Females: ${(d[cfg.fem] * 100).toFixed(1)}%`
+                );
+        })
+        .on("mousemove", (e) => {
+            tooltip
+                .style("left", e.pageX + 15 + "px")
+                .style("top", e.pageY - 28 + "px");
+        })
+        .on("mouseleave", () => tooltip.style("opacity", 0))
         .transition().duration(600)
         .attr("cx", d => xScale(d[cfg.male]))
         .attr("cy", d => yScale(d[cfg.fem]))
         .attr("fill", d => colorScale(d[cfg.mf]));
+
+        
+
+
 
     // update title
     svg.select(".title").text(cfg.title);
