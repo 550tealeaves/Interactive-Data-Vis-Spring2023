@@ -59,6 +59,36 @@ Promise.all([
         .attr("width", width)
         .attr("height", height)
 
+    
+    // === ⬇️ INSERT LEGEND CODE HERE, just after svg & colorScale ===
+    const legendOffset = { x: margin.left + 20, y: margin.top + 20 };
+
+    const legend = svg.append("g")
+        .attr("class", "legend")
+        .attr("transform", `translate(${legendOffset.x}, ${legendOffset.y})`);
+
+    const legendItem = legend.selectAll(".legend-item")
+        .data(colorScale.domain())
+        .enter()
+        .append("g")
+        .attr("class", "legend-item")
+        .attr("transform", (d, i) => `translate(0, ${i * 28})`);
+
+    legendItem.append("rect")
+        .attr("width", 20)
+        .attr("height", 20)
+        .attr("rx", 3)
+        .attr("ry", 3)
+        .style("fill", colorScale);
+
+    legendItem.append("text")
+        .attr("x", 28)
+        .attr("y", 10)
+        .attr("dy", ".35em")
+        .style("font-size", "14px")
+        .style("alignment-baseline", "middle")
+        .text(d => d);
+
     //Add tooltip
     const tooltip = d3.select("body")
         .append("div")
@@ -188,34 +218,72 @@ Promise.all([
     // })  
     // .attr('y', -970) 
 
+
+
     //CREATE A LEGEND
     //https://stackoverflow.com/questions/35243433/styling-a-legend-in-d3
 
-    const legend = svg.selectAll("#legend")
-        .data(colorScale.domain())
-        .enter()
-        .append("g") //have to connect the legend to the axes
-        .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
+    // const legendPadding = { top: 40, right: 40 };
 
-    //To flip the color order, add .slice().reverse() to the .data = .data(colorScale.domain().slice().reverse())     
+    // const legend = svg.append("g")
+    //     .attr("class", "legend")
+    //     .attr("transform", `translate(${width - legendPadding.right - 80}, ${legendPadding.top})`);
+    
+    // const legendItem = svg.selectAll("#legendItem")
+    //     .data(colorScale.domain())
+    //     .enter()
+    //     .append("g") //have to connect the legend to the axes
+    //     .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
 
-    legend.append("rect")
-        .attr("x", width - 18)
-        .attr("width", 18)
-        .attr("height", 18)
-        .style("fill", colorScale) //this adds the purple/orange to the boxes
-    // .attr("id", function (d, i) {
-    //     return "id" + d.replace(/\s/g, '');
-    // }) //unsure what it does
+    // //To flip the color order, add .slice().reverse() to the .data = .data(colorScale.domain().slice().reverse())     
+
+    // legendItem.append("rect")
+    //     .attr("x", width - 18)
+    //     .attr("width", 18)
+    //     .attr("height", 18)
+    //     .style("fill", colorScale) //this adds the purple/orange to the boxes
+    // // .attr("id", function (d, i) {
+    // //     return "id" + d.replace(/\s/g, '');
+    // // }) //unsure what it does
 
 
-    //CREATE THE LEGEND TEXT
-    legend.append("text")
-        .attr("x", width - 24)
-        .attr("y", 10)
-        .attr("dy", ".35em")
-        .style("text-anchor", "end")
-        .text(d => d)
+    // //CREATE THE LEGEND TEXT
+    // legendItem.append("text")
+    //     .attr("x", width - 24)
+    //     .attr("y", 10)
+    //     .attr("dy", ".35em")
+    //     .style("text-anchor", "end")
+    //     .text(d => d)
+
+
+    // // padding from right and top
+    // const legendPadding = { top: 40, right: 40 };
+
+    // const legend = svg.append("g")
+    //     .attr("class", "legend")
+    //     .attr("transform", `translate(${width - legendPadding.right - 80}, ${legendPadding.top})`);
+
+    // const legendItem = legend.selectAll(".legend-item")
+    //     .data(colorScale.domain())
+    //     .enter()
+    //     .append("g")
+    //     .attr("class", "legend-item")
+    //     .attr("transform", (d, i) => `translate(0, ${i * 25})`);
+
+    // legendItem.append("rect")
+    //     .attr("width", 18)
+    //     .attr("height", 18)
+    //     .attr("rx", 3)
+    //     .attr("ry", 3)
+    //     .style("fill", colorScale);
+
+    // legendItem.append("text")
+    //     .attr("x", 28)
+    //     .attr("y", 9)
+    //     .attr("dy", ".35em")
+    //     .style("font-size", "14px")
+    //     .style("alignment-baseline", "middle")
+    //     .text(d => d);
 
     
 
