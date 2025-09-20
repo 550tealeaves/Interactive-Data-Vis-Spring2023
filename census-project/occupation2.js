@@ -75,18 +75,20 @@ Promise.all([
         .attr("transform", (d, i) => `translate(0, ${i * 28})`);
 
     legendItem.append("rect")
-        .attr("width", 20)
+        .attr("width", 25)
         .attr("height", 20)
         .attr("rx", 3)
         .attr("ry", 3)
         .style("fill", colorScale);
 
     legendItem.append("text")
-        .attr("x", 28)
-        .attr("y", 10)
-        .attr("dy", ".35em")
+        .attr("x", 8) //higher # the more to the right the M&F move
+        .attr("y", 10) //higher # the further dow the M&F move
+        .attr("dy", "2px") //higher the # the further down the M&F move 
         .style("font-size", "14px")
-        .style("alignment-baseline", "middle")
+        .style("alignment-baseline", "middle") //alignment of text in relation to square
+        .style("fill", "white") //color of text
+        .attr("font-weight", "bold")
         .text(d => d);
 
     //Add tooltip
