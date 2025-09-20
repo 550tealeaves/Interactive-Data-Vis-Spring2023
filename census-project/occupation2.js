@@ -440,6 +440,8 @@ Promise.all([
         .attr("cy", d => yScale(d[cfg.fem]))
         .attr("fill", d => colorScale(d[cfg.mf]));
 
+        
+
 
 
     // update title
