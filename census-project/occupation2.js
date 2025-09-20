@@ -72,7 +72,8 @@ Promise.all([
         .enter()
         .append("g")
         .attr("class", "legend-item")
-        .attr("transform", (d, i) => `translate(0, ${i * 28})`);
+        .attr("transform", (d, i) => `translate(0, ${i * 28})`); //higher the i*# is the more spaced out the rectangles are
+        //higher the # after the translate - the boxes move to the right, lower the # move to left
 
     legendItem.append("rect")
         .attr("width", 25)
