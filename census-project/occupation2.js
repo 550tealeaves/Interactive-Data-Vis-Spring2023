@@ -61,7 +61,7 @@ Promise.all([
 
     
     // === ⬇️ INSERT LEGEND CODE HERE, just after svg & colorScale ===
-    const legendOffset = { x: margin.left + 20, y: margin.top + 20 };
+    const legendOffset = { x: margin.left + 20, y: margin.top + 20   };
 
     const legend = svg.append("g")
         .attr("class", "legend")
@@ -72,7 +72,7 @@ Promise.all([
         .enter()
         .append("g")
         .attr("class", "legend-item")
-        .attr("transform", (d, i) => `translate(0, ${i * 28})`); //higher the i*# is the more spaced out the rectangles are
+        .attr("transform", (d, i) => `translate(0, ${i * 26})`); //higher the i*# is the more spaced out the rectangles are
         //higher the # after the translate - the boxes move to the right, lower the # move to left
 
     legendItem.append("rect")
