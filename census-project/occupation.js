@@ -188,9 +188,9 @@ Promise.all([
         title: "Professional and Related"
     },
     hso: {
-        male: "Male_HealthcareSupport",
-        fem: "Fem_HealthcareSupport",
-        mf: "M_F_HealthcareSupport",
+        male: '"Male_HealthcareSupport"',
+        fem: '"Fem_HealthcareSupport"',
+        mf: '"M_F_HealthcareSupport"',
         title: "Healthcare support"
     },
     protect: {
@@ -206,10 +206,10 @@ Promise.all([
         title: "Food prep & service"
     },
     bgcmo: {
-        male: "Male_BuildingandGroundsCleaningandMaintenance",
-        fem: "Fem_BuildingandGroundsCleaningandMaintenance",
-        mf: "M_F_BuildingandGroundsCleaningandMaintenance",
-        title: "Building, grounds cleaning & maintenance"
+        male: '"Male_BuildingandGroundsCleaningandMaintenance"',
+        fem: '"Fem_BuildingandGroundsCleaningandMaintenance"',
+        mf: '"M_F_BuildingandGroundsCleaningandMaintenance"',
+        title: "Building, grounds cleaning & maintenance" 
     },
     pcso: {
         male: "Male_PersonalCareandService",
