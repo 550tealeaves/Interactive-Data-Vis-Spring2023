@@ -10,10 +10,29 @@ Promise.all([
     d3.csv("../data/census_occ_cat_subset.csv"),
     d3.csv("../data/census_occ_pct.csv", d3.autoType),
 ]).then(([catPct, data]) => {
+
+    console.log("keyNames", Object.keys(data[0])); //extracts all the key names used for mapping
+
+    // ⬅️  ADD THE CLEANUP RIGHT HERE, before you create scales or access columns
+    data.forEach(d => {
+        Object.keys(d).forEach(k => {
+            const cleanKey = k.trim().replace(/^"|"$/g, ""); // remove spaces and surrounding quotes
+            if (cleanKey !== k) {
+                d[cleanKey] = d[k];
+                delete d[k];
+            }
+        });
+    });
+
+    console.log("columns after cleanup", Object.keys(data[0]));
+
+
     console.log("catPct", catPct)
     console.log("statesPct", data)
     console.log("maleCat", catPct.slice(1, 13)); //groups all the male occupation categories percentages
     console.log("maleState", data.columns.slice(1, 13)); //groups all the male occup category labels (not the data)
+
+    
     var allGroup = ["Alabama", "Alaska"]
     console.log("allGroup", allGroup); //only shows what's in the var allGroup above
 
@@ -219,9 +238,9 @@ Promise.all([
         title: "Professional and Related"
     },
     hso: {
-        male: '"Male_HealthcareSupport"',
-        fem: '"Fem_HealthcareSupport"',
-        mf: '"M_F_HealthcareSupport"',
+        male: "Male_HealthcareSupport",
+        fem: "Fem_HealthcareSupport",
+        mf: "M_F_HealthcareSupport",
         title: "Healthcare support"
     },
     protect: {
@@ -237,9 +256,9 @@ Promise.all([
         title: "Food prep & service"
     },
     bgcmo: {
-        male: '"Male_BuildingandGroundsCleaningandMaintenance"',
-        fem: '"Fem_BuildingandGroundsCleaningandMaintenance"',
-        mf: '"M_F_BuildingandGroundsCleaningandMaintenance"',
+        male: "Male_BuildingandGroundsCleaningandMaintenance",
+        fem: "Fem_BuildingandGroundsCleaningandMaintenance",
+        mf: "M_F_BuildingandGroundsCleaningandMaintenance",
         title: "Building, grounds cleaning & maintenance"
     },
     pcso: {
