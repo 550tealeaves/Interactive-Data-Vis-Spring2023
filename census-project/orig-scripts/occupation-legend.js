@@ -1,5 +1,3 @@
-/* This file has no legend */
-
 /* CONSTANTS AND GLOBALS */
 const margin = { top: 60, right: 40, bottom: 60, left: 60 },
       baseWidth = 900,
@@ -59,6 +57,38 @@ Promise.all([
         .style("width", "100%")                               // let CSS size it
         .style("height", "auto");
 
+    
+    // Create a legend ===
+    const legendOffset = { x: margin.left, y: margin.top - 30   };
+
+    const legend = svg.append("g")
+        .attr("class", "legend")
+        .attr("transform", `translate(${legendOffset.x},${legendOffset.y})`);
+
+    const legendItem = legend.selectAll(".legend-item")
+        .data(colorScale.domain())
+        .enter()
+        .append("g")
+        .attr("class", "legend-item")
+        .attr("transform", (d, i) => `translate(${i * 30},0)`); //higher the i*# is the more spaced out the rectangles are
+        //higher the # after the translate - the boxes move to the right, lower the # move to left
+
+    legendItem.append("rect")
+        .attr("width", 25)
+        .attr("height", 20)
+        .attr("rx", 3)
+        .attr("ry", 3)
+        .style("fill", colorScale);
+
+    legendItem.append("text")
+        .attr("x", 6) //higher # the more to the right the M&F move
+        .attr("y", 12) //higher # the further dow the M&F move
+        .attr("dy", "2px") //higher the # the further down the M&F move 
+        .style("font-size", "14px")
+        .style("alignment-baseline", "middle") //alignment of text in relation to square
+        .style("fill", "white") //color of text
+        .attr("font-weight", "bold")
+        .text(d => d);
 
     //Add tooltip
     const tooltip = d3.select("body")
@@ -67,7 +97,7 @@ Promise.all([
         .style("position", "absolute")
         .style("background", "#fff")
         .style("padding", "6px 8px")
-        .style("border", "1px solid #6d3aacff")
+        .style("border", "1px solid #62ac3aff")
         .style("border-radius", "4px")
         .style("pointer-events", "none")
         .style("opacity", 0);
@@ -137,7 +167,6 @@ Promise.all([
         .attr("text-anchor", "middle")
         .style("font-size", "18px")
         .style("font-weight", "bold")
-        //.style("text-decoration", "underline")
         .attr("fill", "darkblue")
         .text("Management, Business, and Financial Operations");
 
