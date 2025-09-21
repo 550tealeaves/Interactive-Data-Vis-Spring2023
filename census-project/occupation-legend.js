@@ -1,16 +1,8 @@
 /* CONSTANTS AND GLOBALS */
-// const width = window.innerWidth * 0.9,
-//     height = window.innerHeight * 0.9,
-//     margin = { top: 20, bottom: 60, left: 60, right: 40 },
-   const radius = 5;
-
-// Pick an initial “design size”
-    const baseWidth = 900;
-    const baseHeight = 600;
-
-
-
-
+const margin = { top: 60, right: 40, bottom: 60, left: 60 },
+      baseWidth = 900,
+      baseHeight = 600,
+      radius = 5;
 
 
 Promise.all([
@@ -46,47 +38,39 @@ Promise.all([
     //X SCALE
     const xScale = d3.scaleLinear()
         .domain(d3.extent(data, d => d.Male_ManagementBusinessandFinancialOperations))
-        .range([margin.left, width - margin.right])
+        .range([margin.left, baseWidth - margin.right])
 
     //Y SCALE
     const yScale = d3.scaleLinear()
         .domain(d3.extent(data, d => d.Fem_ManagementBusinessandFinancialOperations))
-        .range([height - margin.bottom, margin.top])
+        .range([baseHeight - margin.bottom, margin.top])
 
     const colorScale = d3.scaleOrdinal()
         .domain(["M", "F"])
         .range(["purple", "orange"])
 
 
-
-    /*HTML Elements */
-    //CREATE SVG
-    // const svg = d3.select("#container")
-    //     .append("svg")
-    //     .attr("width", width)
-    //     .attr("height", height)
-
     const svg = d3.select("#container")
-  .append("svg")
-  .attr("viewBox", `0 0 ${baseWidth} ${baseHeight}`)   // key for responsiveness
-  .attr("preserveAspectRatio", "xMidYMid meet")        // keep aspect ratio
-  .style("width", "100%")                               // let CSS size it
-  .style("height", "auto");
+        .append("svg")
+        .attr("viewBox", `0 0 ${baseWidth} ${baseHeight}`)   // key for responsiveness
+        .attr("preserveAspectRatio", "xMidYMid meet")        // keep aspect ratio
+        .style("width", "100%")                               // let CSS size it
+        .style("height", "auto");
 
     
-    // === ⬇️ INSERT LEGEND CODE HERE, just after svg & colorScale ===
-    const legendOffset = { x: margin.left + 20, y: margin.top + 20   };
+    // Create a legend ===
+    const legendOffset = { x: margin.left, y: margin.top - 30   };
 
     const legend = svg.append("g")
         .attr("class", "legend")
-        .attr("transform", `translate(${legendOffset.x}, ${legendOffset.y})`);
+        .attr("transform", `translate(${legendOffset.x},${legendOffset.y})`);
 
     const legendItem = legend.selectAll(".legend-item")
         .data(colorScale.domain())
         .enter()
         .append("g")
         .attr("class", "legend-item")
-        .attr("transform", (d, i) => `translate(0, ${i * 26})`); //higher the i*# is the more spaced out the rectangles are
+        .attr("transform", (d, i) => `translate(${i * 30},0)`); //higher the i*# is the more spaced out the rectangles are
         //higher the # after the translate - the boxes move to the right, lower the # move to left
 
     legendItem.append("rect")
@@ -97,12 +81,12 @@ Promise.all([
         .style("fill", colorScale);
 
     legendItem.append("text")
-        .attr("x", 8) //higher # the more to the right the M&F move
-        .attr("y", 10) //higher # the further dow the M&F move
+        .attr("x", 6) //higher # the more to the right the M&F move
+        .attr("y", 12) //higher # the further dow the M&F move
         .attr("dy", "2px") //higher the # the further down the M&F move 
         .style("font-size", "14px")
         .style("alignment-baseline", "middle") //alignment of text in relation to square
-        .style("fill", "white") //color of text
+        .style("fill", "beige") //color of text
         .attr("font-weight", "bold")
         .text(d => d);
 
@@ -125,7 +109,7 @@ Promise.all([
 
     svg.append("g")
         .attr("class", "x axis")     // 👈 add "x axis"
-        .attr("transform", `translate(0,${height - margin.bottom})`)
+        .attr("transform", `translate(0,${baseHeight - margin.bottom})`)
         .call(xAxis);
 
     // Y axis
@@ -139,81 +123,78 @@ Promise.all([
 
 
     //CREATE SCATTERPLOT
-    const dot = svg
-        .selectAll("dot")
+    const dots = svg.selectAll(".dot")
         .data(data, d => d.State)
         .join(
             enter => enter.append("circle")
-                .attr("r", 0)
-                .call(selection => selection
-                    .transition()
-                    .duration(600)
-                    .delay((d, i) => i * 120)
-                    .attr("r", radius),
-                    update => update,
-                    exit => exit.remove()
-                ) //transition allows the dots to grow from radius 0 to their radius value
-        )
+            .attr("r", 0)
+            .call(sel =>
+                sel.transition()
+                .duration(600)
+                .delay((d, i) => i * 120)
+                .attr("r", radius)
+            ),
+            update => update,
+            exit => exit.remove()
+    )
         .attr("class", "dot")
         .attr("cx", d => xScale(d.Male_ManagementBusinessandFinancialOperations))
         .attr("cy", d => yScale(d.Fem_ManagementBusinessandFinancialOperations))
         .attr("fill", d => colorScale(d.M_F_ManagementBusinessandFinancialOperations))
-        .on('mouseover', function (e, d) {
-            console.log(e, d);
-
-            d3.select("#dot-labels")
-                .text(d.State + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations.toLocaleString(undefined, {
-                    style: "percent", minimumFractionDigits: 1
-                }) + ", F: " + d.Fem_ManagementBusinessandFinancialOperations.toLocaleString(undefined, {
-                    style: "percent", minimumFractionDigits: 1
-                })) //minimumFractionDigits: 1 adds the tenth place (w/o it, just a whole %)
-                .attr("x", xScale(d.Male_ManagementBusinessandFinancialOperations) - (margin.left / 7) - (margin.left + 3))
-                .attr("y", yScale(d.Fem_ManagementBusinessandFinancialOperations) + (margin.top + 8) - (margin.right + 1))
+        .on("mouseover", (e, d) => {
+            tooltip
+            .style("opacity", 1)
+            .html(`
+                <strong>${d.State}</strong><br>
+                Males: ${(d.Male_ManagementBusinessandFinancialOperations * 100).toFixed(1)}%<br>
+                Females: ${(d.Fem_ManagementBusinessandFinancialOperations * 100).toFixed(1)}%
+            `);
         })
-
-
-    // this is the original tooltip - removed b/c of other tooltip created
-    // svg
-    //     .append("text")
-    //     .attr("font-size", 13)
-    //     .attr("fill", "limegreen")
-    //     .attr("font-weight", "bold")
-    //     .attr("id", "dot-labels")
-        
+        .on("mousemove", e => {
+            tooltip
+            .style("left", `${e.pageX + 15}px`)
+            .style("top", `${e.pageY - 28}px`);
+        })
+        .on("mouseleave", () => tooltip.style("opacity", 0));
 
 
     //LABEL THE SCATTERPLOT
     svg
         .append("text")
         .attr("class", "title")
-        .attr("x", width / 2)
-        .attr("y", height / 20)
+        .attr("x", baseWidth / 2)
+        .attr("y", margin.top - 35)
         .attr("text-anchor", "middle")
-        .text("Management, Business, and Financial Operations")
         .style("font-size", "20px")
         .style("font-weight", "bold")
         .style("text-decoration", "underline")
         .attr("fill", "darkblue")
+        .text("Management, Business, and Financial Operations");
 
     //LABEL THE X-AXIS
     svg
         .append("text")
         .attr("class", "axis-label")
-        .attr("transform", `translate(550,${height - margin.bottom + 50})`)
+        .attr("x", baseWidth / 2)
+        .attr("y", baseHeight - 15)
+        //.attr("transform", `translate(550,${height - margin.bottom + 50})`)
         .attr("fill", "purple")
         .style("font-weight", "bold")
         .style("font-size", "18px")
-        .text("Males")
+        .text("Males");
 
     //LABEL THE Y-AXIS 
     svg //use margin to arrange y-axis - Mia
         .append("text")
         .attr("class", "axis-label")
-        .attr("transform", `translate(25, ${height - margin.bottom - 200})` + 'rotate (270)')
+        //.attr("transform", `translate(25, ${height - margin.bottom - 200})` + 'rotate (270)')
+        .attr("transform", `rotate(-90)`)
+        .attr("x", -baseHeight / 2)
+        .attr("y", 20)
         .attr("fill", "orange")
         .style("font-weight", "bold")
         .style("font-size", "18px")
-        .text("Females")
+        .text("Females");
     
 
     // after you draw the initial chart, add:
@@ -298,30 +279,32 @@ Promise.all([
         mf: "M_F_TranspoandMaterialMoving",
         title: "Transportation & material moving"
     }
-    // ... add the rest of your 13 categories here
     };
 
-    // 2️⃣ Wrap your drawing code into a function
+    // Wrap drawing code into a function
     function updateScatter(catKey) {
     const cfg = columns[catKey];
 
-    // update scales
+    // Update the scales
     xScale
         .domain(d3.extent(data, d => d[cfg.male]));
     yScale
         .domain(d3.extent(data, d => d[cfg.fem]));
 
 
+    // Update the X-axis
     svg.select(".x.axis")
         .transition().duration(600)
         .call(d3.axisBottom(xScale).tickFormat(d => Math.round(d * 100) + "%"));
 
+    // Update the Y-axis
     svg.select(".y.axis")
         .transition().duration(600)
         .call(d3.axisLeft(yScale).tickFormat(d => Math.round(d * 100) + "%"));
 
 
-    //Update points
+    
+    //Update the dots
     svg.selectAll("circle.dot")
         .data(data, d => d.State)
         .join("circle")
@@ -345,22 +328,17 @@ Promise.all([
         .attr("cy", d => yScale(d[cfg.fem]))
         .attr("fill", d => colorScale(d[cfg.mf]));
 
-        
 
-
-
-    // update title
+    // Update title
     svg.select(".title").text(cfg.title);
     }
 
-    // 3️⃣ Listen for changes on the dropdown
+    // Create event listener that listens for changes on the dropdown
     d3.select("#dropdown")
         .on("change", function () {
             const selected = d3.select(this)
                 .property("value");
         updateScatter(selected);
     });
-
-
 
 });
