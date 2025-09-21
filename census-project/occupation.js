@@ -1,20 +1,8 @@
 /* CONSTANTS AND GLOBALS */
-// const width = window.innerWidth * 0.9,
-//     height = window.innerHeight * 0.9,
-//     margin = { top: 20, bottom: 60, left: 60, right: 40 },
-//    const radius = 5;
-
-// // Pick an initial “design size”
-//     const baseWidth = 900;
-//     const baseHeight = 600;
-
 const margin = { top: 60, right: 40, bottom: 60, left: 60 },
       baseWidth = 900,
       baseHeight = 600,
       radius = 5;
-
-
-
 
 
 Promise.all([
@@ -61,14 +49,6 @@ Promise.all([
         .domain(["M", "F"])
         .range(["purple", "orange"])
 
-
-
-    /*HTML Elements */
-    //CREATE SVG
-    // const svg = d3.select("#container")
-    //     .append("svg")
-    //     .attr("width", width)
-    //     .attr("height", height)
 
     const svg = d3.select("#container")
         .append("svg")
@@ -145,108 +125,39 @@ Promise.all([
 
 
     //CREATE SCATTERPLOT
-    const dot = svg
-        .selectAll("dot")
+    const dots = svg.selectAll(".dot")
         .data(data, d => d.State)
         .join(
             enter => enter.append("circle")
-                .attr("r", 0)
-                .call(selection => selection
-                    .transition()
-                    .duration(600)
-                    .delay((d, i) => i * 120)
-                    .attr("r", radius),
-                    update => update,
-                    exit => exit.remove()
-                ) //transition allows the dots to grow from radius 0 to their radius value
-        )
+            .attr("r", 0)
+            .call(sel =>
+                sel.transition()
+                .duration(600)
+                .delay((d, i) => i * 120)
+                .attr("r", radius)
+            ),
+            update => update,
+            exit => exit.remove()
+    )
         .attr("class", "dot")
         .attr("cx", d => xScale(d.Male_ManagementBusinessandFinancialOperations))
         .attr("cy", d => yScale(d.Fem_ManagementBusinessandFinancialOperations))
         .attr("fill", d => colorScale(d.M_F_ManagementBusinessandFinancialOperations))
-        .on('mouseover', function (e, d) {
-            console.log(e, d);
-            d3.select("#dot-labels")
-            
-                .text(d.State + " - " + "Males: " + d.Male_ManagementBusinessandFinancialOperations.toLocaleString(undefined, {
-                    style: "percent", minimumFractionDigits: 1
-                }) + ", Females: " + d.Fem_ManagementBusinessandFinancialOperations.toLocaleString(undefined, {
-                    style: "percent", minimumFractionDigits: 1
-                })) //minimumFractionDigits: 1 adds the tenth place (w/o it, just a whole %)
-                .attr("x", xScale(d.Male_ManagementBusinessandFinancialOperations) - (margin.left / 7) - (margin.left + 3))
-                .attr("y", yScale(d.Fem_ManagementBusinessandFinancialOperations) + (margin.top + 8) - (margin.right + 1))
-            .on("mousemove", (e) => {
-                tooltip
-                    .style("left", e.pageX + 15 + "px")
-                    .style("top", e.pageY - 28 + "px");
-            })
-            .on("mouseleave", () => tooltip.style("opacity", 0))
-            .attr("cx", d => xScale(d.Male_ManagementBusinessandFinancialOperations))
-            .attr("cy", d => yScale(d.Fem_ManagementBusinessandFinancialOperations))
-            .attr("r", radius)
-            .attr("fill", d => colorScale(d.M_F_ManagementBusinessandFinancialOperations))
+        .on("mouseover", (e, d) => {
+            tooltip
+            .style("opacity", 1)
+            .html(`
+                <strong>${d.State}</strong><br>
+                Males: ${(d.Male_ManagementBusinessandFinancialOperations * 100).toFixed(1)}%<br>
+                Females: ${(d.Fem_ManagementBusinessandFinancialOperations * 100).toFixed(1)}%
+            `);
         })
-
-        // tooltip.style("opacity", 1)
-        //         .html(
-        //         `<strong>${d.State}</strong><br>
-        //         Males: ${(d[cfg.male] * 100).toFixed(1)}%<br>
-        //         Females: ${(d[cfg.fem] * 100).toFixed(1)}%`
-        //         )
-
-
-    // svg.selectAll(".dot")
-    //     .data(data, d => d.State)
-    //     .join("circle")
-    //     .attr("class", "dot")
-    //     .on("mouseover", (e, d) => {
-    //         d3.select("#dot-labels")
-    //             .text(d.State + " - " + "M: " + d.Male_ManagementBusinessandFinancialOperations.toLocaleString(undefined, {
-    //                 style: "percent", minimumFractionDigits: 1
-    //             }) + ", F: " + d.Fem_ManagementBusinessandFinancialOperations.toLocaleString(undefined, {
-    //                 style: "percent", minimumFractionDigits: 1
-    //             })) //minimumFractionDigits: 1 adds the tenth place (w/o it, just a whole %)    
-    //         tooltip.style("opacity", 1)
-    //             .html(
-    //             `<strong>${d.State}</strong><br>
-    //             Males: ${(d[cfg.male] * 100).toFixed(1)}%<br>
-    //             Females: ${(d[cfg.fem] * 100).toFixed(1)}%`
-    //             );
-    //     })
-    //     .on("mousemove", (e) => {
-    //         tooltip
-    //             .style("left", e.pageX + 15 + "px")
-    //             .style("top", e.pageY - 28 + "px");
-    //     })
-    //     .on("mouseleave", () => tooltip.style("opacity", 0))
-    //     .attr("cx", d => xScale(d.Male_ManagementBusinessandFinancialOperations))
-    //     .attr("cy", d => yScale(d.Fem_ManagementBusinessandFinancialOperations))
-    //     .attr("r", radius)
-    //     .attr("fill", d => colorScale(d.M_F_ManagementBusinessandFinancialOperations));
-
-
-    // this is the original tooltip - removed b/c of other tooltip created
-    svg
-        .append("text")
-        .attr("font-size", 13)
-        .attr("fill", "black")
-        //.attr("font-weight", "bold")
-        // .on("mouseover", (e, d) => {
-        //     tooltip.style("opacity", 1)
-        //         .html(
-        //         `<strong>${d.State}</strong><br>
-        //         Males: ${(d[cfg.male] * 100).toFixed(1)}%<br>
-        //         Females: ${(d[cfg.fem] * 100).toFixed(1)}%`
-        //         );
-        // })
-        // .on("mousemove", (e) => {
-        //     tooltip
-        //         .style("left", e.pageX + 15 + "px")
-        //         .style("top", e.pageY - 28 + "px");
-        // })
-        // .on("mouseleave", () => tooltip.style("opacity", 0))
-        .attr("id", "dot-labels");
-        
+        .on("mousemove", e => {
+            tooltip
+            .style("left", `${e.pageX + 15}px`)
+            .style("top", `${e.pageY - 28}px`);
+        })
+        .on("mouseleave", () => tooltip.style("opacity", 0));
 
 
     //LABEL THE SCATTERPLOT
@@ -370,54 +281,32 @@ Promise.all([
         mf: "M_F_TranspoandMaterialMoving",
         title: "Transportation & material moving"
     }
-    // ... add the rest of your 13 categories here
     };
 
-    // 2️⃣ Wrap your drawing code into a function
+    // Wrap drawing code into a function
     function updateScatter(catKey) {
     const cfg = columns[catKey];
 
-    // update scales
+    // Update the scales
     xScale
         .domain(d3.extent(data, d => d[cfg.male]));
     yScale
         .domain(d3.extent(data, d => d[cfg.fem]));
 
 
+    // Update the X-axis
     svg.select(".x.axis")
         .transition().duration(600)
         .call(d3.axisBottom(xScale).tickFormat(d => Math.round(d * 100) + "%"));
 
+    // Update the Y-axis
     svg.select(".y.axis")
         .transition().duration(600)
         .call(d3.axisLeft(yScale).tickFormat(d => Math.round(d * 100) + "%"));
 
 
-    //Update points
-    // svg.selectAll("circle.dot")
-    //     .data(data, d => d.State)
-    //     .join("circle")
-    //     .attr("class", "dot")
-    //     .on("mouseover", (e, d) => {
-    //         tooltip.style("opacity", 1)
-    //             .html(
-    //             `<strong>${d.State}</strong><br>
-    //             Males: ${(d[cfg.male] * 100).toFixed(1)}%<br>
-    //             Females: ${(d[cfg.fem] * 100).toFixed(1)}%`
-    //             );
-    //     })
-    //     .on("mousemove", (e) => {
-    //         tooltip
-    //             .style("left", e.pageX + 15 + "px")
-    //             .style("top", e.pageY - 28 + "px");
-    //     })
-    //     .on("mouseleave", () => tooltip.style("opacity", 0))
-    //     .transition().duration(600)
-    //     .attr("cx", d => xScale(d[cfg.male]))
-    //     .attr("cy", d => yScale(d[cfg.fem]))
-    //     .attr("fill", d => colorScale(d[cfg.mf]));
-
-
+    
+    //Update the dots
     svg.selectAll("circle.dot")
         .data(data, d => d.State)
         .join("circle")
@@ -442,22 +331,16 @@ Promise.all([
         .attr("fill", d => colorScale(d[cfg.mf]));
 
 
-        
-
-
-
-    // update title
+    // Update title
     svg.select(".title").text(cfg.title);
     }
 
-    // 3️⃣ Listen for changes on the dropdown
+    // Create event listener that listens for changes on the dropdown
     d3.select("#dropdown")
         .on("change", function () {
             const selected = d3.select(this)
                 .property("value");
         updateScatter(selected);
     });
-
-
 
 });
