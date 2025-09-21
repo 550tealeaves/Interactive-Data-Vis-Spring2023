@@ -47,7 +47,7 @@ Promise.all([
 
     const colorScale = d3.scaleOrdinal()
         .domain(["M", "F"])
-        .range(["purple", "orange"])
+        .range(["darkgreen", "orangered"])
 
 
     const svg = d3.select("#container")
@@ -99,7 +99,7 @@ Promise.all([
         .style("position", "absolute")
         .style("background", "#fff")
         .style("padding", "6px 8px")
-        .style("border", "1px solid #62ac3aff")
+        .style("border", "1px solid #6d3aacff")
         .style("border-radius", "4px")
         .style("pointer-events", "none")
         .style("opacity", 0);
@@ -167,9 +167,9 @@ Promise.all([
         .attr("x", baseWidth / 2)
         .attr("y", margin.top - 35)
         .attr("text-anchor", "middle")
-        .style("font-size", "20px")
+        .style("font-size", "18px")
         .style("font-weight", "bold")
-        .style("text-decoration", "underline")
+        //.style("text-decoration", "underline")
         .attr("fill", "darkblue")
         .text("Management, Business, and Financial Operations");
 
@@ -180,7 +180,7 @@ Promise.all([
         .attr("x", baseWidth / 2)
         .attr("y", baseHeight - 15)
         //.attr("transform", `translate(550,${height - margin.bottom + 50})`)
-        .attr("fill", "purple")
+        .attr("fill", "darkgreen")
         .style("font-weight", "bold")
         .style("font-size", "18px")
         .text("Males");
@@ -193,7 +193,7 @@ Promise.all([
         .attr("transform", `rotate(-90)`)
         .attr("x", -baseHeight / 2)
         .attr("y", 20)
-        .attr("fill", "orange")
+        .attr("fill", "orangered")
         .style("font-weight", "bold")
         .style("font-size", "18px")
         .text("Females");
