@@ -12,30 +12,48 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-md text-bg-success bg-opacity-50">
+    <nav class="navbar navbar-expand-md navbar-light text-bg-success bg-opacity-50">
         <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">
             <img src="jobs.jpg" alt="Logo" width="120" height="70" class="d-inline-block align-text-top">
-            <div class="collapse navbar-collapse d-flex justify-content-end fs-4" id="navbarNav">
-                <ul class="nav nav-pills">
-                    <li class="nav-item">
-                        <a class="text-dark nav-link" aria-current="page" href="index.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="text-dark nav-link" href="data.html">Data</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="text-dark nav-link" href="population.html">Population</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="text-dark nav-link" href="occupation.html">Occupation</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="text-dark nav-link" href="map.html">Map</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="text-dark nav-link active text-bg-warning bg-opacity-100" href="#">Acknowledgments</a>
-                    </li>
-                </ul>
+            </a>
+
+            <!-- Toggler (hamburger) -->
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+                >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Collapsible links -->
+            <div class="collapse navbar-collapse justify-content-end fs-5" id="navbarNav">
+            <ul class="navbar-nav nav-pills">
+                <li class="nav-item">
+                <a class="nav-link text-dark" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link text-dark" href="data.html">Data</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link text-dark" href="population.html">Population</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link text-dark" href="occupation.html">Occupation</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link text-dark" href="map.html">Map</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link active text-dark text-bg-warning bg-opacity-100" href="#">Acknowledgments</a>
+                </li>
+            </ul>
             </div>
         </div>
     </nav>
@@ -43,8 +61,8 @@
         <img src="thanks.jpg" class="img-fluid img-thumbnail thank-you" alt="">
     </div>
     <div>
-        <h4>While this project was not entirely successful, I would like to thank my classmates and professor for being
-            patient and assisting me. I have learned far more about my troubleshooting skills in this past month </h4>
+        <h4>I would like to thank my classmates and professor for being
+            patient and assisting me. This project has helped developed my troubleshooting skills in web design </h4>
         <p>
         <ul>
             <li>Professor Mia Szarvas </li>
@@ -52,12 +70,13 @@
             <li>Joe Ajzenman </li>
             <li>Disha Kanada </li>
             <li> <a
-                    href="https://gist.github.com/anonymous/bc5a9691a3417b403d4e8ade3297afa3/3a2434c1c2849e476791e581754ec27e055db4d6">Github</a>
+                    href="https://gist.github.com/anonymous/bc5a9691a3417b403d4e8ade3297afa3/3a2434c1c2849e476791e581754ec27e055db4d6" target="_blank">Github</a> for inspiration
             </li>
-            <li> <a href="https://d3-graph-gallery.com/connectedscatter.html">D3</a></li>
+            <li> <a href="https://d3-graph-gallery.com/connectedscatter.html" target="_blank">D3</a> for inspiration</li>
         </ul>
         </p>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> 
 </body>
 
 </html>

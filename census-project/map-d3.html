@@ -19,30 +19,48 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-md text-bg-success bg-opacity-50">
+    <nav class="navbar navbar-expand-md navbar-light text-bg-success bg-opacity-50">
         <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">
             <img src="jobs.jpg" alt="Logo" width="120" height="70" class="d-inline-block align-text-top">
-            <div class="d-flex justify-content-end fs-4" id="navbarNav">
-                <ul class="nav nav-pills">
-                    <li class="nav-item">
-                        <a class="text-dark nav-link" aria-current="page" href="index.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="text-dark nav-link" href="data.html">Data</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="text-dark nav-link" href="population.html">Population</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="text-dark nav-link" href="occupation.html">Occupation</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="text-dark nav-link active text-bg-warning bg-opacity-100" href="#">Map</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="text-dark nav-link" href="thanks.html">Acknowledgments</a>
-                    </li>
-                </ul>
+            </a>
+
+            <!-- Toggler (hamburger) -->
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+                >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Collapsible links -->
+            <div class="collapse navbar-collapse justify-content-end fs-5" id="navbarNav">
+            <ul class="navbar-nav nav-pills">
+                <li class="nav-item">
+                <a class="nav-link active text-dark" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link text-dark" href="data.html">Data</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link text-dark" href="population.html">Population</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link text-dark" href="occupation.html">Occupation</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link active text-dark text-bg-warning bg-opacity-100" href="#">Map</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link text-dark" href="thanks.html">Acknowledgments</a>
+                </li>
+            </ul>
             </div>
         </div>
     </nav>
