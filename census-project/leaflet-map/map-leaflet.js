@@ -23,7 +23,7 @@ L.tileLayer(basemap_urls.terrain, { //will show the terrain layer
 var geojson;
 
 // Call the data
-const allStates = axios('../data/usState-jobs.json').then(resp => { //brings in the map data 
+const allStates = axios('../../data/usState-jobs.json').then(resp => { //brings in the map data 
     console.log('response', resp);
     jobTitles = Object.keys(resp.data.features[0].properties) //use this to be able to select all the job titles (field names)
 
