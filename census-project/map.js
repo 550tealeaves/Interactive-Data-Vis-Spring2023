@@ -114,8 +114,8 @@ const allStates = axios('../data/usState-jobs.json').then(resp => { //brings in 
         let majorityValue = d.properties[fields.majority];
         console.log('majority', majorityValue)
 
-        return majorityValue == 'F' ? '#fdae6b' :
-            majorityValue == 'M' ? '#542788' :
+        return majorityValue == 'F' ? 'orangered' :
+            majorityValue == 'M' ? 'darkgreen' :
                 '#ffffff';
     }
 
