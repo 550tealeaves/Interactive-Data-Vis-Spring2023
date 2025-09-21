@@ -1,11 +1,7 @@
 //Problem is the userSelection defaults to 0 so when it's multiplied by something else - result is still 0
 
 // CREATE BASE MAP LAYERS
-let map = L.map('map', {
-    minZoom: 3,   // prevent zooming out too far
-    maxZoom: 10   // optional, prevent zooming in too far
-}).setView([46.0, -97.5], 4);
-
+let map = L.map('map').setView([46.0, -97.5], 3.4);
 
 //http://maps.stamen.com/#terrain/12/37.7706/-122.3782
 const basemap_urls = {
@@ -135,19 +131,7 @@ const allStates = axios('../data/usState-jobs.json').then(resp => { //brings in 
 
         //onEachFeature - can click and display state name and tooltip
         onEachFeature: function (feature, layer) {
-            layer.bindPopup(function () {
-                if (!userSelection || userSelection.length === 0) {
-                    return feature.properties.STUSPS + '<br />Select a job category';
-                }
-
-                const fields = profFields[userSelection];
-                const maleVal = feature.properties[fields.male];
-                const femaleVal = feature.properties[fields.female];
-
-                return feature.properties.STUSPS +
-                    '<br />' + (femaleVal * 100).toFixed(1) + '% women' +
-                    '<br />' + (maleVal * 100).toFixed(1) + '% men';
-            });
+            layer.bindPopup(feature.properties.STUSPS + '<br />' + ([profFields.female] - 140).toFixed(2) + ' % ' + ' women' + '<br />' + ([profFields.male] - 27).toFixed(2) + ' % ' + 'men'), //adds tooltip - problem is the default number rounds to 0 so multiply/div doesn't work - but subtraction does 
                 layer.on({
                     mouseover: highlightFeature,
                     mouseout: resetHighlight,
@@ -224,21 +208,10 @@ const allStates = axios('../data/usState-jobs.json').then(resp => { //brings in 
 
 
     info.update = function (props) {
-    if (!props || !userSelection || userSelection.length === 0) {
-        this._div.innerHTML = '<h4>Occupation stats</h4>Hover over a state';
-        return;
-    }
-
-    const fields = profFields[userSelection];
-    const maleVal = props[fields.male];
-    const femaleVal = props[fields.female];
-
-    this._div.innerHTML =
-        '<h4>Occupation stats</h4>' +
-        '<b>' + props.NAME + '</b><br />' +
-        (femaleVal * 100).toFixed(1) + '% women<br />' +
-        (maleVal * 100).toFixed(1) + '% men';
-};info.addTo(map);
+        console.log('props', props)
+        this._div.innerHTML = '<h4>Occupation stats</h4>' + (props ?
+            '<b>' + props.NAME + '</b><br />' + ([userSelection.femaleValue] * 100).toFixed(1) + ' % ' + ' women' + '<br />' + ([userSelection.maleValue] * 100).toFixed(1) + ' % ' + 'men' : 'Hover over a state');
+    }; info.addTo(map);
 
 });
 
